@@ -37,10 +37,12 @@ router.get("/favorite", (req, res) => {
 /**
  * GET all recipes by category
  */
-router.get("/", (req, res) => {
-  const queryText = `SELECT * FROM "recipe" ORDER BY "recipe_name" ASC;`;
+router.get("/category/:id", (req, res) => {
+  const categoryId = req.params.id;
+  const queryText = `SELECT * FROM "recipe" JOIN "recipe_category" ON "recipe".recipe_id = "recipe_category".recipe_id
+  WHERE "recipe_category".category_id = $1 ORDER BY "recipe_name" ASC;`;
   pool
-    .query(queryText)
+    .query(queryText, [categoryId])
     .then((responseFromDb) => {
       res.send(responseFromDb.rows);
     })
