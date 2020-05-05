@@ -87,7 +87,25 @@ router.get("/:id", (req, res) => {
       res.send(responseFromDb.rows);
     })
     .catch((error) => {
-      console.log("Get Recipe Details Error: ", error);
+      console.log("Get Recipe Ingredients Error: ", error);
+      res.sendStatus(500);
+    });
+});
+
+/**
+ * GET individual recipe details for instructions
+ */
+router.get("/instructions/:id", (req, res) => {
+  const recipeId = req.params.id;
+  const queryText = `SELECT "instruction_number", "instruction_description" 
+  FROM "instruction" WHERE "recipe_id" = $1  ORDER BY "instruction_id" ASC;`;
+  pool
+    .query(queryText, [recipeId])
+    .then((responseFromDb) => {
+      res.send(responseFromDb.rows);
+    })
+    .catch((error) => {
+      console.log("Get Recipe Instructions Error: ", error);
       res.sendStatus(500);
     });
 });
