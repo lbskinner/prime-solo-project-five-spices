@@ -38,6 +38,7 @@ router.get("/favorite", (req, res) => {
  * GET all recipes by category
  */
 router.get("/category/:id", (req, res) => {
+  // id on params is category id
   const categoryId = req.params.id;
   const queryText = `SELECT * FROM "recipe" JOIN "recipe_category" ON "recipe".recipe_id = "recipe_category".recipe_id
   WHERE "recipe_category".category_id = $1 ORDER BY "recipe_name" ASC;`;
@@ -77,6 +78,7 @@ router.get("/search", (req, res) => {
  * GET individual recipe details for recipe and ingredients
  */
 router.get("/details/:id", (req, res) => {
+  // id on params us recipe id
   const recipeId = req.params.id;
   const queryText = `SELECT "recipe".*, array_agg("ingredient".ingredient_item) FROM "recipe" 
   JOIN "ingredient" ON "recipe".recipe_id = "ingredient".recipe_id 
@@ -96,6 +98,7 @@ router.get("/details/:id", (req, res) => {
  * GET individual recipe details for instructions
  */
 router.get("/details-instructions/:id", (req, res) => {
+  // id on params us recipe id
   const recipeId = req.params.id;
   const queryText = `SELECT "instruction_number", "instruction_description", "recipe_id" 
   FROM "instruction" WHERE "recipe_id" = $1  ORDER BY "instruction_id" ASC;`;
@@ -114,11 +117,12 @@ router.get("/details-instructions/:id", (req, res) => {
  * GET categories for individual recipe details page
  */
 router.get("/details-categories/:id", (req, res) => {
+  // id on params us recipe id
   const recipeId = req.params.id;
   console.log(recipeId);
 
-  const queryText = `SELECT "category".category_id, "category".category_name, "recipe_category".recipe_id  FROM "category" 
-  JOIN "recipe_category" ON "category".category_id = "recipe_category".category_id
+  const queryText = `SELECT "category".category_id, "category".category_name, "recipe_category".recipe_id, "recipe_category".recipe_category_id
+  FROM "category" JOIN "recipe_category" ON "category".category_id = "recipe_category".category_id
   WHERE "recipe_category".recipe_id = $1;`;
   pool
     .query(queryText, [recipeId])
@@ -153,9 +157,9 @@ router.get("/category", (req, res) => {
 router.post("/", (req, res) => {});
 
 /**
- * POST route category to individual recipe
+ * POST category to individual recipe
  */
-router.post("/recipe-category", (req, res) => {
+router.post("/details-categories", (req, res) => {
   const recipeCategoryDate = req.body;
   const queryText = `INSERT INTO "recipe_category" ("category_id", "recipe_id")
     VALUES ($1, $2);`;
@@ -167,6 +171,23 @@ router.post("/recipe-category", (req, res) => {
     .then(() => res.sendStatus(201))
     .catch((error) => {
       console.log("Post Recipe Category Error: ", error);
+      res.sendStatus(500);
+    });
+});
+
+/**
+ * DELETE category from individual recipe
+ */
+router.delete("/details-categories/:id", (req, res) => {
+  // id on params is recipe_category_id
+  const recipeCategoryId = req.params.id;
+  console.log(recipeCategoryId);
+  const queryText = `DELETE FROM "recipe_category" WHERE "recipe_category_id" = $1`;
+  pool
+    .query(queryText, [recipeCategoryId])
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log("Delete Recipe Category Error: ", error);
       res.sendStatus(500);
     });
 });
