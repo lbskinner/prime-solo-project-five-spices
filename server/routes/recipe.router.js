@@ -29,7 +29,7 @@ router.get("/favorite", (req, res) => {
       res.send(responseFromDb.rows);
     })
     .catch((error) => {
-      console.log("Get All Recipes Error: ", error);
+      console.log("Get Favorite Recipes Error: ", error);
       res.sendStatus(500);
     });
 });
@@ -47,7 +47,7 @@ router.get("/category/:id", (req, res) => {
       res.send(responseFromDb.rows);
     })
     .catch((error) => {
-      console.log("Get All Recipes Error: ", error);
+      console.log("Get Recipes By Category Error: ", error);
       res.sendStatus(500);
     });
 });
@@ -68,17 +68,18 @@ router.get("/search", (req, res) => {
       res.send(responseFromDb.rows);
     })
     .catch((error) => {
-      console.log("Get All Recipes Error: ", error);
+      console.log("Search Recipes Error: ", error);
       res.sendStatus(500);
     });
 });
 
 /**
- * GET individual recipe details, need more work
+ * GET individual recipe details for recipe and ingredients
  */
 router.get("/:id", (req, res) => {
   const recipeId = req.params.id;
-  const queryText = `SELECT "recipe".*, array_agg("ingredient".ingredient_item), json_agg(json_build_object('instruction_num', "instruction".instruction_number, 'instruction_descrip', "instruction".instruction_descrption)) as "instructions" FROM "recipe" JOIN "ingredient" ON "recipe".recipe_id = "ingredient".recipe_id JOIN "instruction" on "recipe".recipe_id = "instruction".recipe_id 
+  const queryText = `SELECT "recipe".*, array_agg("ingredient".ingredient_item) FROM "recipe" 
+  JOIN "ingredient" ON "recipe".recipe_id = "ingredient".recipe_id 
   WHERE "recipe".recipe_id = $1 GROUP BY "recipe".recipe_id;`;
   pool
     .query(queryText, [recipeId])
@@ -86,7 +87,7 @@ router.get("/:id", (req, res) => {
       res.send(responseFromDb.rows);
     })
     .catch((error) => {
-      console.log("Get All Recipes Error: ", error);
+      console.log("Get Recipe Details Error: ", error);
       res.sendStatus(500);
     });
 });
