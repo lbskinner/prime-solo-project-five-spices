@@ -99,4 +99,20 @@ router.get("/details-instructions/:id", (req, res) => {
  */
 router.post("/", (req, res) => {});
 
+/**
+ *DELETE individual recipe by recipe id
+ */
+router.delete("/:id", (req, res) => {
+  // id on params us recipe id
+  const recipeId = req.params.id;
+  const queryText = `DELETE FROM "recipe" WHERE "recipe_id" = $1;`;
+  pool
+    .query(queryText, [recipeId])
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log("Delete Recipe Error: ", error);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;
