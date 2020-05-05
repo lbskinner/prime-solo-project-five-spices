@@ -76,7 +76,7 @@ router.get("/search", (req, res) => {
 /**
  * GET individual recipe details for recipe and ingredients
  */
-router.get("/:id", (req, res) => {
+router.get("/details/:id", (req, res) => {
   const recipeId = req.params.id;
   const queryText = `SELECT "recipe".*, array_agg("ingredient".ingredient_item) FROM "recipe" 
   JOIN "ingredient" ON "recipe".recipe_id = "ingredient".recipe_id 
@@ -95,9 +95,9 @@ router.get("/:id", (req, res) => {
 /**
  * GET individual recipe details for instructions
  */
-router.get("/instructions/:id", (req, res) => {
+router.get("/details-instructions/:id", (req, res) => {
   const recipeId = req.params.id;
-  const queryText = `SELECT "instruction_number", "instruction_description" 
+  const queryText = `SELECT "instruction_number", "instruction_description", "recipe_id" 
   FROM "instruction" WHERE "recipe_id" = $1  ORDER BY "instruction_id" ASC;`;
   pool
     .query(queryText, [recipeId])
@@ -111,22 +111,38 @@ router.get("/instructions/:id", (req, res) => {
 });
 
 /**
- * GET category list for individual recipe details page
+ * GET categories for individual recipe details page
  */
-router.get("/search", (req, res) => {
-  const searchWords = req.query.q;
-  console.log(searchWords);
+router.get("/details-categories/:id", (req, res) => {
+  const recipeId = req.params.id;
+  console.log(recipeId);
 
-  const queryText = `SELECT "recipe".recipe_id, "recipe".recipe_name, "recipe".description, array_agg("ingredient".ingredient_item) FROM "recipe"
-      JOIN "ingredient" ON "recipe".recipe_id = "ingredient".recipe_id WHERE "recipe".recipe_name LIKE $1 OR
-      "recipe".description LIKE $1 OR "ingredient".ingredient_item LIKE $1 GROUP BY "recipe".recipe_id;`;
+  const queryText = `SELECT "category".category_id, "category".category_name, "recipe_category".recipe_id  FROM "category" 
+  JOIN "recipe_category" ON "category".category_id = "recipe_category".category_id
+  WHERE "recipe_category".recipe_id = $1;`;
   pool
-    .query(queryText, [`%${searchWords}%`])
+    .query(queryText, [recipeId])
     .then((responseFromDb) => {
       res.send(responseFromDb.rows);
     })
     .catch((error) => {
-      console.log("Get All Recipes Error: ", error);
+      console.log("Get Category for Recipe Details Error: ", error);
+      res.sendStatus(500);
+    });
+});
+
+/**
+ * GET category list for individual recipe details page select box
+ */
+router.get("/category", (req, res) => {
+  const queryText = `SELECT * FROM "category";`;
+  pool
+    .query(queryText)
+    .then((responseFromDb) => {
+      res.send(responseFromDb.rows);
+    })
+    .catch((error) => {
+      console.log("Get All Categories Error: ", error);
       res.sendStatus(500);
     });
 });
