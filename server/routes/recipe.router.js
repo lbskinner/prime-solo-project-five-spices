@@ -152,4 +152,23 @@ router.get("/category", (req, res) => {
  */
 router.post("/", (req, res) => {});
 
+/**
+ * POST route category to individual recipe
+ */
+router.post("/recipe-category", (req, res) => {
+  const recipeCategoryDate = req.body;
+  const queryText = `INSERT INTO "recipe_category" ("category_id", "recipe_id")
+    VALUES ($1, $2);`;
+  pool
+    .query(queryText, [
+      recipeCategoryDate.category_id,
+      recipeCategoryDate.recipe_id,
+    ])
+    .then(() => res.sendStatus(201))
+    .catch((error) => {
+      console.log("Post Recipe Category Error: ", error);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;
