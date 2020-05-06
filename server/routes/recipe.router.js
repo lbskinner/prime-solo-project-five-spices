@@ -1,11 +1,13 @@
 const express = require("express");
 const pool = require("../modules/pool");
 const router = express.Router();
-
+const {
+  rejectUnauthenticated,
+} = require("../modules/authentication-middleware");
 /**
  * GET all recipes for home page list
  */
-router.get("/", (req, res) => {
+router.get("/", rejectUnauthenticated, (req, res) => {
   const queryText = `SELECT * FROM "recipe" ORDER BY "recipe_name" ASC;`;
   pool
     .query(queryText)
@@ -56,14 +58,12 @@ router.get("/search", (req, res) => {
 });
 
 /**
- * GET individual recipe details for recipe and ingredients
+ * GET individual recipe details
  */
 router.get("/details/:id", (req, res) => {
   // id on params us recipe id
   const recipeId = req.params.id;
-  const queryText = `SELECT "recipe".*, array_agg("ingredient".ingredient_item) FROM "recipe" 
-  JOIN "ingredient" ON "recipe".recipe_id = "ingredient".recipe_id 
-  WHERE "recipe".recipe_id = $1 GROUP BY "recipe".recipe_id;`;
+  const queryText = `SELECT * FROM "recipe" WHERE "recipe_id" = $1;`;
   pool
     .query(queryText, [recipeId])
     .then((responseFromDb) => {
@@ -76,31 +76,12 @@ router.get("/details/:id", (req, res) => {
 });
 
 /**
- * GET individual recipe details for instructions
- */
-router.get("/details-instructions/:id", (req, res) => {
-  // id on params us recipe id
-  const recipeId = req.params.id;
-  const queryText = `SELECT "instruction_number", "instruction_description", "recipe_id" 
-  FROM "instruction" WHERE "recipe_id" = $1  ORDER BY "instruction_id" ASC;`;
-  pool
-    .query(queryText, [recipeId])
-    .then((responseFromDb) => {
-      res.send(responseFromDb.rows);
-    })
-    .catch((error) => {
-      console.log("Get Recipe Instructions Error: ", error);
-      res.sendStatus(500);
-    });
-});
-
-/**
  * POST route template
  */
 // router.post("/", (req, res) => {});
 
 /**
- * POST new recipe
+ * POST new recipe with ingredients and instructions
  */
 router.post("/", async (req, res) => {
   const newRecipeData = req.body;
@@ -149,14 +130,6 @@ router.post("/", async (req, res) => {
     console.log("Post Recipe Error: ", error);
     res.sendStatus(500);
   }
-
-  // .then((responseFromDb) => {
-  //   const recipeId = responseFromDb.rows[0].recipe_id;
-  //   pool.query(queryTextIngredient);
-  // })
-  // .catch((error) => {
-  //   console.log("Post New Recipe Error: ", error);
-  // });
 });
 
 /**
