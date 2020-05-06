@@ -152,6 +152,21 @@ router.put("/edit", (req, res) => {
 });
 
 /**
+ * PUT update recipe image URL, this is is a separate put to allow easier modification for upload user image to app later
+ */
+router.put("/image", (req, res) => {
+  const updatedImageData = req.body;
+  const queryText = `UPDATE "recipe" SET "image_url" = $1 WHERE "recipe_id" = $2;`;
+  pool
+    .query(queryText, [updatedImageData.image_url, updatedImageData.recipe_id])
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log("Put Image Error: ", error);
+      res.sendStatus(500);
+    });
+});
+
+/**
  * PUT update favorite status of recipe, assuming the true and false logic check will be in the front
  */
 router.put("/favorite", rejectUnauthenticated, (req, res) => {
