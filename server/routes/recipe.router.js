@@ -23,7 +23,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 /**
  * GET favorite recipes for home page list
  */
-router.get("/favorite", (req, res) => {
+router.get("/favorite", rejectUnauthenticated, (req, res) => {
   const queryText = `SELECT * FROM "recipe" WHERE "favorite" = true ORDER BY "recipe_name" ASC;`;
   pool
     .query(queryText)
@@ -39,7 +39,7 @@ router.get("/favorite", (req, res) => {
 /**
  * GET recipes by search keywords
  */
-router.get("/search", (req, res) => {
+router.get("/search", rejectUnauthenticated, (req, res) => {
   const searchWords = req.query.q;
   console.log(searchWords);
 
@@ -60,7 +60,7 @@ router.get("/search", (req, res) => {
 /**
  * GET individual recipe details
  */
-router.get("/details/:id", (req, res) => {
+router.get("/details/:id", rejectUnauthenticated, (req, res) => {
   // id on params us recipe id
   const recipeId = req.params.id;
   const queryText = `SELECT * FROM "recipe" WHERE "recipe_id" = $1;`;
@@ -78,7 +78,7 @@ router.get("/details/:id", (req, res) => {
 /**
  * POST new recipe with ingredients and instructions
  */
-router.post("/", async (req, res) => {
+router.post("/", rejectUnauthenticated, async (req, res) => {
   const newRecipeData = req.body;
   console.log(newRecipeData);
   try {
@@ -130,13 +130,28 @@ router.post("/", async (req, res) => {
 /**
  * PUT route template
  */
-// router.put("/", (req, res) => {});
+// router.put("/edit", (req, res) => {});
+
+/**
+ * PUT route template
+ */
+router.put("/favorite", rejectUnauthenticated, (req, res) => {
+  const favoriteData = req.body;
+  const queryText = `UPDATE "recipe" SET "favorite" = $1 WHERE "recipe_id" = $2;`;
+  pool
+    .query(queryText, [favoriteData.favorite, favoriteData.recipe_id])
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log("Put Favorite Error: ", error);
+      res.sendStatus(500);
+    });
+});
 
 /**
  *DELETE individual recipe by recipe id, database is set up with on delete cascade, 
  when delete a recipe, all ingredients and instructions related are deleted as well
  */
-router.delete("/:id", (req, res) => {
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
   // id on params us recipe id
   const recipeId = req.params.id;
   const queryText = `DELETE FROM "recipe" WHERE "recipe_id" = $1;`;
