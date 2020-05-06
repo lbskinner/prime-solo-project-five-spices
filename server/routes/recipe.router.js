@@ -131,7 +131,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
  * PUT update recipe details except for image URL and original recipe URL
  * image URL is a put on its own for allow user to upload their own image later
  */
-router.put("/edit", (req, res) => {
+router.put("/edit", rejectUnauthenticated, (req, res) => {
   const updatedRecipeData = req.body;
   const queryText = `UPDATE "recipe" SET "recipe_name" = $1, "description" = $2, "total_time" = $3, 
     "serving_size" = $4, "user_id" = $5 WHERE "recipe_id" = $6;`;
@@ -154,7 +154,7 @@ router.put("/edit", (req, res) => {
 /**
  * PUT update recipe image URL, this is is a separate put to allow easier modification for upload user image to app later
  */
-router.put("/image", (req, res) => {
+router.put("/image", rejectUnauthenticated, (req, res) => {
   const updatedImageData = req.body;
   const queryText = `UPDATE "recipe" SET "image_url" = $1 WHERE "recipe_id" = $2;`;
   pool
