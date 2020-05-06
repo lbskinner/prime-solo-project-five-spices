@@ -41,4 +41,22 @@ VALUES ($1, $2);`;
     });
 });
 
+/**
+ * PUT update existing ingredient to existing recipe on details page for edit
+ */
+router.put("/edit", (req, res) => {
+  const updatedIngredientDate = req.body;
+  const queryText = `UPDATE "ingredient" SET "ingredient_item" = $1 WHERE "ingredient_id" = $2;`;
+  pool
+    .query(queryText, [
+      updatedIngredientDate.ingredient_item,
+      updatedIngredientDate.ingredient_id,
+    ])
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log("Put Ingredient Error: ", error);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

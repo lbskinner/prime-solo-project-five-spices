@@ -76,11 +76,6 @@ router.get("/details/:id", (req, res) => {
 });
 
 /**
- * POST route template
- */
-// router.post("/", (req, res) => {});
-
-/**
  * POST new recipe with ingredients and instructions
  */
 router.post("/", async (req, res) => {
@@ -92,10 +87,10 @@ router.post("/", async (req, res) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "recipe_id";`;
     // use await to save recipe to recipe table
     const savedRecipeDate = await pool.query(queryTextRecipe, [
-      newRecipeData.name,
+      newRecipeData.recipe_name,
       newRecipeData.description,
-      newRecipeData.time,
-      newRecipeData.serving,
+      newRecipeData.total_time,
+      newRecipeData.serving_size,
       newRecipeData.user_id,
       newRecipeData.image_url,
       newRecipeData.recipe_url,
@@ -133,7 +128,13 @@ router.post("/", async (req, res) => {
 });
 
 /**
- *DELETE individual recipe by recipe id
+ * PUT route template
+ */
+// router.put("/", (req, res) => {});
+
+/**
+ *DELETE individual recipe by recipe id, database is set up with on delete cascade, 
+ when delete a recipe, all ingredients and instructions related are deleted as well
  */
 router.delete("/:id", (req, res) => {
   // id on params us recipe id
