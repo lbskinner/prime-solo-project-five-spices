@@ -23,13 +23,23 @@ router.get("/details/:id", rejectUnauthenticated, (req, res) => {
 });
 
 /**
- * GET route template
+ * POST additional instruction for existing recipe, for edit page
  */
-router.get("/", (req, res) => {});
-
-/**
- * POST route template
- */
-router.post("/", (req, res) => {});
+router.post("/edit", (req, res) => {
+  const newInstructionData = req.body;
+  const queryText = `INSERT INTO "instruction" ("instruction_number", "instruction_description", "recipe_id")
+  VALUES ($1, $2, $3);`;
+  pool
+    .query(queryText, [
+      newInstructionData.instruction_number,
+      newInstructionData.instruction_description,
+      newInstructionData.recipe_id,
+    ])
+    .then(() => res.sendStatus(201))
+    .catch((error) => {
+      console.log("Post Instruction Error: ", error);
+      res.sendStatus(500);
+    });
+});
 
 module.exports = router;
