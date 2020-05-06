@@ -25,7 +25,7 @@ router.get("/details/:id", rejectUnauthenticated, (req, res) => {
 /**
  * POST additional ingredient for existing recipe, for edit page
  */
-router.post("/edit", (req, res) => {
+router.post("/edit", rejectUnauthenticated, (req, res) => {
   const newIngredientData = req.body;
   const queryText = `INSERT INTO "ingredient" ("ingredient_item", "recipe_id")
 VALUES ($1, $2);`;
@@ -44,7 +44,7 @@ VALUES ($1, $2);`;
 /**
  * PUT update existing ingredient to existing recipe on details page for edit
  */
-router.put("/edit", (req, res) => {
+router.put("/edit", rejectUnauthenticated, (req, res) => {
   const updatedIngredientDate = req.body;
   const queryText = `UPDATE "ingredient" SET "ingredient_item" = $1 WHERE "ingredient_id" = $2;`;
   pool

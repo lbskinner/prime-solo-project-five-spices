@@ -25,7 +25,7 @@ router.get("/details/:id", rejectUnauthenticated, (req, res) => {
 /**
  * POST additional instruction for existing recipe, for edit page
  */
-router.post("/edit", (req, res) => {
+router.post("/edit", rejectUnauthenticated, (req, res) => {
   const newInstructionData = req.body;
   const queryText = `INSERT INTO "instruction" ("instruction_number", "instruction_description", "recipe_id")
   VALUES ($1, $2, $3);`;
@@ -38,6 +38,24 @@ router.post("/edit", (req, res) => {
     .then(() => res.sendStatus(201))
     .catch((error) => {
       console.log("Post Instruction Error: ", error);
+      res.sendStatus(500);
+    });
+});
+
+/**
+ * PUT update existing instruction to existing recipe on details page for edit
+ */
+router.put("/edit", rejectUnauthenticated, (req, res) => {
+  const updatedInstructionData = req.body;
+  const queryText = `UPDATE "instruction" SET "instruction_description" = $1 WHERE "instruction_id" = $2;`;
+  pool
+    .query(queryText, [
+      updatedInstructionData.instruction_description,
+      updatedInstructionData.instruction_id,
+    ])
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log("Put Instruction Error: ", error);
       res.sendStatus(500);
     });
 });
