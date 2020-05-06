@@ -1,11 +1,13 @@
 const express = require("express");
 const pool = require("../modules/pool");
 const router = express.Router();
-
+const {
+  rejectUnauthenticated,
+} = require("../modules/authentication-middleware");
 /**
  * GET all recipes by category
  */
-router.get("/:id", (req, res) => {
+router.get("/:id", rejectUnauthenticated, (req, res) => {
   // id on params is category id
   const categoryId = req.params.id;
   const queryText = `SELECT * FROM "recipe" JOIN "recipe_category" ON "recipe".recipe_id = "recipe_category".recipe_id
@@ -24,7 +26,7 @@ router.get("/:id", (req, res) => {
 /**
  * GET categories for individual recipe details page
  */
-router.get("/details/:id", (req, res) => {
+router.get("/details/:id", rejectUnauthenticated, (req, res) => {
   // id on params us recipe id
   const recipeId = req.params.id;
   console.log(recipeId);
@@ -46,7 +48,7 @@ router.get("/details/:id", (req, res) => {
 /**
  * GET category list for individual recipe details page select box
  */
-router.get("/", (req, res) => {
+router.get("/", rejectUnauthenticated, (req, res) => {
   const queryText = `SELECT * FROM "category";`;
   pool
     .query(queryText)
@@ -62,7 +64,7 @@ router.get("/", (req, res) => {
 /**
  * POST category to individual recipe
  */
-router.post("/details", (req, res) => {
+router.post("/details", rejectUnauthenticated, (req, res) => {
   const recipeCategoryDate = req.body;
   const queryText = `INSERT INTO "recipe_category" ("category_id", "recipe_id")
       VALUES ($1, $2);`;
@@ -81,7 +83,7 @@ router.post("/details", (req, res) => {
 /**
  * DELETE category from individual recipe
  */
-router.delete("/details/:id", (req, res) => {
+router.delete("/details/:id", rejectUnauthenticated, (req, res) => {
   // id on params is recipe_category_id
   const recipeCategoryId = req.params.id;
   console.log(recipeCategoryId);
