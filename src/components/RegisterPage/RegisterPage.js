@@ -35,20 +35,24 @@ class RegisterPage extends Component {
   render() {
     return (
       <div>
-        <button
-          type="button"
-          className="link-button"
-          onClick={() => {
-            this.props.dispatch({ type: "SET_TO_LOGIN_MODE" });
-          }}
-        >
-          Login
-        </button>
-        {this.props.errors.registrationMessage && (
-          <h2 className="alert" role="alert">
-            {this.props.errors.registrationMessage}
-          </h2>
-        )}
+        <div>
+          <button
+            type="button"
+            className="link-button"
+            onClick={() => {
+              this.props.dispatch({ type: "SET_TO_LOGIN_MODE" });
+            }}
+          >
+            Login
+          </button>
+        </div>
+        <div>
+          {this.props.errors.registrationMessage && (
+            <h2 className="alert" role="alert">
+              {this.props.errors.registrationMessage}
+            </h2>
+          )}
+        </div>
         <form className="formPanel" onSubmit={this.registerUser}>
           <h1>Create Account</h1>
           <div>

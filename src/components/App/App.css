@@ -20,9 +20,10 @@ body {
   position: relative;
   min-height: 100vh;
 }
+
 .alert {
   background-color: #ff4545;
-  /* margin: 50px; */
+  margin: 0;
 }
 
 .formPanel {
@@ -69,4 +70,5 @@ input {
   cursor: pointer;
   float: right;
   margin: 10px;
+  display: block;
 }
