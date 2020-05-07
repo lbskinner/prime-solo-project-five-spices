@@ -72,3 +72,8 @@ input {
   margin: 10px;
   display: block;
 }
+
+.center-text {
+  margin: 0;
+  text-align: center;
+}

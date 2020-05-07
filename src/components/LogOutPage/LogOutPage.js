@@ -14,7 +14,22 @@ class LogOutPage extends Component {
   render() {
     return (
       <div>
-        <h2>{this.state.heading}</h2>
+        <div>
+          <button
+            type="button"
+            className="link-button"
+            onClick={() => {
+              this.props.dispatch({ type: "SET_TO_LOGIN_MODE" });
+            }}
+          >
+            Login
+          </button>
+        </div>
+        <div>
+          <h2 className="center-text">
+            Thank you for using Five<sup>⑤</sup> Spices!
+          </h2>
+        </div>
       </div>
     );
   }
