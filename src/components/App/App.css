@@ -1,23 +1,35 @@
+html,
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0px;
+  height: 100%;
 }
 
-.background-image {
+.body-background {
   background-image: url("../../images/marion-botella-uaHShoIDGeo-unsplash.jpg");
   background-attachment: fixed;
   background-size: cover;
+  padding-bottom: 2.5rem;
+  height: 100%;
+}
+
+.page-container {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-between; */
+  position: relative;
+  min-height: 100vh;
 }
 .alert {
   background-color: #ff4545;
-  margin: 50px;
+  /* margin: 50px; */
 }
 
 .formPanel {
-  background-color: #dbd5d5;
+  background-color: #fdfdfd00;
   width: 30%;
   height: 250px;
-  margin: 20px auto;
+  margin: 0px auto;
   padding: 25px;
   border-radius: 2px;
 }
@@ -30,7 +42,7 @@ input {
 .log-in,
 .log-out,
 .register {
-  background-color: #00acb0;
+  background-color: #ef7b53;
   border-radius: 4px;
   color: #f8f8f8;
   min-height: 50px;
@@ -42,17 +54,19 @@ input {
 .log-in:hover,
 .log-out:hover,
 .register:hover {
-  background-color: #008183;
+  background-color: #ca5233;
 }
 
 /* This line makes the "Register" and "Login" buttons look like links */
 .link-button {
   background: none;
-  color: inherit;
+  color: #f2f2f2;
   border: none;
   padding: 0;
   font: inherit;
   outline: 0;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #f2f2f2;
   cursor: pointer;
+  float: right;
+  margin: 10px;
 }
