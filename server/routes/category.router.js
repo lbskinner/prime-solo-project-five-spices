@@ -46,7 +46,7 @@ router.get("/details/:id", rejectUnauthenticated, (req, res) => {
 });
 
 /**
- * GET category list for individual recipe details page select box
+ * GET category list for individual recipe details page select box & home page
  */
 router.get("/", rejectUnauthenticated, (req, res) => {
   const queryText = `SELECT * FROM "category";`;

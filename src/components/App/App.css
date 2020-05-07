@@ -6,7 +6,7 @@ body {
 }
 
 .body-background {
-  background-image: url("../../images/marion-botella-uaHShoIDGeo-unsplash.jpg");
+  /* background-image: url("../../images/marion-botella-uaHShoIDGeo-unsplash.jpg"); */
   background-attachment: fixed;
   background-size: cover;
   padding-bottom: 2.5rem;

@@ -1,50 +1,82 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import mapStoreToProps from '../../redux/mapStoreToProps';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import mapStoreToProps from "../../redux/mapStoreToProps";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Typography,
+  TextField,
+  IconButton,
+  InputBase,
+  Paper,
+  Grid,
+} from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
+import "./LandingPage.css";
 
-import './LandingPage.css';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+}));
 
 class LandingPage extends Component {
-    state = {
-        heading: 'Class Component',
-    };
+  state = {
+    heading: "Class Component",
+  };
 
-    onLogin = (event) => {
-        this.props.history.push('/login');
-    }
+  componentDidMount() {
+    this.props.dispatch({ type: "GET_CATEGORY_LIST" });
+  }
 
-    render() {
-        return (
-            <div className="container">
-                <h2>{this.state.heading}</h2>
+  onLogin = (event) => {
+    this.props.history.push("/login");
+  };
 
-                <div className="grid">
-                    <div className="grid-col grid-col_8">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id felis metus. Vestibulum et pulvinar tortor. Morbi pharetra lacus ut ex molestie blandit. Etiam et turpis sit amet risus mollis interdum. Suspendisse et justo vitae metus bibendum fringilla sed sed justo. Aliquam sollicitudin dapibus lectus, vitae consequat odio elementum eget. Praesent efficitur eros vitae nunc interdum, eu interdum justo facilisis. Sed pulvinar nulla ac dignissim efficitur. Quisque eget eros metus. Vestibulum bibendum fringilla nibh a luctus. Duis a sapien metus.
-                        </p>
-
-                        <p>
-                            Praesent consectetur orci dui, id elementum eros facilisis id. Sed id dolor in augue porttitor faucibus eget sit amet ante. Nunc consectetur placerat pharetra. Aenean gravida ex ut erat commodo, ut finibus metus facilisis. Nullam eget lectus non urna rhoncus accumsan quis id massa. Curabitur sit amet dolor nisl. Proin euismod, augue at condimentum rhoncus, massa lorem semper lacus, sed lobortis augue mi vel felis. Duis ultrices sapien at est convallis congue.
-                        </p>
-
-                        <p>
-                            Fusce porta diam ac tortor elementum, ut imperdiet metus volutpat. Suspendisse posuere dapibus maximus. Aliquam vitae felis libero. In vehicula sapien at semper ultrices. Vivamus sed feugiat libero. Sed sagittis neque id diam euismod, ut egestas felis ultricies. Nullam non fermentum mauris. Sed in enim ac turpis faucibus pretium in sit amet nisi.
-                        </p>
-                    </div>
-                    <div className="grid-col grid-col_4">
-                        <h3>Already a Member?</h3>
-                        <button
-                            className="btn btn_sizeFull"
-                            onClick={this.onLogin}
-                        >
-                            Login
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="container">
+        <Typography variant="h2" align="center">
+          Welcome {this.props.user.username}!
+        </Typography>
+        <Paper>
+          <InputBase variant="outlined" placeholder="Search Keywords" />
+          <IconButton type="submit" aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+        <Grid
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="flex-start"
+        >
+          <Grid item xs={3}>
+            <Typography variant="h4">Categories</Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h4" align="center">
+              Recipe List Goes Here
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="h4" align="center">
+              Favorite Recipes
+            </Typography>
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }
 }
 
 export default connect(mapStoreToProps)(LandingPage);

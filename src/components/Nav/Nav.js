@@ -2,12 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import LogOutButton from "../LogOutButton/LogOutButton";
-import "./Nav.css";
 import mapStoreToProps from "../../redux/mapStoreToProps";
-import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import Grid from "@material-ui/core/Grid";
+import { Typography, Button, MenuItem, Menu, Grid } from "@material-ui/core";
+import "./Nav.css";
 
 const Nav = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,24 +26,29 @@ const Nav = (props) => {
 
   return (
     <div className="nav">
-      <Link to="/home">
-        <h2 className="nav-title">
+      <Link to="/Home">
+        <Typography className="nav-title" variant="h3" align="left">
           Five<sup>⑤</sup> Spices{" "}
-        </h2>
+        </Typography>
       </Link>
       <Grid container direction="row" justify="flex-end" alignItems="center">
         {props.store.user.id ? (
           <>
             {/* need to link to actual page once created, home link don't need to appear on Home page */}
-            <Button variant="text">
-              <Link to="/Home">Home</Link>
+            <Button
+              className="nav-link"
+              variant="text"
+              component={Link}
+              to="/Home"
+            >
+              Home
             </Button>
             {/* need to link to actual page once created, add link don't need to appear on add page */}
-            <Button variant="text">
-              <Link to="/info">Add Recipe</Link>
+            <Button variant="text" component={Link} to="/info">
+              Add Recipe
             </Button>
-            <Button variant="text">
-              <Link to="/info">Account</Link>
+            <Button variant="text" component={Link} to="/info">
+              Account
             </Button>
             <LogOutButton />
           </>
@@ -85,8 +87,8 @@ const Nav = (props) => {
             </Menu>
           </div>
         )}
-        <Button>
-          <Link to="/about">About</Link>
+        <Button component={Link} to="/about">
+          About
         </Button>
       </Grid>
     </div>
