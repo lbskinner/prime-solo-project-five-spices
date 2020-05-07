@@ -7,6 +7,7 @@ import mapStoreToProps from "../../redux/mapStoreToProps";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import Grid from "@material-ui/core/Grid";
 
 const Nav = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,16 +27,6 @@ const Nav = (props) => {
     }
   };
 
-  let loginLinkData = {
-    path: "/login",
-    text: "Login / Register",
-  };
-
-  if (props.store.user.id != null) {
-    loginLinkData.path = "/admin";
-    loginLinkData.text = "Home";
-  }
-
   return (
     <div className="nav">
       <Link to="/home">
@@ -43,64 +34,61 @@ const Nav = (props) => {
           Five<sup>⑤</sup> Spices{" "}
         </h2>
       </Link>
-      <div>
-        <Button
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={handleMenu}
-        >
-          Login
-        </Button>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          open={open}
-          onClose={handleClose}
-        >
-          <Link to="/login">
-            <MenuItem onClick={() => handleClose("login")}>Login</MenuItem>
-          </Link>
-          <Link to="/registration">
-            <MenuItem onClick={() => handleClose("create")}>
-              Create Account
-            </MenuItem>
-          </Link>
-        </Menu>
+      <Grid container direction="row" justify="flex-end" alignItems="center">
+        {props.store.user.id ? (
+          <>
+            {/* need to link to actual page once created, home link don't need to appear on Home page */}
+            <Button variant="text">
+              <Link to="/Home">Home</Link>
+            </Button>
+            {/* need to link to actual page once created, add link don't need to appear on add page */}
+            <Button variant="text">
+              <Link to="/info">Add Recipe</Link>
+            </Button>
+            <Button variant="text">
+              <Link to="/info">Account</Link>
+            </Button>
+            <LogOutButton />
+          </>
+        ) : (
+          <div>
+            <Button
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+            >
+              Login
+            </Button>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <Link to="/login">
+                <MenuItem onClick={() => handleClose("login")}>Login</MenuItem>
+              </Link>
+              <Link to="/registration">
+                <MenuItem onClick={() => handleClose("create")}>
+                  Create Account
+                </MenuItem>
+              </Link>
+            </Menu>
+          </div>
+        )}
         <Button>
           <Link to="/about">About</Link>
         </Button>
-      </div>
-
-      <div className="nav-right">
-        <Link className="nav-link" to={loginLinkData.path}>
-          {/* Show this link if they are logged in or not,
-          but call this link 'Home' if they are logged in,
-          and call this link 'Login / Register' if they are not */}
-          {loginLinkData.text}
-        </Link>
-        {/* Show the link to the info page and the logout button if the user is logged in */}
-        {props.store.user.id && (
-          <>
-            <Link className="nav-link" to="/info">
-              Info Page
-            </Link>
-            <LogOutButton className="nav-link" />
-          </>
-        )}
-        {/* Always show this link since the about page is not protected */}
-        <Link className="nav-link" to="/about">
-          About
-        </Link>
-      </div>
+      </Grid>
     </div>
   );
 };

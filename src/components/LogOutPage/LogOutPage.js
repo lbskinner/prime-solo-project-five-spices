@@ -19,6 +19,7 @@ class LogOutPage extends Component {
             type="button"
             className="link-button"
             onClick={() => {
+              this.props.history.push("/login");
               this.props.dispatch({ type: "SET_TO_LOGIN_MODE" });
             }}
           >
