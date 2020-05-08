@@ -2,15 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../redux/mapStoreToProps";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Typography,
-  TextField,
-  IconButton,
-  InputBase,
-  Paper,
-  Grid,
-} from "@material-ui/core";
+import { Typography, IconButton, InputBase } from "@material-ui/core";
+import { Paper, Grid } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import { List, ListItem, ListItemText } from "@material-ui/core";
 import "./LandingPage.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,9 +38,16 @@ class LandingPage extends Component {
   };
 
   render() {
+    const categoryArray = this.props.categoryList.map((category) => {
+      return (
+        <ListItem key={category.category_id}>
+          <ListItemText primary={category.category_name} />
+        </ListItem>
+      );
+    });
     return (
       <div className="container">
-        <Typography variant="h2" align="center">
+        <Typography variant="h3" align="center">
           Welcome {this.props.user.username}!
         </Typography>
         <Paper>
@@ -62,6 +64,9 @@ class LandingPage extends Component {
         >
           <Grid item xs={3}>
             <Typography variant="h4">Categories</Typography>
+            <div>
+              <List>{categoryArray}</List>
+            </div>
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h4" align="center">

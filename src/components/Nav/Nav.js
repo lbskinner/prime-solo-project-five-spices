@@ -8,9 +8,8 @@ import "./Nav.css";
 
 const Nav = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
 
-  const handleMenu = (event) => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -55,35 +54,33 @@ const Nav = (props) => {
         ) : (
           <div>
             <Button
-              aria-controls="menu-appbar"
+              aria-controls="simple-menu"
               aria-haspopup="true"
-              onClick={handleMenu}
+              onClick={handleClick}
             >
               Login
             </Button>
             <Menu
-              id="menu-appbar"
+              id="simple-menu"
               anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
               keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={open}
+              open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <Link to="/login">
-                <MenuItem onClick={() => handleClose("login")}>Login</MenuItem>
-              </Link>
-              <Link to="/registration">
-                <MenuItem onClick={() => handleClose("create")}>
-                  Create Account
-                </MenuItem>
-              </Link>
+              <MenuItem
+                component={Link}
+                to="/login"
+                onClick={() => handleClose("login")}
+              >
+                Login
+              </MenuItem>
+              <MenuItem
+                component={Link}
+                to="/registration"
+                onClick={() => handleClose("create")}
+              >
+                Create Account
+              </MenuItem>
             </Menu>
           </div>
         )}
