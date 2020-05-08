@@ -16,7 +16,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AboutPage from "../AboutPage/AboutPage";
 import UserPage from "../UserPage/UserPage";
 import InfoPage from "../InfoPage/InfoPage";
-import LandingPage from "../LandingPage/LandingPage"; // home page after users log in
+import HomePage from "../HomePage/HomePage"; // home page after users log in
 import LoginPage from "../LoginPage/LoginPage"; // login page
 import RegisterPage from "../RegisterPage/RegisterPage"; //registration page
 import RecipeDetailsPage from "../RecipeDetailsPage/RecipeDetailsPage"; // recipe details page & edit page
@@ -66,7 +66,7 @@ class App extends Component {
                 authRedirect="/admin"
                 component={RegisterPage}
               />
-              <ProtectedRoute exact path="/home" component={LandingPage} />
+              <ProtectedRoute exact path="/home" component={HomePage} />
               {/* If none of the other routes matched, we will show a 404. */}
               <Route render={() => <h1>404</h1>} />
             </Switch>

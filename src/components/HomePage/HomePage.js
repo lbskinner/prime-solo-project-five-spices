@@ -5,8 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography, IconButton, InputBase } from "@material-ui/core";
 import { Paper, Grid } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import { List, ListItem, ListItemText } from "@material-ui/core";
-import "./LandingPage.css";
+import "./HomePage.css";
+import HomePageCategoryList from "../HomePageCategoryList/HomePageCategoryList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-class LandingPage extends Component {
+class HomePage extends Component {
   state = {
     heading: "Class Component",
   };
@@ -38,13 +38,6 @@ class LandingPage extends Component {
   };
 
   render() {
-    const categoryArray = this.props.categoryList.map((category) => {
-      return (
-        <ListItem key={category.category_id}>
-          <ListItemText primary={category.category_name} />
-        </ListItem>
-      );
-    });
     return (
       <div className="container">
         <Typography variant="h3" align="center">
@@ -65,7 +58,7 @@ class LandingPage extends Component {
           <Grid item xs={3}>
             <Typography variant="h4">Categories</Typography>
             <div>
-              <List>{categoryArray}</List>
+              <HomePageCategoryList />
             </div>
           </Grid>
           <Grid item xs={6}>
@@ -84,4 +77,4 @@ class LandingPage extends Component {
   }
 }
 
-export default connect(mapStoreToProps)(LandingPage);
+export default connect(mapStoreToProps)(HomePage);
