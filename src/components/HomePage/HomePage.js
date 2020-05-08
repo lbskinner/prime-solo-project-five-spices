@@ -30,25 +30,23 @@ class HomePage extends Component {
           Welcome {this.props.user.username}!
         </Typography>
         <HomePageSearch />
+        <br />
         <Grid
           container
           direction="row"
           justify="space-between"
           alignItems="flex-start"
         >
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Typography variant="h4">Categories</Typography>
             <div>
               <HomePageCategoryList />
             </div>
           </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h4" align="center">
-              Recipe List Goes Here
-            </Typography>
+          <Grid item xs={8}>
             <HomePageRecipeList />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Typography variant="h4">Favorite Recipes</Typography>
             <div>
               <HomePageFavoriteList />
