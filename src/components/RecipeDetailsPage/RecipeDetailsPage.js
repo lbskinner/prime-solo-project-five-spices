@@ -14,7 +14,7 @@ class RecipeDetailsPage extends Component {
   render() {
     return (
       <div>
-        <h2>{this.state.heading}</h2>
+        <h2>Recipe Details Page</h2>
       </div>
     );
   }

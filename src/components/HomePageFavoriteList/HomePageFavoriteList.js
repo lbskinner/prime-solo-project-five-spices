@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../redux/mapStoreToProps";
 import { List, ListItem, ListItemText } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
 class HomePageFavoriteList extends Component {
   state = {
@@ -16,6 +17,7 @@ class HomePageFavoriteList extends Component {
       type: "GET_RECIPE_INSTRUCTIONS",
       payload: recipe_id,
     });
+    this.props.history.push("/details");
   };
   render() {
     const favoriteArray = this.props.favoriteRecipes.map((recipe) => {
@@ -32,4 +34,4 @@ class HomePageFavoriteList extends Component {
   }
 }
 
-export default connect(mapStoreToProps)(HomePageFavoriteList);
+export default withRouter(connect(mapStoreToProps)(HomePageFavoriteList));

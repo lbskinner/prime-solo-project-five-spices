@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Grid from "@material-ui/core/Grid";
+import { withRouter } from "react-router-dom";
 
 const styles = (theme) => ({
   card: {
@@ -45,6 +46,18 @@ class HomePageRecipeList extends Component {
       },
     });
   };
+
+  clickRecipe = (recipe_id) => (event) => {
+    console.log(recipe_id);
+    this.props.dispatch({ type: "GET_RECIPE_DETAILS", payload: recipe_id });
+    this.props.dispatch({ type: "GET_RECIPE_INGREDIENTS", payload: recipe_id });
+    this.props.dispatch({
+      type: "GET_RECIPE_INSTRUCTIONS",
+      payload: recipe_id,
+    });
+    this.props.history.push("/details");
+  };
+
   render() {
     const { classes } = this.props;
     const recipesArray = this.props.allRecipes.map((recipe) => {
@@ -52,7 +65,10 @@ class HomePageRecipeList extends Component {
         <Grid item key={recipe.recipe_id}>
           <Card className={classes.card}>
             <div className={classes.display}>
-              <CardHeader title={recipe.recipe_name} />
+              <CardHeader
+                title={recipe.recipe_name}
+                onClick={this.clickRecipe(recipe.recipe_id)}
+              />
               <IconButton
                 aria-label="add to favorites"
                 onClick={this.clickFavorite(recipe.recipe_id, recipe.favorite)}
@@ -95,4 +111,6 @@ class HomePageRecipeList extends Component {
   }
 }
 
-export default withStyles(styles)(connect(mapStoreToProps)(HomePageRecipeList));
+export default withRouter(
+  withStyles(styles)(connect(mapStoreToProps)(HomePageRecipeList))
+);
