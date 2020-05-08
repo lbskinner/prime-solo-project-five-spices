@@ -8,11 +8,10 @@ class HomePageRecipeList extends Component {
   };
 
   render() {
-    return (
-      <div>
-        <h2>{this.state.heading}</h2>
-      </div>
-    );
+    const recipesArray = this.props.allRecipes.map((recipe) => {
+      return <div key={recipe.recipe_id}>{recipe.recipe_name}</div>;
+    });
+    return <div>{recipesArray}</div>;
   }
 }
 
