@@ -47,7 +47,7 @@ class HomePage extends Component {
             <HomePageRecipeList />
           </Grid>
           <Grid item xs={2}>
-            <Typography variant="h4">Favorite Recipes</Typography>
+            <Typography variant="h4">Favorites</Typography>
             <div>
               <HomePageFavoriteList />
             </div>
