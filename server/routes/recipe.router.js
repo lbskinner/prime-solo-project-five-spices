@@ -8,9 +8,11 @@ const {
  * GET all recipes for home page list
  */
 router.get("/", rejectUnauthenticated, (req, res) => {
-  const queryText = `SELECT * FROM "recipe" ORDER BY "recipe_name" ASC;`;
+  const queryText = `SELECT * FROM "recipe" WHERE "user_id" = $1 ORDER BY "recipe_name" ASC;`;
+  console.log(req.user);
+
   pool
-    .query(queryText)
+    .query(queryText, [req.user.id])
     .then((responseFromDb) => {
       res.send(responseFromDb.rows);
     })
@@ -24,9 +26,9 @@ router.get("/", rejectUnauthenticated, (req, res) => {
  * GET favorite recipes for home page list
  */
 router.get("/favorite", rejectUnauthenticated, (req, res) => {
-  const queryText = `SELECT * FROM "recipe" WHERE "favorite" = true ORDER BY "recipe_name" ASC;`;
+  const queryText = `SELECT * FROM "recipe" WHERE "user_id" = $1 AND "favorite" = true ORDER BY "recipe_name" ASC;`;
   pool
-    .query(queryText)
+    .query(queryText, [req.user.id])
     .then((responseFromDb) => {
       res.send(responseFromDb.rows);
     })

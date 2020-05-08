@@ -7,6 +7,7 @@ import { Paper, Grid } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import "./HomePage.css";
 import HomePageCategoryList from "../HomePageCategoryList/HomePageCategoryList";
+import HomePageFavoriteList from "../HomePageFavoriteList/HomePageFavoriteList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,9 +69,10 @@ class HomePage extends Component {
             </Typography>
           </Grid>
           <Grid item xs={3}>
-            <Typography variant="h4" align="center">
-              Favorite Recipes
-            </Typography>
+            <Typography variant="h4">Favorite Recipes</Typography>
+            <div>
+              <HomePageFavoriteList />
+            </div>
           </Grid>
         </Grid>
       </div>
