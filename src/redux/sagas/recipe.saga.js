@@ -46,7 +46,7 @@ function* getRecipeDetails(action) {
 function* recipeSaga() {
   yield takeEvery("GET_ALL_RECIPES", getAllRecipes);
   yield takeEvery("GET_FAVORITE_RECIPES", getFavoriteRecipes);
-  yield takeEvery("GET_FAVORITE_RECIPE_DETAILS", getRecipeDetails);
+  yield takeEvery("GET_RECIPE_DETAILS", getRecipeDetails);
 }
 
 export default recipeSaga;
