@@ -31,6 +31,7 @@ class HomePage extends Component {
 
   componentDidMount() {
     this.props.dispatch({ type: "GET_CATEGORY_LIST" });
+    this.props.dispatch({ type: "GET_FAVORITE_RECIPES" });
   }
 
   onLogin = (event) => {

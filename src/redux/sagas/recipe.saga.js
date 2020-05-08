@@ -1,5 +1,5 @@
 import axios from "axios";
-import { put, takeLatest, takeEvery } from "redux-saga/effects";
+import { put, takeEvery } from "redux-saga/effects";
 
 function* getAllRecipes(action) {
   try {
@@ -27,9 +27,23 @@ function* getRecipesByCategory(action) {
   }
 }
 
+function* getFavoriteRecipes(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    const response = yield axios.get("/api/recipe/favorite", config);
+    yield put({ type: "SET_ALL_FAVORITE_RECIPES", payload: response.data });
+  } catch (error) {
+    console.log("Get favorite recipes request failed", error);
+  }
+}
+
 function* recipeSaga() {
   yield takeEvery("GET_ALL_RECIPES", getAllRecipes);
   yield takeEvery("GET_RECIPES_BY_CATEGORY", getRecipesByCategory);
+  yield takeEvery("GET_FAVORITE_RECIPES", getFavoriteRecipes);
 }
 
 export default recipeSaga;

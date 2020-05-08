@@ -10,6 +10,7 @@ const mapStoreToProps = (reduxState) => {
     errors: reduxState.errors,
     allRecipes: reduxState.allRecipesReducer,
     categoryList: reduxState.categoryListReducer,
+    favoriteRecipes: reduxState.allFavoriteRecipeReducer,
   };
 };
 
