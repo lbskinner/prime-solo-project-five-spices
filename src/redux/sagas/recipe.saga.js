@@ -14,19 +14,6 @@ function* getAllRecipes(action) {
   }
 }
 
-function* getRecipesByCategory(action) {
-  try {
-    const config = {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    };
-    const response = yield axios.get(`/api/category/${action.payload}`, config);
-    yield put({ type: "SET_ALL_RECIPES_BY_CATEGORY", payload: response.data });
-  } catch (error) {
-    console.log("Get recipes by category request failed", error);
-  }
-}
-
 function* getFavoriteRecipes(action) {
   try {
     const config = {
@@ -40,10 +27,26 @@ function* getFavoriteRecipes(action) {
   }
 }
 
+function* getRecipeDetails(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    const response = yield axios.get(
+      `/api/recipe/details/${action.payload}`,
+      config
+    );
+    yield put({ type: "SET_RECIPE_DETAILS", payload: response.data });
+  } catch (error) {
+    console.log("Get recipes details by ID request failed", error);
+  }
+}
+
 function* recipeSaga() {
   yield takeEvery("GET_ALL_RECIPES", getAllRecipes);
-  yield takeEvery("GET_RECIPES_BY_CATEGORY", getRecipesByCategory);
   yield takeEvery("GET_FAVORITE_RECIPES", getFavoriteRecipes);
+  yield takeEvery("GET_FAVORITE_RECIPE_DETAILS", getRecipeDetails);
 }
 
 export default recipeSaga;

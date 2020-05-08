@@ -11,10 +11,10 @@ class HomePageFavoriteList extends Component {
   handleClick = (recipe_id) => (event) => {
     console.log(recipe_id);
 
-    // this.props.dispatch({
-    //   type: "GET_RECIPES_BY_CATEGORY",
-    //   payload: category_id,
-    // });
+    this.props.dispatch({
+      type: "GET_FAVORITE_RECIPE_DETAILS",
+      payload: recipe_id,
+    });
   };
   render() {
     const favoriteArray = this.props.favoriteRecipes.map((recipe) => {

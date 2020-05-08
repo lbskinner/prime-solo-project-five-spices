@@ -14,8 +14,22 @@ function* getCategoryList(action) {
   }
 }
 
+function* getRecipesByCategory(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    const response = yield axios.get(`/api/category/${action.payload}`, config);
+    yield put({ type: "SET_ALL_RECIPES_BY_CATEGORY", payload: response.data });
+  } catch (error) {
+    console.log("Get recipes by category request failed", error);
+  }
+}
+
 function* categorySaga() {
   yield takeEvery("GET_CATEGORY_LIST", getCategoryList);
+  yield takeEvery("GET_RECIPES_BY_CATEGORY", getRecipesByCategory);
 }
 
 export default categorySaga;

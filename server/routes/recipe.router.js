@@ -65,14 +65,14 @@ router.get("/search", rejectUnauthenticated, (req, res) => {
 router.get("/details/:id", rejectUnauthenticated, (req, res) => {
   // id on params us recipe id
   const recipeId = req.params.id;
-  const queryText = `SELECT * FROM "recipe" WHERE "recipe_id" = $1;`;
+  const queryText = `SELECT * FROM "recipe" WHERE "recipe_id" = $1 AND "user_id" = $2;`;
   pool
-    .query(queryText, [recipeId])
+    .query(queryText, [recipeId, req.user.id])
     .then((responseFromDb) => {
       res.send(responseFromDb.rows);
     })
     .catch((error) => {
-      console.log("Get Recipe Ingredients Error: ", error);
+      console.log("Get Recipe Details Error: ", error);
       res.sendStatus(500);
     });
 });
