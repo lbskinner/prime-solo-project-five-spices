@@ -8,7 +8,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 class IngredientDetailsPage extends Component {
   render() {
-    const { classes } = this.props;
     const ingredientsArray = this.props.recipeIngredients.map((ingredient) => {
       return (
         <ListItem key={ingredient.ingredient_id}>

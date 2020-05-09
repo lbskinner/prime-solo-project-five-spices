@@ -1,6 +1,7 @@
 import axios from "axios";
 import { put, takeEvery } from "redux-saga/effects";
 
+// get all recipes for home page
 function* getAllRecipes(action) {
   try {
     const config = {
@@ -14,6 +15,7 @@ function* getAllRecipes(action) {
   }
 }
 
+// get all favorite recipes for home page
 function* getFavoriteRecipes(action) {
   try {
     const config = {
@@ -27,6 +29,7 @@ function* getFavoriteRecipes(action) {
   }
 }
 
+// get recipe details for details page
 function* getRecipeDetails(action) {
   try {
     const config = {
@@ -43,6 +46,7 @@ function* getRecipeDetails(action) {
   }
 }
 
+// update favorite status for home page
 function* updateFavoriteStatus(action) {
   try {
     const config = {
@@ -57,11 +61,32 @@ function* updateFavoriteStatus(action) {
   }
 }
 
+// update home status for details page, separated into two calls to avoid unnecessary calls to server
+function* updateDetailsPageFavoriteStatus(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    yield axios.put("/api/recipe/favorite", action.payload, config);
+    yield put({
+      type: "GET_RECIPE_DETAILS",
+      payload: action.payload.recipe_id,
+    });
+  } catch (error) {
+    console.log("Update favorite request failed", error);
+  }
+}
+
 function* recipeSaga() {
   yield takeEvery("GET_ALL_RECIPES", getAllRecipes);
   yield takeEvery("GET_FAVORITE_RECIPES", getFavoriteRecipes);
   yield takeEvery("GET_RECIPE_DETAILS", getRecipeDetails);
   yield takeEvery("UPDATE_FAVORITE", updateFavoriteStatus);
+  yield takeEvery(
+    "UPDATE_DETAILS_PAGE_FAVORITE",
+    updateDetailsPageFavoriteStatus
+  );
 }
 
 export default recipeSaga;
