@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import FavoriteButton from "../FavoriteButtonDetailsPage/FavoriteButtonDetailsPage";
+import CategoryDetailsPage from "../CategoryDetailsPage/CategoryDetailsPage";
 
 class RecipeDetailsPage extends Component {
   render() {
@@ -28,6 +29,7 @@ class RecipeDetailsPage extends Component {
             Favorite: <FavoriteButton />
           </Typography>
           <Typography>{recipe.description}</Typography>
+          <CategoryDetailsPage />
         </Grid>
         <Grid item xs={4}>
           <br />

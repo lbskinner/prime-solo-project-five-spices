@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import mapStoreToProps from "../../../redux/mapStoreToProps";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import Button from "@material-ui/core/Button";
 
 class CategoryDetailsPage extends Component {
   state = {
@@ -33,23 +33,23 @@ class CategoryDetailsPage extends Component {
     });
     return (
       <div>
+        <FormControl variant="outlined">
+          <Select
+            labelId="category"
+            id="category"
+            displayEmpty
+            value={this.state.category_id}
+            onChange={this.handleChange}
+          >
+            <MenuItem value="">Select a Category</MenuItem>
+            {allCategoriesArray}
+          </Select>
+        </FormControl>
+        <Button>Add Category</Button>
         <Grid container>
           <Grid>Categories:</Grid>
           <ur>{categoriesArray}</ur>
         </Grid>
-        <FormControl variant="outlined">
-          <InputLabel id="category">Select a Category</InputLabel>
-          <Select
-            labelId="category"
-            id="category"
-            value={this.state.category_id}
-            onChange={this.handleChange}
-            label="Category"
-          >
-            <MenuItem value="">None</MenuItem>
-            {allCategoriesArray}
-          </Select>
-        </FormControl>
       </div>
     );
   }

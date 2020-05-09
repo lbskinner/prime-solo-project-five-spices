@@ -33,7 +33,6 @@ class DetailsPage extends Component {
     return (
       <div>
         <RecipeDetailsPage />
-        <CategoryDetailsPage />
         <Grid container spacing={3}>
           <Grid item xs={4}>
             <IngredientDetailsPage />

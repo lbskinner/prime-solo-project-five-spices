@@ -17,12 +17,14 @@ class HomePageCategoryList extends Component {
   render() {
     const categoryArray = this.props.categoryList.map((category) => {
       return (
-        <ListItem
-          key={category.category_id}
-          onClick={this.handleClick(category.category_id)}
-        >
-          <ListItemText primary={category.category_name} />
-        </ListItem>
+        <span style={{ cursor: "pointer" }}>
+          <ListItem
+            key={category.category_id}
+            onClick={this.handleClick(category.category_id)}
+          >
+            <ListItemText primary={category.category_name} />
+          </ListItem>
+        </span>
       );
     });
     return <List>{categoryArray}</List>;

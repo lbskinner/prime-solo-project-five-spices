@@ -28,6 +28,9 @@ const styles = (theme) => ({
   color: {
     color: "red",
   },
+  hover: {
+    cursor: "pointer",
+  },
 });
 
 class HomePageRecipeList extends Component {
@@ -58,6 +61,7 @@ class HomePageRecipeList extends Component {
               <CardHeader
                 title={recipe.recipe_name}
                 onClick={this.clickRecipe(recipe.recipe_id)}
+                className={classes.hover}
               />
               <IconButton
                 aria-label="add to favorites"
