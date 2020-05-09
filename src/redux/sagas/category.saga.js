@@ -53,11 +53,7 @@ function* addCategoryToRecipe(action) {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     };
-    const response = yield axios.post(
-      "/api/category/details",
-      action.payload,
-      config
-    );
+    yield axios.post("/api/category/details", action.payload, config);
     yield put({
       type: "GET_RECIPE_CATEGORY",
       payload: action.payload.recipe_id,
