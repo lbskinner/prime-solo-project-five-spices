@@ -10,6 +10,15 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
 class CategoryDetailsPage extends Component {
+  state = {
+    category_id: "",
+  };
+  handleChange = (event) => {
+    console.log(event.target.value);
+    this.setState({
+      category_id: event.target.value,
+    });
+  };
   render() {
     const categoriesArray = this.props.recipeCategory.map((category) => {
       return <li key={category.category_id}>{category.category_name}</li>;
@@ -33,7 +42,8 @@ class CategoryDetailsPage extends Component {
           <Select
             labelId="category"
             id="category"
-            // onChange={handleChange}
+            value={this.state.category_id}
+            onChange={this.handleChange}
             label="Category"
           >
             <MenuItem value="">None</MenuItem>

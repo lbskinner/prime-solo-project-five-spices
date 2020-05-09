@@ -12,10 +12,15 @@ class RecipeDetailsPage extends Component {
         {this.props.recipeDetails.length > 0 && (
           <Grid container spacing={3}>
             <Grid item xs={8}>
-              <h2>{this.props.recipeDetails[0].recipe_name}</h2>
-              <p>{this.props.recipeDetails[0].total_time}</p>
-              <p>{this.props.recipeDetails[0].serving_size}</p>
-              <p>{this.props.recipeDetails[0].description}</p>
+              <Typography variant="h3">
+                {this.props.recipeDetails[0].recipe_name}
+              </Typography>
+              <Typography>{`Total Cook Time: ${this.props.recipeDetails[0].total_time}`}</Typography>
+              <Typography>{`Servings: ${this.props.recipeDetails[0].serving_size}`}</Typography>
+              <a href={this.props.recipeDetails[0].recipe_url} target="_blank">
+                Recipe Link
+              </a>
+              <Typography>{this.props.recipeDetails[0].description}</Typography>
             </Grid>
             <Grid item xs={4}>
               <br />
