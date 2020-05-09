@@ -19,7 +19,7 @@ import InfoPage from "../InfoPage/InfoPage";
 import HomePage from "../HomePage/HomePage"; // home page after users log in
 import LoginPage from "../LoginPage/LoginPage"; // login page
 import RegisterPage from "../RegisterPage/RegisterPage"; //registration page
-import RecipeDetailsPage from "../RecipeDetailsPage/RecipeDetailsPage"; // recipe details page & edit page
+import DetailsPage from "../DetailsPage/DetailsPage/DetailsPage"; // recipe details page & edit page
 import AddRecipePage from "../AddRecipePage/AddRecipePage"; // add recipe page
 import LogOutPage from "../LogOutPage/LogOutPage"; // log out page
 
@@ -67,9 +67,12 @@ class App extends Component {
                 component={RegisterPage}
               />
               <ProtectedRoute exact path="/home" component={HomePage} />
+              <ProtectedRoute path="/details/:id" component={DetailsPage} />
               <ProtectedRoute
-                path="/details/:id"
-                component={RecipeDetailsPage}
+                exact
+                path="/add"
+                authRedirect="/admin"
+                component={AddRecipePage}
               />
               {/* If none of the other routes matched, we will show a 404. */}
               <Route render={() => <h1>404</h1>} />
