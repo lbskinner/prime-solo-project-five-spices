@@ -34,10 +34,10 @@ class DetailsPage extends Component {
       <div>
         <RecipeDetailsPage />
         <Grid container spacing={3}>
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <IngredientDetailsPage />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={7}>
             <InstructionDetailsPage />
           </Grid>
         </Grid>
