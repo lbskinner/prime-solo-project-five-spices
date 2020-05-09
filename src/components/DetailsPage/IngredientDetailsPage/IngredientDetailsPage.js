@@ -21,7 +21,7 @@ class IngredientDetailsPage extends Component {
     return (
       <div>
         <Typography variant="h5">Ingredients</Typography>
-        <List>{ingredientsArray}</List>
+        <List disablePadding={true}>{ingredientsArray}</List>
       </div>
     );
   }

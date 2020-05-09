@@ -4,13 +4,15 @@ import mapStoreToProps from "../../../redux/mapStoreToProps";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
+import { List, ListItem, ListItemText } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
 class CategoryDetailsPage extends Component {
   state = {
+    recipe_id: this.props.match.params.id,
     category_id: "",
   };
   handleChange = (event) => {
@@ -19,9 +21,26 @@ class CategoryDetailsPage extends Component {
       category_id: event.target.value,
     });
   };
+
+  handleAddCategory = (event) => {
+    console.log(this.state);
+    if (!this.state.category_id) {
+      alert("Please select a category to add!");
+    } else {
+      this.props.dispatch({ type: "ADD_CATEGORY", payload: this.state });
+      this.setState({
+        category_id: "",
+      });
+    }
+  };
+
   render() {
     const categoriesArray = this.props.recipeCategory.map((category) => {
-      return <li key={category.category_id}>{category.category_name}</li>;
+      return (
+        <ListItem key={category.category_id}>
+          <ListItemText primary={category.category_name} />
+        </ListItem>
+      );
     });
 
     const allCategoriesArray = this.props.categoryList.map((category) => {
@@ -45,14 +64,19 @@ class CategoryDetailsPage extends Component {
             {allCategoriesArray}
           </Select>
         </FormControl>
-        <Button>Add Category</Button>
-        <Grid container>
-          <Grid>Categories:</Grid>
-          <ur>{categoriesArray}</ur>
+        <Button onClick={this.handleAddCategory}>Add Category</Button>
+        <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="flex-start"
+        >
+          <Typography>Categories:</Typography>
+          <List disablePadding={true}>{categoriesArray}</List>
         </Grid>
       </div>
     );
   }
 }
 
-export default connect(mapStoreToProps)(CategoryDetailsPage);
+export default withRouter(connect(mapStoreToProps)(CategoryDetailsPage));

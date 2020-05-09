@@ -46,10 +46,32 @@ function* getRecipeCategory(action) {
   }
 }
 
+// add category to individual recipe
+function* addCategoryToRecipe(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    const response = yield axios.post(
+      "/api/category/details",
+      action.payload,
+      config
+    );
+    yield put({
+      type: "GET_RECIPE_CATEGORY",
+      payload: action.payload.recipe_id,
+    });
+  } catch (error) {
+    console.log("Add category to recipe request failed", error);
+  }
+}
+
 function* categorySaga() {
   yield takeEvery("GET_CATEGORY_LIST", getCategoryList);
   yield takeEvery("GET_RECIPES_BY_CATEGORY", getRecipesByCategory);
   yield takeEvery("GET_RECIPE_CATEGORY", getRecipeCategory);
+  yield takeEvery("ADD_CATEGORY", addCategoryToRecipe);
 }
 
 export default categorySaga;
