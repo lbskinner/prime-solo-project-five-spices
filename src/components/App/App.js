@@ -68,8 +68,7 @@ class App extends Component {
               />
               <ProtectedRoute exact path="/home" component={HomePage} />
               <ProtectedRoute
-                exact
-                path="/details"
+                path="/details/:id"
                 component={RecipeDetailsPage}
               />
               {/* If none of the other routes matched, we will show a 404. */}

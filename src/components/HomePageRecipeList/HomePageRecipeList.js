@@ -31,10 +31,6 @@ const styles = (theme) => ({
 });
 
 class HomePageRecipeList extends Component {
-  state = {
-    heading: "Class Component",
-  };
-
   clickFavorite = (recipe_id, favorite) => (event) => {
     console.log(recipe_id, favorite);
     const favoriteStatus = !favorite;
@@ -49,13 +45,7 @@ class HomePageRecipeList extends Component {
 
   clickRecipe = (recipe_id) => (event) => {
     console.log(recipe_id);
-    this.props.dispatch({ type: "GET_RECIPE_DETAILS", payload: recipe_id });
-    this.props.dispatch({ type: "GET_RECIPE_INGREDIENTS", payload: recipe_id });
-    this.props.dispatch({
-      type: "GET_RECIPE_INSTRUCTIONS",
-      payload: recipe_id,
-    });
-    this.props.history.push("/details");
+    this.props.history.push(`/details/${recipe_id}`);
   };
 
   render() {

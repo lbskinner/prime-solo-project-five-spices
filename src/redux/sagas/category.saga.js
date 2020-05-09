@@ -1,6 +1,7 @@
 import axios from "axios";
-import { put, takeLatest, takeEvery } from "redux-saga/effects";
+import { put, takeEvery } from "redux-saga/effects";
 
+// get all category for category list for home page and details page select box
 function* getCategoryList(action) {
   try {
     const config = {
@@ -14,6 +15,7 @@ function* getCategoryList(action) {
   }
 }
 
+// get all recipes by category on home page
 function* getRecipesByCategory(action) {
   try {
     const config = {
@@ -27,9 +29,27 @@ function* getRecipesByCategory(action) {
   }
 }
 
+// get category information for individual recipe by recipe id on details page
+function* getRecipeCategory(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    const response = yield axios.get(
+      `/api/category/details/${action.payload}`,
+      config
+    );
+    yield put({ type: "SET_RECIPE_CATEGORY", payload: response.data });
+  } catch (error) {
+    console.log("Get recipe categories request failed", error);
+  }
+}
+
 function* categorySaga() {
   yield takeEvery("GET_CATEGORY_LIST", getCategoryList);
   yield takeEvery("GET_RECIPES_BY_CATEGORY", getRecipesByCategory);
+  yield takeEvery("GET_RECIPE_CATEGORY", getRecipeCategory);
 }
 
 export default categorySaga;

@@ -14,6 +14,7 @@ const mapStoreToProps = (reduxState) => {
     recipeDetails: reduxState.recipeDetailsReducer,
     recipeIngredients: reduxState.recipeIngredientsReducer,
     recipeInstructions: reduxState.recipeInstructionsReducer,
+    recipeCategory: reduxState.recipeCategoryReducer,
   };
 };
 
