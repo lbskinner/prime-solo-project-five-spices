@@ -9,6 +9,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import SaveIcon from "@material-ui/icons/Save";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 const styles = (theme) => ({
   listItem: {
@@ -26,6 +28,10 @@ class IngredientDetailsPage extends Component {
   };
 
   clickEditButton = (ingredient_id) => (event) => {
+    console.log(ingredient_id);
+  };
+
+  clickSaveButton = (ingredient_id) => (event) => {
     console.log(ingredient_id);
   };
   render() {
@@ -47,6 +53,12 @@ class IngredientDetailsPage extends Component {
             />{" "}
           </IconButton>
           <IconButton classes={{ root: classes.listItem }}>
+            <SaveIcon
+              fontSize="small"
+              onClick={this.clickSaveButton(ingredient.ingredient_id)}
+            />{" "}
+          </IconButton>
+          <IconButton classes={{ root: classes.listItem }}>
             <DeleteIcon
               fontSize="small"
               onClick={this.clickDeleteButton(ingredient.ingredient_id)}
@@ -58,7 +70,10 @@ class IngredientDetailsPage extends Component {
     return (
       <div>
         <Typography variant="h5" classes={{ root: classes.margin }}>
-          Ingredients
+          Ingredients{" "}
+          <IconButton>
+            <AddCircleOutlineIcon />
+          </IconButton>
         </Typography>
         <List disablePadding={true}>{ingredientsArray}</List>
       </div>
