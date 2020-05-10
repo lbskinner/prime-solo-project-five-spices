@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import mapStoreToProps from "../../../redux/mapStoreToProps";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
 import FavoriteButton from "../FavoriteButtonDetailsPage/FavoriteButtonDetailsPage";
 import CategoryDetailsPage from "../CategoryDetailsPage/CategoryDetailsPage";
 

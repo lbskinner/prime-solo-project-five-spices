@@ -59,4 +59,20 @@ router.put("/edit", rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ *DELETE individual ingredient by ingredient id
+ */
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  // id on params us ingredient id
+  const ingredientId = req.params.id;
+  const queryText = `DELETE FROM "ingredient" WHERE "ingredient_id" = $1;`;
+  pool
+    .query(queryText, [ingredientId])
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log("Delete Ingredient Error: ", error);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;
