@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../../redux/mapStoreToProps";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import IngredientDetailsPage from "../IngredientDetailsPage/IngredientDetailsPage";
 import InstructionDetailsPage from "../InstructionDetailsPage/InstructionDetailsPage";
-import CategoryDetailsPage from "../CategoryDetailsPage/CategoryDetailsPage";
 import RecipeDetailsPage from "../RecipeDetailsPage/RecipeDetailsPage";
 
 class DetailsPage extends Component {

@@ -19,7 +19,6 @@ class FavoriteButton extends Component {
   };
 
   render() {
-    const { classes } = this.props;
     const recipe = this.props.recipeDetails[0];
     return (
       <IconButton

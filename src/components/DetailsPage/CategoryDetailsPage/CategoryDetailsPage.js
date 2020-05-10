@@ -8,6 +8,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 
@@ -45,6 +47,10 @@ class CategoryDetailsPage extends Component {
     }
   };
 
+  clickDeleteButton = (recipe_category_id) => (event) => {
+    console.log(recipe_category_id);
+  };
+
   render() {
     const { classes } = this.props;
     const categoriesArray = this.props.recipeCategory.map((category) => {
@@ -54,6 +60,12 @@ class CategoryDetailsPage extends Component {
           classes={{ root: classes.listItem }}
         >
           <ListItemText primary={category.category_name} />
+          <IconButton classes={{ root: classes.listItem }}>
+            <DeleteIcon
+              fontSize="small"
+              onClick={this.clickDeleteButton(category.recipe_category_id)}
+            />
+          </IconButton>
         </ListItem>
       );
     });
