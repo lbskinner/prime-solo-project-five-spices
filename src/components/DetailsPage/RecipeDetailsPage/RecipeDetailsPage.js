@@ -14,16 +14,18 @@ import FavoriteButton from "../FavoriteButtonDetailsPage/FavoriteButtonDetailsPa
 import CategoryDetailsPage from "../CategoryDetailsPage/CategoryDetailsPage";
 
 const styles = (theme) => ({
-  titleInputFontSize: {
-    fontSize: 48,
+  titleInput: {
+    marginTop: 10,
+    width: 500,
+    height: 50,
   },
-  position: {
-    paddingTop: 6,
+  detailsInput: {
+    width: 75,
   },
-  selectBox: {
-    paddingTop: 8,
-    paddingBottom: 8,
-  },
+  // selectBox: {
+  //   paddingTop: 8,
+  //   paddingBottom: 8,
+  // },
 });
 
 class RecipeDetailsPage extends Component {
@@ -60,23 +62,26 @@ class RecipeDetailsPage extends Component {
         >
           Original Recipe Link
         </Link>
-
         <Typography variant="h3">
           {this.state.recipeDetailsAreEditable ? (
             <TextField
               defaultValue={recipe.recipe_name}
               variant="outlined"
               label="Recipe Name"
+              className={classes.titleInput}
             />
           ) : (
             <span>{recipe.recipe_name} </span>
           )}
-          <IconButton>
-            <EditIcon onClick={this.clickEditButton(recipe.recipe_id)} />{" "}
-          </IconButton>
-          <IconButton>
-            <SaveIcon onClick={this.clickSaveButton(recipe.recipe_id)} />{" "}
-          </IconButton>
+          {this.state.recipeDetailsAreEditable ? (
+            <IconButton>
+              <SaveIcon onClick={this.clickSaveButton(recipe.recipe_id)} />{" "}
+            </IconButton>
+          ) : (
+            <IconButton>
+              <EditIcon onClick={this.clickEditButton(recipe.recipe_id)} />{" "}
+            </IconButton>
+          )}
           <IconButton>
             <DeleteIcon onClick={this.clickDeleteButton(recipe.recipe_id)} />
           </IconButton>
@@ -92,14 +97,16 @@ class RecipeDetailsPage extends Component {
                   <TextField
                     defaultValue={recipe.total_time}
                     variant="outlined"
-                    size="small"
                     label="Hours"
-                  />
+                    size="small"
+                    className={classes.detailsInput}
+                  />{" "}
                   <TextField
                     defaultValue={recipe.total_time}
                     variant="outlined"
-                    size="small"
                     label="Minutes"
+                    size="small"
+                    className={classes.detailsInput}
                   />
                 </span>
               ) : (
@@ -114,6 +121,7 @@ class RecipeDetailsPage extends Component {
                   defaultValue={recipe.serving_size}
                   variant="outlined"
                   size="small"
+                  className={classes.detailsInput}
                   label="Servings"
                 />
               ) : (
@@ -142,11 +150,22 @@ class RecipeDetailsPage extends Component {
             <CategoryDetailsPage />
           </Grid>
           <Grid item xs={4}>
-            <img
-              src={recipe.image_url}
-              alt={recipe.recipe_name}
-              style={{ width: 300, height: 250 }}
-            />
+            {this.state.recipeDetailsAreEditable ? (
+              <TextField
+                defaultValue={recipe.image_url}
+                variant="outlined"
+                label="Image URL"
+                multiline
+                rows={4}
+                fullWidth
+              />
+            ) : (
+              <img
+                src={recipe.image_url}
+                alt={recipe.recipe_name}
+                style={{ width: 300, height: 250 }}
+              />
+            )}
           </Grid>
         </Grid>
       </div>
