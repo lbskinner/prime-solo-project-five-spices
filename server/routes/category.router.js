@@ -29,8 +29,6 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
 router.get("/details/:id", rejectUnauthenticated, (req, res) => {
   // id on params us recipe id
   const recipeId = req.params.id;
-  console.log(recipeId);
-
   const queryText = `SELECT "category".category_id, "category".category_name, "recipe_category".recipe_id, "recipe_category".recipe_category_id
     FROM "category" JOIN "recipe_category" ON "category".category_id = "recipe_category".category_id
     WHERE "recipe_category".recipe_id = $1;`;

@@ -29,7 +29,6 @@ const styles = (theme) => ({
 
 class CategoryDetailsPage extends Component {
   state = {
-    // recipe_id: this.props.match.params.id,
     category_id: "",
   };
   handleChange = (event) => {
