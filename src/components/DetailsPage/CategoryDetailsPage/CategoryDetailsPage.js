@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../../redux/mapStoreToProps";
+import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -9,6 +10,16 @@ import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
+
+const styles = (theme) => ({
+  listItem: {
+    paddingTop: 2,
+    paddingBottom: 2,
+  },
+  position: {
+    paddingTop: 6,
+  },
+});
 
 class CategoryDetailsPage extends Component {
   state = {
@@ -35,9 +46,13 @@ class CategoryDetailsPage extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     const categoriesArray = this.props.recipeCategory.map((category) => {
       return (
-        <ListItem key={category.category_id}>
+        <ListItem
+          key={category.category_id}
+          classes={{ root: classes.listItem }}
+        >
           <ListItemText primary={category.category_name} />
         </ListItem>
       );
@@ -65,13 +80,16 @@ class CategoryDetailsPage extends Component {
           </Select>
         </FormControl>
         <Button onClick={this.handleAddCategory}>Add Category</Button>
+
         <Grid
           container
           direction="row"
           justify="flex-start"
           alignItems="flex-start"
         >
-          <Typography>Categories:</Typography>
+          <Typography classes={{ root: classes.position }}>
+            Categories:
+          </Typography>
           <List disablePadding={true}>{categoriesArray}</List>
         </Grid>
       </div>
@@ -79,4 +97,6 @@ class CategoryDetailsPage extends Component {
   }
 }
 
-export default withRouter(connect(mapStoreToProps)(CategoryDetailsPage));
+export default withRouter(
+  withStyles(styles)(connect(mapStoreToProps)(CategoryDetailsPage))
+);

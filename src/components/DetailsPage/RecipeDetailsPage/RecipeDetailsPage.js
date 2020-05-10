@@ -24,7 +24,7 @@ class RecipeDetailsPage extends Component {
         <Typography variant="h3">{recipe.recipe_name}</Typography>
         <br />
         <Grid container spacing={3}>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <Typography>{`Total Cook Time: ${recipe.total_time}`}</Typography>
             <Typography>{`Servings: ${recipe.serving_size}`}</Typography>
             <Typography>
@@ -35,7 +35,7 @@ class RecipeDetailsPage extends Component {
           <Grid item xs={4}>
             <CategoryDetailsPage />
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={4}>
             <br />
             <img
               src={recipe.image_url}

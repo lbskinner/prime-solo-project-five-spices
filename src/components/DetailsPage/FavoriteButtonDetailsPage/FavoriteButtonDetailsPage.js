@@ -1,16 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../../redux/mapStoreToProps";
-import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-
-const styles = (theme) => ({
-  color: {
-    color: "red",
-  },
-});
 
 class FavoriteButton extends Component {
   clickFavorite = (recipe_id, favorite) => (event) => {
@@ -34,7 +27,7 @@ class FavoriteButton extends Component {
         onClick={this.clickFavorite(recipe.recipe_id, recipe.favorite)}
       >
         {recipe.favorite === true ? (
-          <FavoriteIcon className={classes.color} />
+          <FavoriteIcon style={{ color: "red" }} />
         ) : (
           <FavoriteBorderIcon />
         )}
@@ -43,4 +36,4 @@ class FavoriteButton extends Component {
   }
 }
 
-export default withStyles(styles)(connect(mapStoreToProps)(FavoriteButton));
+export default connect(mapStoreToProps)(FavoriteButton);
