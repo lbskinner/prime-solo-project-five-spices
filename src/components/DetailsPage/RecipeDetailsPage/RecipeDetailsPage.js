@@ -74,26 +74,26 @@ class RecipeDetailsPage extends Component {
             <span>{recipe.recipe_name} </span>
           )}
           {this.state.recipeDetailsAreEditable ? (
-            <IconButton>
-              <SaveIcon onClick={this.clickSaveButton(recipe.recipe_id)} />{" "}
+            <IconButton onClick={this.clickSaveButton(recipe.recipe_id)}>
+              <SaveIcon />{" "}
             </IconButton>
           ) : (
-            <IconButton>
-              <EditIcon onClick={this.clickEditButton(recipe.recipe_id)} />{" "}
+            <IconButton onClick={this.clickEditButton(recipe.recipe_id)}>
+              <EditIcon />{" "}
             </IconButton>
           )}
-          <IconButton>
-            <DeleteIcon onClick={this.clickDeleteButton(recipe.recipe_id)} />
+          <IconButton onClick={this.clickDeleteButton(recipe.recipe_id)}>
+            <DeleteIcon />
           </IconButton>
         </Typography>
 
         <br />
         <Grid container spacing={3}>
           <Grid item xs={4}>
-            <Typography>
-              Total Cook Time:{" "}
+            <div>
+              <Typography>Total Cook Time: </Typography>
               {this.state.recipeDetailsAreEditable ? (
-                <span>
+                <div>
                   <TextField
                     defaultValue={recipe.total_time}
                     variant="outlined"
@@ -108,43 +108,40 @@ class RecipeDetailsPage extends Component {
                     size="small"
                     className={classes.detailsInput}
                   />
-                </span>
+                </div>
               ) : (
-                <span>{recipe.total_time}</span>
+                <Typography>{recipe.total_time}</Typography>
               )}
-            </Typography>
+            </div>
 
-            <Typography>
-              Servings:{" "}
-              {this.state.recipeDetailsAreEditable ? (
-                <TextField
-                  defaultValue={recipe.serving_size}
-                  variant="outlined"
-                  size="small"
-                  className={classes.detailsInput}
-                  label="Servings"
-                />
-              ) : (
-                <span>{recipe.serving_size}</span>
-              )}
-            </Typography>
+            <Typography>Servings: </Typography>
+            {this.state.recipeDetailsAreEditable ? (
+              <TextField
+                defaultValue={recipe.serving_size}
+                variant="outlined"
+                size="small"
+                className={classes.detailsInput}
+                label="Servings"
+              />
+            ) : (
+              <Typography>{recipe.serving_size}</Typography>
+            )}
+
             <Typography>
               Favorite: <FavoriteButton />
             </Typography>
-            <Typography>
-              {this.state.recipeDetailsAreEditable ? (
-                <TextField
-                  defaultValue={recipe.description}
-                  variant="outlined"
-                  multiline
-                  rows={4}
-                  fullWidth
-                  label="Description"
-                />
-              ) : (
-                <span>{recipe.description}</span>
-              )}
-            </Typography>
+            {this.state.recipeDetailsAreEditable ? (
+              <TextField
+                defaultValue={recipe.description}
+                variant="outlined"
+                multiline
+                rows={4}
+                fullWidth
+                label="Description"
+              />
+            ) : (
+              <Typography>{recipe.description}</Typography>
+            )}
           </Grid>
           <Grid item xs={4}>
             <CategoryDetailsPage />

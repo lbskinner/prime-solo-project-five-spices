@@ -46,23 +46,23 @@ class IngredientDetailsPage extends Component {
             <Checkbox disableRipple />
           </ListItemIcon>
           <ListItemText primary={ingredient.ingredient_item} />
-          <IconButton classes={{ root: classes.listItem }}>
-            <EditIcon
-              fontSize="small"
-              onClick={this.clickEditButton(ingredient.ingredient_id)}
-            />{" "}
+          <IconButton
+            classes={{ root: classes.listItem }}
+            onClick={this.clickEditButton(ingredient.ingredient_id)}
+          >
+            <EditIcon fontSize="small" />{" "}
           </IconButton>
-          <IconButton classes={{ root: classes.listItem }}>
-            <SaveIcon
-              fontSize="small"
-              onClick={this.clickSaveButton(ingredient.ingredient_id)}
-            />{" "}
+          <IconButton
+            classes={{ root: classes.listItem }}
+            onClick={this.clickSaveButton(ingredient.ingredient_id)}
+          >
+            <SaveIcon fontSize="small" />{" "}
           </IconButton>
-          <IconButton classes={{ root: classes.listItem }}>
-            <DeleteIcon
-              fontSize="small"
-              onClick={this.clickDeleteButton(ingredient.ingredient_id)}
-            />
+          <IconButton
+            classes={{ root: classes.listItem }}
+            onClick={this.clickDeleteButton(ingredient.ingredient_id)}
+          >
+            <DeleteIcon fontSize="small" />
           </IconButton>
         </ListItem>
       );

@@ -76,11 +76,11 @@ class CategoryDetailsPage extends Component {
           classes={{ root: classes.listItem }}
         >
           <ListItemText primary={category.category_name} />
-          <IconButton classes={{ root: classes.listItem }}>
-            <DeleteIcon
-              fontSize="small"
-              onClick={this.clickDeleteButton(category.recipe_category_id)}
-            />
+          <IconButton
+            classes={{ root: classes.listItem }}
+            onClick={this.clickDeleteButton(category.recipe_category_id)}
+          >
+            <DeleteIcon fontSize="small" />
           </IconButton>
         </ListItem>
       );
@@ -114,8 +114,11 @@ class CategoryDetailsPage extends Component {
               {allCategoriesArray}
             </Select>
           </FormControl>
-          <IconButton aria-label="Add a Category">
-            <AddCircleOutlineIcon onClick={this.handleAddCategory} />
+          <IconButton
+            aria-label="Add a Category"
+            onClick={this.handleAddCategory}
+          >
+            <AddCircleOutlineIcon />
           </IconButton>
         </Grid>
         <Grid
