@@ -7,9 +7,9 @@ import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 
@@ -21,11 +21,15 @@ const styles = (theme) => ({
   position: {
     paddingTop: 6,
   },
+  selectBox: {
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
 });
 
 class CategoryDetailsPage extends Component {
   state = {
-    recipe_id: this.props.match.params.id,
+    // recipe_id: this.props.match.params.id,
     category_id: "",
   };
   handleChange = (event) => {
@@ -40,7 +44,13 @@ class CategoryDetailsPage extends Component {
     if (!this.state.category_id) {
       alert("Please select a category to add!");
     } else {
-      this.props.dispatch({ type: "ADD_CATEGORY", payload: this.state });
+      this.props.dispatch({
+        type: "ADD_CATEGORY",
+        payload: {
+          ...this.state,
+          recipe_id: this.props.match.params.id,
+        },
+      });
       this.setState({
         category_id: "",
       });
@@ -49,6 +59,13 @@ class CategoryDetailsPage extends Component {
 
   clickDeleteButton = (recipe_category_id) => (event) => {
     console.log(recipe_category_id);
+    this.props.dispatch({
+      type: "DELETE_CATEGORY",
+      payload: {
+        recipe_category_id: recipe_category_id,
+        recipe_id: this.props.match.params.id,
+      },
+    });
   };
 
   render() {
@@ -79,20 +96,29 @@ class CategoryDetailsPage extends Component {
     });
     return (
       <div>
-        <FormControl variant="outlined">
-          <Select
-            labelId="category"
-            id="category"
-            displayEmpty
-            value={this.state.category_id}
-            onChange={this.handleChange}
-          >
-            <MenuItem value="">Select a Category</MenuItem>
-            {allCategoriesArray}
-          </Select>
-        </FormControl>
-        <Button onClick={this.handleAddCategory}>Add Category</Button>
-
+        <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="center"
+        >
+          <FormControl variant="outlined">
+            <Select
+              labelId="category"
+              id="category"
+              displayEmpty
+              value={this.state.category_id}
+              onChange={this.handleChange}
+              classes={{ root: classes.selectBox }}
+            >
+              <MenuItem value="">Select a Category</MenuItem>
+              {allCategoriesArray}
+            </Select>
+          </FormControl>
+          <IconButton aria-label="Add a Category">
+            <AddCircleOutlineIcon onClick={this.handleAddCategory} />
+          </IconButton>
+        </Grid>
         <Grid
           container
           direction="row"

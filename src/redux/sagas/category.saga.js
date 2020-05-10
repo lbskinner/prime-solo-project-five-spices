@@ -63,11 +63,32 @@ function* addCategoryToRecipe(action) {
   }
 }
 
+// delete a category from recipe details page
+function* deleteCategoryFromRecipe(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    yield axios.delete(
+      `/api/category/details/${action.payload.recipe_category_id}`,
+      config
+    );
+    yield put({
+      type: "GET_RECIPE_CATEGORY",
+      payload: action.payload.recipe_id,
+    });
+  } catch (error) {
+    console.log("Delete category from recipe request failed", error);
+  }
+}
+
 function* categorySaga() {
   yield takeEvery("GET_CATEGORY_LIST", getCategoryList);
   yield takeEvery("GET_RECIPES_BY_CATEGORY", getRecipesByCategory);
   yield takeEvery("GET_RECIPE_CATEGORY", getRecipeCategory);
   yield takeEvery("ADD_CATEGORY", addCategoryToRecipe);
+  yield takeEvery("DELETE_CATEGORY", deleteCategoryFromRecipe);
 }
 
 export default categorySaga;
