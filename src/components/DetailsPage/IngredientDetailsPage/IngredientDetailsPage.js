@@ -71,6 +71,8 @@ class IngredientDetailsPage extends Component {
       disabled: false,
     });
   };
+
+  addIngredientItemInput = (event) => {};
   render() {
     const { classes } = this.props;
     const ingredientsArray = this.props.recipeIngredients.map(
@@ -123,11 +125,39 @@ class IngredientDetailsPage extends Component {
         );
       }
     );
+    let additionalInput = (
+      <ListItem classes={{ root: classes.listItem }}>
+        <ListItemIcon>
+          <Checkbox disableRipple />
+        </ListItemIcon>
+        <TextField
+          variant="outlined"
+          label="Ingredient"
+          //  onChange={this.handleChange}
+        />
+        <IconButton
+          classes={{ root: classes.listItem }}
+          // onClick={this.clickSaveButton(
+          //   ingredient.ingredient_id,
+          //   ingredient.recipe_id,
+          //   index
+          // )}
+        >
+          <SaveIcon fontSize="small" />{" "}
+        </IconButton>
+        <IconButton
+          classes={{ root: classes.listItem }}
+          // onClick={this.clickDeleteButton(ingredient.ingredient_id)}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      </ListItem>
+    );
     return (
       <div>
         <Typography variant="h5" classes={{ root: classes.margin }}>
           Ingredients{" "}
-          <IconButton>
+          <IconButton onClick={this.addIngredientItemInput}>
             <AddCircleOutlineIcon />
           </IconButton>
         </Typography>
