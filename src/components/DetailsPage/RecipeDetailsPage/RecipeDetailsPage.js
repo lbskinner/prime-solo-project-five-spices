@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../../redux/mapStoreToProps";
 import { withStyles } from "@material-ui/core/styles";
@@ -22,10 +23,10 @@ const styles = (theme) => ({
   detailsInput: {
     width: 75,
   },
-  // selectBox: {
-  //   paddingTop: 8,
-  //   paddingBottom: 8,
-  // },
+  margin: {
+    marginTop: 4,
+    marginBottom: 4,
+  },
 });
 
 class RecipeDetailsPage extends Component {
@@ -52,6 +53,14 @@ class RecipeDetailsPage extends Component {
   render() {
     const { classes } = this.props;
     const recipe = this.props.recipeDetails[0];
+    // convert time format (ISO8601 String) in database to hours and minutes
+    const totalCookMinutes = moment.duration(recipe.total_time).asMinutes();
+    let totalTime = `${totalCookMinutes} min`;
+    if (totalCookMinutes >= 60) {
+      let hour = Math.floor(totalCookMinutes / 60);
+      let minutes = totalCookMinutes % 60;
+      totalTime = `${hour} hr ${minutes} min`;
+    }
     return (
       <div>
         <Link
@@ -90,42 +99,57 @@ class RecipeDetailsPage extends Component {
         <br />
         <Grid container spacing={3}>
           <Grid item xs={4}>
-            <div>
-              <Typography>Total Cook Time: </Typography>
-              {this.state.recipeDetailsAreEditable ? (
-                <div>
+            <Grid container spacing={1}>
+              <Grid item>
+                <Typography className={classes.margin}>
+                  Total Cook Time:{" "}
+                </Typography>
+              </Grid>
+              <Grid item>
+                {this.state.recipeDetailsAreEditable ? (
+                  <div>
+                    <TextField
+                      defaultValue={recipe.total_time}
+                      variant="outlined"
+                      label="Hours"
+                      size="small"
+                      className={classes.detailsInput}
+                    />{" "}
+                    <TextField
+                      defaultValue={recipe.total_time}
+                      variant="outlined"
+                      label="Minutes"
+                      size="small"
+                      className={classes.detailsInput}
+                    />
+                  </div>
+                ) : (
+                  <Typography className={classes.margin}>
+                    <span> {totalTime}</span>
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+            <Grid container spacing={1}>
+              <Grid item>
+                <Typography className={classes.margin}>Servings: </Typography>
+              </Grid>
+              <Grid item>
+                {this.state.recipeDetailsAreEditable ? (
                   <TextField
-                    defaultValue={recipe.total_time}
+                    defaultValue={recipe.serving_size}
                     variant="outlined"
-                    label="Hours"
                     size="small"
                     className={classes.detailsInput}
-                  />{" "}
-                  <TextField
-                    defaultValue={recipe.total_time}
-                    variant="outlined"
-                    label="Minutes"
-                    size="small"
-                    className={classes.detailsInput}
+                    label="Servings"
                   />
-                </div>
-              ) : (
-                <Typography>{recipe.total_time}</Typography>
-              )}
-            </div>
-
-            <Typography>Servings: </Typography>
-            {this.state.recipeDetailsAreEditable ? (
-              <TextField
-                defaultValue={recipe.serving_size}
-                variant="outlined"
-                size="small"
-                className={classes.detailsInput}
-                label="Servings"
-              />
-            ) : (
-              <Typography>{recipe.serving_size}</Typography>
-            )}
+                ) : (
+                  <Typography className={classes.margin}>
+                    {recipe.serving_size}
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
 
             <Typography>
               Favorite: <FavoriteButton />
