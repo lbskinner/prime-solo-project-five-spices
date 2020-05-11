@@ -25,7 +25,8 @@ const styles = (theme) => ({
 
 class IngredientDetailsPage extends Component {
   state = {
-    ingredientIsEditable: false,
+    ingredientIsEditable: null,
+    disabled: false,
   };
 
   clickDeleteButton = (ingredient_id) => (event) => {
@@ -34,14 +35,16 @@ class IngredientDetailsPage extends Component {
 
   clickEditButton = (ingredient_id) => (event) => {
     this.setState({
-      ingredientIsEditable: true,
+      ingredientIsEditable: ingredient_id,
+      disabled: true,
     });
   };
 
   clickSaveButton = (ingredient_id) => (event) => {
     console.log(ingredient_id);
     this.setState({
-      ingredientIsEditable: false,
+      ingredientIsEditable: null,
+      disabled: false,
     });
   };
   render() {
@@ -55,7 +58,7 @@ class IngredientDetailsPage extends Component {
           <ListItemIcon>
             <Checkbox disableRipple />
           </ListItemIcon>
-          {this.state.ingredientIsEditable ? (
+          {this.state.ingredientIsEditable === ingredient.ingredient_id ? (
             <TextField
               defaultValue={ingredient.ingredient_item}
               variant="outlined"
@@ -65,7 +68,7 @@ class IngredientDetailsPage extends Component {
           ) : (
             <ListItemText primary={ingredient.ingredient_item} />
           )}
-          {this.state.ingredientIsEditable ? (
+          {this.state.ingredientIsEditable == ingredient.ingredient_id ? (
             <IconButton
               classes={{ root: classes.listItem }}
               onClick={this.clickSaveButton(ingredient.ingredient_id)}
@@ -76,6 +79,7 @@ class IngredientDetailsPage extends Component {
             <IconButton
               classes={{ root: classes.listItem }}
               onClick={this.clickEditButton(ingredient.ingredient_id)}
+              disabled={this.state.disabled}
             >
               <EditIcon fontSize="small" />{" "}
             </IconButton>
