@@ -40,20 +40,15 @@ class RecipeDetailsPage extends Component {
     description: "",
     image_url: "",
     total_time: "",
-    hour: "",
-    minute: "",
+    hours: "",
+    minutes: "",
   };
 
   handleChange = (event, propertyKey) => {
-    this.setState(
-      {
-        ...this.state,
-        [propertyKey]: event.target.value,
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      ...this.state,
+      [propertyKey]: event.target.value,
+    });
   };
   clickDeleteButton = (recipe_id) => (event) => {
     console.log(recipe_id);
@@ -72,28 +67,65 @@ class RecipeDetailsPage extends Component {
     this.setState({
       recipeDetailsAreEditable: false,
     });
+    // create new object for payload to update recipe details
     let saveObject = {
       ...this.state,
     };
+    // if name is not changed, use recipe name in reducer
     if (this.state.recipe_name == null || this.state.recipe_name == "") {
       saveObject.recipe_name = recipe.recipe_name;
     }
+    // if serving size is not changed, use serving size in reducer
     if (this.state.serving_size == null || this.state.serving_size == "") {
       saveObject.serving_size = recipe.serving_size;
     }
+    // if description is not changed, use description in reducer
     if (this.state.description == null || this.state.description == "") {
       saveObject.description = recipe.description;
     }
+    // if image url is not changed, use  image url in reducer
     if (this.state.image_url == null || this.state.image_url == "") {
       saveObject.image_url = recipe.image_url;
     }
-    if (
-      (this.state.hours == null || this.state.hours == "") &&
-      (this.state.minutes == null || this.state.minutes == "")
-    ) {
-      saveObject.total_time = recipe.total_time;
+    // if no changes made to hours
+    let totalMinutes = 0;
+    if (this.state.hours == null || this.state.hours == "") {
+      // and not changed made to minutes
+      if (this.state.minutes == null || this.state.minutes == "") {
+        // set total time to the total time in reducer
+        saveObject.total_time = recipe.total_time;
+      } else {
+        // if no changes are made to hours and changes are made to minutes
+        // take the hour from total time in reducer the add the minutes updated
+        totalMinutes =
+          moment.duration(recipe.total_time).hours() * 60 +
+          parseFloat(this.state.minutes);
+        saveObject.total_time = moment
+          .duration(totalMinutes, "m")
+          .toISOString();
+      }
     } else {
+      // if changes are made to hours and no changes are made to minutes
+      if (this.state.minutes == null || this.state.minutes == "") {
+        // take minutes from total time in reducer and add the hours entered converted to minutes
+        totalMinutes =
+          parseFloat(this.state.hours) * 60 +
+          moment.duration(recipe.total_time).minutes();
+        console.log(totalMinutes);
+
+        saveObject.total_time = moment
+          .duration(totalMinutes, "m")
+          .toISOString();
+      } else {
+        // if changes are made to hours and minutes
+        totalMinutes =
+          parseFloat(this.state.hours) * 60 + parseFloat(this.state.minutes);
+        saveObject.total_time = moment
+          .duration(totalMinutes, "m")
+          .toISOString();
+      }
     }
+    console.log(saveObject);
   };
   render() {
     const { classes } = this.props;
@@ -102,16 +134,12 @@ class RecipeDetailsPage extends Component {
     const totalCookMinutes = moment.duration(recipe.total_time).asMinutes();
     let totalTime = `${totalCookMinutes} min`;
     let hours = 0;
-    let minutes = totalTime;
+    let minutes = totalCookMinutes;
     if (totalCookMinutes >= 60) {
       hours = Math.floor(totalCookMinutes / 60);
       minutes = totalCookMinutes % 60;
       totalTime = `${hours} hr ${minutes} min`;
     }
-    console.log(moment.duration(totalTime).toISOString());
-    console.log(JSON.stringify(totalTime));
-    console.log(moment(totalTime, [moment.ISO_8601]));
-
     return (
       <div>
         <Link
@@ -164,15 +192,19 @@ class RecipeDetailsPage extends Component {
                       defaultValue={hours}
                       variant="outlined"
                       label="Hours"
+                      type="number"
                       size="small"
                       className={classes.timeInput}
+                      onChange={(event) => this.handleChange(event, "hours")}
                     />{" "}
                     <TextField
                       defaultValue={minutes}
                       variant="outlined"
                       label="Minutes"
+                      type="number"
                       size="small"
                       className={classes.timeInput}
+                      onChange={(event) => this.handleChange(event, "minutes")}
                     />
                   </div>
                 ) : (
