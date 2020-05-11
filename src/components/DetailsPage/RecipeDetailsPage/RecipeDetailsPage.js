@@ -55,7 +55,6 @@ class RecipeDetailsPage extends Component {
   };
 
   clickEditButton = (recipe_id) => (event) => {
-    console.log(recipe_id);
     this.setState({
       recipeDetailsAreEditable: true,
     });
@@ -124,7 +123,6 @@ class RecipeDetailsPage extends Component {
           .toISOString();
       }
     }
-    console.log(recipeDetailsObject);
     this.props.dispatch({
       type: "UPDATE_RECIPE_DETAILS",
       payload: recipeDetailsObject,

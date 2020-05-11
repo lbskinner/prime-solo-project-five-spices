@@ -11,6 +11,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import TextField from "@material-ui/core/TextField";
 
 const styles = (theme) => ({
   listItem: {
@@ -23,16 +24,25 @@ const styles = (theme) => ({
 });
 
 class IngredientDetailsPage extends Component {
+  state = {
+    ingredientIsEditable: false,
+  };
+
   clickDeleteButton = (ingredient_id) => (event) => {
     console.log(ingredient_id);
   };
 
   clickEditButton = (ingredient_id) => (event) => {
-    console.log(ingredient_id);
+    this.setState({
+      ingredientIsEditable: true,
+    });
   };
 
   clickSaveButton = (ingredient_id) => (event) => {
     console.log(ingredient_id);
+    this.setState({
+      ingredientIsEditable: false,
+    });
   };
   render() {
     const { classes } = this.props;
@@ -45,19 +55,31 @@ class IngredientDetailsPage extends Component {
           <ListItemIcon>
             <Checkbox disableRipple />
           </ListItemIcon>
-          <ListItemText primary={ingredient.ingredient_item} />
-          <IconButton
-            classes={{ root: classes.listItem }}
-            onClick={this.clickEditButton(ingredient.ingredient_id)}
-          >
-            <EditIcon fontSize="small" />{" "}
-          </IconButton>
-          <IconButton
-            classes={{ root: classes.listItem }}
-            onClick={this.clickSaveButton(ingredient.ingredient_id)}
-          >
-            <SaveIcon fontSize="small" />{" "}
-          </IconButton>
+          {this.state.ingredientIsEditable ? (
+            <TextField
+              defaultValue={ingredient.ingredient_item}
+              variant="outlined"
+              label="Ingredient"
+              //  onChange={(event) => this.handleChange(event, "recipe_name")}
+            />
+          ) : (
+            <ListItemText primary={ingredient.ingredient_item} />
+          )}
+          {this.state.ingredientIsEditable ? (
+            <IconButton
+              classes={{ root: classes.listItem }}
+              onClick={this.clickSaveButton(ingredient.ingredient_id)}
+            >
+              <SaveIcon fontSize="small" />{" "}
+            </IconButton>
+          ) : (
+            <IconButton
+              classes={{ root: classes.listItem }}
+              onClick={this.clickEditButton(ingredient.ingredient_id)}
+            >
+              <EditIcon fontSize="small" />{" "}
+            </IconButton>
+          )}
           <IconButton
             classes={{ root: classes.listItem }}
             onClick={this.clickDeleteButton(ingredient.ingredient_id)}
