@@ -20,8 +20,11 @@ const styles = (theme) => ({
     width: 500,
     height: 50,
   },
-  detailsInput: {
+  timeInput: {
     width: 75,
+  },
+  servingInput: {
+    width: 100,
   },
   margin: {
     marginTop: 4,
@@ -32,6 +35,25 @@ const styles = (theme) => ({
 class RecipeDetailsPage extends Component {
   state = {
     recipeDetailsAreEditable: false,
+    recipe_name: "",
+    serving_size: "",
+    description: "",
+    image_url: "",
+    total_time: "",
+    hour: "",
+    minute: "",
+  };
+
+  handleChange = (event, propertyKey) => {
+    this.setState(
+      {
+        ...this.state,
+        [propertyKey]: event.target.value,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   };
   clickDeleteButton = (recipe_id) => (event) => {
     console.log(recipe_id);
@@ -45,10 +67,33 @@ class RecipeDetailsPage extends Component {
   };
 
   clickSaveButton = (recipe_id) => (event) => {
+    const recipe = this.props.recipeDetails[0];
     console.log(recipe_id);
     this.setState({
       recipeDetailsAreEditable: false,
     });
+    let saveObject = {
+      ...this.state,
+    };
+    if (this.state.recipe_name == null || this.state.recipe_name == "") {
+      saveObject.recipe_name = recipe.recipe_name;
+    }
+    if (this.state.serving_size == null || this.state.serving_size == "") {
+      saveObject.serving_size = recipe.serving_size;
+    }
+    if (this.state.description == null || this.state.description == "") {
+      saveObject.description = recipe.description;
+    }
+    if (this.state.image_url == null || this.state.image_url == "") {
+      saveObject.image_url = recipe.image_url;
+    }
+    if (
+      (this.state.hours == null || this.state.hours == "") &&
+      (this.state.minutes == null || this.state.minutes == "")
+    ) {
+      saveObject.total_time = recipe.total_time;
+    } else {
+    }
   };
   render() {
     const { classes } = this.props;
@@ -56,11 +101,17 @@ class RecipeDetailsPage extends Component {
     // convert time format (ISO8601 String) in database to hours and minutes
     const totalCookMinutes = moment.duration(recipe.total_time).asMinutes();
     let totalTime = `${totalCookMinutes} min`;
+    let hours = 0;
+    let minutes = totalTime;
     if (totalCookMinutes >= 60) {
-      let hour = Math.floor(totalCookMinutes / 60);
-      let minutes = totalCookMinutes % 60;
-      totalTime = `${hour} hr ${minutes} min`;
+      hours = Math.floor(totalCookMinutes / 60);
+      minutes = totalCookMinutes % 60;
+      totalTime = `${hours} hr ${minutes} min`;
     }
+    console.log(moment.duration(totalTime).toISOString());
+    console.log(JSON.stringify(totalTime));
+    console.log(moment(totalTime, [moment.ISO_8601]));
+
     return (
       <div>
         <Link
@@ -78,6 +129,7 @@ class RecipeDetailsPage extends Component {
               variant="outlined"
               label="Recipe Name"
               className={classes.titleInput}
+              onChange={(event) => this.handleChange(event, "recipe_name")}
             />
           ) : (
             <span>{recipe.recipe_name} </span>
@@ -109,18 +161,18 @@ class RecipeDetailsPage extends Component {
                 {this.state.recipeDetailsAreEditable ? (
                   <div>
                     <TextField
-                      defaultValue={recipe.total_time}
+                      defaultValue={hours}
                       variant="outlined"
                       label="Hours"
                       size="small"
-                      className={classes.detailsInput}
+                      className={classes.timeInput}
                     />{" "}
                     <TextField
-                      defaultValue={recipe.total_time}
+                      defaultValue={minutes}
                       variant="outlined"
                       label="Minutes"
                       size="small"
-                      className={classes.detailsInput}
+                      className={classes.timeInput}
                     />
                   </div>
                 ) : (
@@ -140,8 +192,11 @@ class RecipeDetailsPage extends Component {
                     defaultValue={recipe.serving_size}
                     variant="outlined"
                     size="small"
-                    className={classes.detailsInput}
+                    className={classes.servingInput}
                     label="Servings"
+                    onChange={(event) =>
+                      this.handleChange(event, "serving_size")
+                    }
                   />
                 ) : (
                   <Typography className={classes.margin}>
@@ -162,6 +217,7 @@ class RecipeDetailsPage extends Component {
                 rows={4}
                 fullWidth
                 label="Description"
+                onChange={(event) => this.handleChange(event, "description")}
               />
             ) : (
               <Typography>{recipe.description}</Typography>
@@ -179,6 +235,7 @@ class RecipeDetailsPage extends Component {
                 multiline
                 rows={4}
                 fullWidth
+                onChange={(event) => this.handleChange(event, "image_url")}
               />
             ) : (
               <img
