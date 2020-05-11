@@ -68,24 +68,25 @@ class RecipeDetailsPage extends Component {
       recipeDetailsAreEditable: false,
     });
     // create new object for payload to update recipe details
-    let saveObject = {
+    let recipeDetailsObject = {
       ...this.state,
+      recipe_id: recipe_id,
     };
     // if name is not changed, use recipe name in reducer
     if (this.state.recipe_name == null || this.state.recipe_name == "") {
-      saveObject.recipe_name = recipe.recipe_name;
+      recipeDetailsObject.recipe_name = recipe.recipe_name;
     }
     // if serving size is not changed, use serving size in reducer
     if (this.state.serving_size == null || this.state.serving_size == "") {
-      saveObject.serving_size = recipe.serving_size;
+      recipeDetailsObject.serving_size = recipe.serving_size;
     }
     // if description is not changed, use description in reducer
     if (this.state.description == null || this.state.description == "") {
-      saveObject.description = recipe.description;
+      recipeDetailsObject.description = recipe.description;
     }
     // if image url is not changed, use  image url in reducer
     if (this.state.image_url == null || this.state.image_url == "") {
-      saveObject.image_url = recipe.image_url;
+      recipeDetailsObject.image_url = recipe.image_url;
     }
     // if no changes made to hours
     let totalMinutes = 0;
@@ -93,14 +94,14 @@ class RecipeDetailsPage extends Component {
       // and not changed made to minutes
       if (this.state.minutes == null || this.state.minutes == "") {
         // set total time to the total time in reducer
-        saveObject.total_time = recipe.total_time;
+        recipeDetailsObject.total_time = recipe.total_time;
       } else {
         // if no changes are made to hours and changes are made to minutes
         // take the hour from total time in reducer the add the minutes updated
         totalMinutes =
           moment.duration(recipe.total_time).hours() * 60 +
           parseFloat(this.state.minutes);
-        saveObject.total_time = moment
+        recipeDetailsObject.total_time = moment
           .duration(totalMinutes, "m")
           .toISOString();
       }
@@ -111,35 +112,37 @@ class RecipeDetailsPage extends Component {
         totalMinutes =
           parseFloat(this.state.hours) * 60 +
           moment.duration(recipe.total_time).minutes();
-        console.log(totalMinutes);
-
-        saveObject.total_time = moment
+        recipeDetailsObject.total_time = moment
           .duration(totalMinutes, "m")
           .toISOString();
       } else {
         // if changes are made to hours and minutes
         totalMinutes =
           parseFloat(this.state.hours) * 60 + parseFloat(this.state.minutes);
-        saveObject.total_time = moment
+        recipeDetailsObject.total_time = moment
           .duration(totalMinutes, "m")
           .toISOString();
       }
     }
-    console.log(saveObject);
+    console.log(recipeDetailsObject);
+    this.props.dispatch({
+      type: "UPDATE_RECIPE_DETAILS",
+      payload: recipeDetailsObject,
+    });
   };
   render() {
     const { classes } = this.props;
     const recipe = this.props.recipeDetails[0];
     // convert time format (ISO8601 String) in database to hours and minutes
-    const totalCookMinutes = moment.duration(recipe.total_time).asMinutes();
-    let totalTime = `${totalCookMinutes} min`;
-    let hours = 0;
-    let minutes = totalCookMinutes;
-    if (totalCookMinutes >= 60) {
-      hours = Math.floor(totalCookMinutes / 60);
-      minutes = totalCookMinutes % 60;
-      totalTime = `${hours} hr ${minutes} min`;
-    }
+    // const totalCookMinutes = moment.duration(recipe.total_time).asMinutes();
+    // let totalTime = `${totalCookMinutes} min`;
+    // let hours = 0;
+    // let minutes = totalCookMinutes;
+    // if (totalCookMinutes >= 60) {
+    //   hours = Math.floor(totalCookMinutes / 60);
+    //   minutes = totalCookMinutes % 60;
+    //   totalTime = `${hours} hr ${minutes} min`;
+    // }
     return (
       <div>
         <Link
@@ -189,7 +192,7 @@ class RecipeDetailsPage extends Component {
                 {this.state.recipeDetailsAreEditable ? (
                   <div>
                     <TextField
-                      defaultValue={hours}
+                      defaultValue={moment.duration(recipe.total_time).hours()}
                       variant="outlined"
                       label="Hours"
                       type="number"
@@ -198,7 +201,9 @@ class RecipeDetailsPage extends Component {
                       onChange={(event) => this.handleChange(event, "hours")}
                     />{" "}
                     <TextField
-                      defaultValue={minutes}
+                      defaultValue={moment
+                        .duration(recipe.total_time)
+                        .minutes()}
                       variant="outlined"
                       label="Minutes"
                       type="number"
@@ -209,7 +214,16 @@ class RecipeDetailsPage extends Component {
                   </div>
                 ) : (
                   <Typography className={classes.margin}>
-                    <span> {totalTime}</span>
+                    {moment.duration(recipe.total_time).hours() > 0 ? (
+                      <span>
+                        {moment.duration(recipe.total_time).hours()} hr{" "}
+                        {moment.duration(recipe.total_time).minutes()} min
+                      </span>
+                    ) : (
+                      <span>
+                        {moment.duration(recipe.total_time).minutes()} min
+                      </span>
+                    )}
                   </Typography>
                 )}
               </Grid>

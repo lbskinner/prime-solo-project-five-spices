@@ -78,6 +78,23 @@ function* updateDetailsPageFavoriteStatus(action) {
   }
 }
 
+// update recipe details
+function* updateRecipeDetails(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    yield axios.put("/api/recipe/edit", action.payload, config);
+    yield put({
+      type: "GET_RECIPE_DETAILS",
+      payload: action.payload.recipe_id,
+    });
+  } catch (error) {
+    console.log("Update recipe details request failed", error);
+  }
+}
+
 function* recipeSaga() {
   yield takeEvery("GET_ALL_RECIPES", getAllRecipes);
   yield takeEvery("GET_FAVORITE_RECIPES", getFavoriteRecipes);
@@ -87,6 +104,7 @@ function* recipeSaga() {
     "UPDATE_DETAILS_PAGE_FAVORITE",
     updateDetailsPageFavoriteStatus
   );
+  yield takeEvery("UPDATE_RECIPE_DETAILS", updateRecipeDetails);
 }
 
 export default recipeSaga;

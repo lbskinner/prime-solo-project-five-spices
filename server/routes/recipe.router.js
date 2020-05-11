@@ -93,7 +93,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
       newRecipeData.description,
       newRecipeData.total_time,
       newRecipeData.serving_size,
-      newRecipeData.user_id,
+      req.user.id,
       newRecipeData.image_url,
       newRecipeData.recipe_url,
     ]);
@@ -130,40 +130,24 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
 });
 
 /**
- * PUT update recipe details except for image URL and original recipe URL
- * image URL is a put on its own for allow user to upload their own image later
+ * PUT update recipe details except for original recipe URL
  */
 router.put("/edit", rejectUnauthenticated, (req, res) => {
   const updatedRecipeData = req.body;
   const queryText = `UPDATE "recipe" SET "recipe_name" = $1, "description" = $2, "total_time" = $3, 
-    "serving_size" = $4, "user_id" = $5 WHERE "recipe_id" = $6;`;
+    "serving_size" = $4, "image_url" = $5 WHERE "recipe_id" = $6;`;
   pool
     .query(queryText, [
       updatedRecipeData.recipe_name,
       updatedRecipeData.description,
       updatedRecipeData.total_time,
       updatedRecipeData.serving_size,
-      updatedRecipeData.user_id,
+      updatedRecipeData.image_url,
       updatedRecipeData.recipe_id,
     ])
     .then(() => res.sendStatus(200))
     .catch((error) => {
       console.log("Put Recipe Error: ", error);
-      res.sendStatus(500);
-    });
-});
-
-/**
- * PUT update recipe image URL, this is is a separate put to allow easier modification for upload user image to app later
- */
-router.put("/image", rejectUnauthenticated, (req, res) => {
-  const updatedImageData = req.body;
-  const queryText = `UPDATE "recipe" SET "image_url" = $1 WHERE "recipe_id" = $2;`;
-  pool
-    .query(queryText, [updatedImageData.image_url, updatedImageData.recipe_id])
-    .then(() => res.sendStatus(200))
-    .catch((error) => {
-      console.log("Put Image Error: ", error);
       res.sendStatus(500);
     });
 });
