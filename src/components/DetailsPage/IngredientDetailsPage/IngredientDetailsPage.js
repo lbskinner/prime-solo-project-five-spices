@@ -25,7 +25,8 @@ const styles = (theme) => ({
 
 class IngredientDetailsPage extends Component {
   state = {
-    ingredientIsEditable: null,
+    ingredient_item: "",
+    ingredient_id: "",
     disabled: false,
   };
 
@@ -35,64 +36,93 @@ class IngredientDetailsPage extends Component {
 
   clickEditButton = (ingredient_id) => (event) => {
     this.setState({
-      ingredientIsEditable: ingredient_id,
+      ingredient_id: ingredient_id,
       disabled: true,
     });
   };
 
-  clickSaveButton = (ingredient_id) => (event) => {
-    console.log(ingredient_id);
+  handleChange = (event) => {
     this.setState({
-      ingredientIsEditable: null,
+      ...this.state,
+      ingredient_item: event.target.value,
+    });
+  };
+
+  clickSaveButton = (ingredient_id, recipe_id, index) => (event) => {
+    console.log(ingredient_id, recipe_id, index);
+    let ingredientObject = {
+      ...this.state,
+      recipe_id: recipe_id,
+    };
+    if (
+      this.state.ingredient_item == null ||
+      this.state.ingredient_item == ""
+    ) {
+      ingredientObject.ingredient_item = this.props.recipeIngredients[
+        index
+      ].ingredient_item;
+    }
+    this.props.dispatch({
+      type: "UPDATE_INGREDIENT",
+      payload: ingredientObject,
+    });
+    this.setState({
+      ingredient_id: null,
       disabled: false,
     });
   };
   render() {
     const { classes } = this.props;
-    const ingredientsArray = this.props.recipeIngredients.map((ingredient) => {
-      return (
-        <ListItem
-          key={ingredient.ingredient_id}
-          classes={{ root: classes.listItem }}
-        >
-          <ListItemIcon>
-            <Checkbox disableRipple />
-          </ListItemIcon>
-          {this.state.ingredientIsEditable === ingredient.ingredient_id ? (
-            <TextField
-              defaultValue={ingredient.ingredient_item}
-              variant="outlined"
-              label="Ingredient"
-              //  onChange={(event) => this.handleChange(event, "recipe_name")}
-            />
-          ) : (
-            <ListItemText primary={ingredient.ingredient_item} />
-          )}
-          {this.state.ingredientIsEditable == ingredient.ingredient_id ? (
-            <IconButton
-              classes={{ root: classes.listItem }}
-              onClick={this.clickSaveButton(ingredient.ingredient_id)}
-            >
-              <SaveIcon fontSize="small" />{" "}
-            </IconButton>
-          ) : (
-            <IconButton
-              classes={{ root: classes.listItem }}
-              onClick={this.clickEditButton(ingredient.ingredient_id)}
-              disabled={this.state.disabled}
-            >
-              <EditIcon fontSize="small" />{" "}
-            </IconButton>
-          )}
-          <IconButton
+    const ingredientsArray = this.props.recipeIngredients.map(
+      (ingredient, index) => {
+        return (
+          <ListItem
+            key={ingredient.ingredient_id}
             classes={{ root: classes.listItem }}
-            onClick={this.clickDeleteButton(ingredient.ingredient_id)}
           >
-            <DeleteIcon fontSize="small" />
-          </IconButton>
-        </ListItem>
-      );
-    });
+            <ListItemIcon>
+              <Checkbox disableRipple />
+            </ListItemIcon>
+            {this.state.ingredient_id === ingredient.ingredient_id ? (
+              <TextField
+                defaultValue={ingredient.ingredient_item}
+                variant="outlined"
+                label="Ingredient"
+                onChange={this.handleChange}
+              />
+            ) : (
+              <ListItemText primary={ingredient.ingredient_item} />
+            )}
+            {this.state.ingredient_id == ingredient.ingredient_id ? (
+              <IconButton
+                classes={{ root: classes.listItem }}
+                onClick={this.clickSaveButton(
+                  ingredient.ingredient_id,
+                  ingredient.recipe_id,
+                  index
+                )}
+              >
+                <SaveIcon fontSize="small" />{" "}
+              </IconButton>
+            ) : (
+              <IconButton
+                classes={{ root: classes.listItem }}
+                onClick={this.clickEditButton(ingredient.ingredient_id)}
+                disabled={this.state.disabled}
+              >
+                <EditIcon fontSize="small" />{" "}
+              </IconButton>
+            )}
+            <IconButton
+              classes={{ root: classes.listItem }}
+              onClick={this.clickDeleteButton(ingredient.ingredient_id)}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </ListItem>
+        );
+      }
+    );
     return (
       <div>
         <Typography variant="h5" classes={{ root: classes.margin }}>

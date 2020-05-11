@@ -5,7 +5,7 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 /**
- * GET individual recipe details for ingredients
+ * GET individual recipe details for all ingredients
  */
 router.get("/details/:id", rejectUnauthenticated, (req, res) => {
   // id on params us recipe id

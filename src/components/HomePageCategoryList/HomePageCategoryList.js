@@ -17,11 +17,8 @@ class HomePageCategoryList extends Component {
   render() {
     const categoryArray = this.props.categoryList.map((category) => {
       return (
-        <span style={{ cursor: "pointer" }}>
-          <ListItem
-            key={category.category_id}
-            onClick={this.handleClick(category.category_id)}
-          >
+        <span key={category.category_id} style={{ cursor: "pointer" }}>
+          <ListItem onClick={this.handleClick(category.category_id)}>
             <ListItemText primary={category.category_name} />
           </ListItem>
         </span>

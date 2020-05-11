@@ -141,6 +141,7 @@ class RecipeDetailsPage extends Component {
     //   minutes = totalCookMinutes % 60;
     //   totalTime = `${hours} hr ${minutes} min`;
     // }
+
     return (
       <div>
         <Link
