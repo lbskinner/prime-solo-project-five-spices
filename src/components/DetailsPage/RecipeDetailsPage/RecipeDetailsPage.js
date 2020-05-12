@@ -63,8 +63,10 @@ class RecipeDetailsPage extends Component {
   };
 
   clickDeleteButton = (recipe_id) => (event) => {
-    this.props.dispatch({ type: "DELETE_RECIPE", payload: recipe_id });
-    this.props.history.push("/home");
+    if (window.confirm("Are you sure you want to delete the recipe?")) {
+      this.props.dispatch({ type: "DELETE_RECIPE", payload: recipe_id });
+      this.props.history.push("/home");
+    }
   };
 
   clickEditButton = (recipe_id) => (event) => {

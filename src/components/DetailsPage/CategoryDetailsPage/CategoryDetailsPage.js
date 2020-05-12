@@ -32,14 +32,12 @@ class CategoryDetailsPage extends Component {
     category_id: "",
   };
   handleChange = (event) => {
-    console.log(event.target.value);
     this.setState({
       category_id: event.target.value,
     });
   };
 
   handleAddCategory = (event) => {
-    console.log(this.state);
     if (!this.state.category_id) {
       alert("Please select a category to add!");
     } else {
@@ -57,14 +55,15 @@ class CategoryDetailsPage extends Component {
   };
 
   clickDeleteButton = (recipe_category_id) => (event) => {
-    console.log(recipe_category_id);
-    this.props.dispatch({
-      type: "DELETE_CATEGORY",
-      payload: {
-        recipe_category_id: recipe_category_id,
-        recipe_id: this.props.match.params.id,
-      },
-    });
+    if (window.confirm("Are you sure you want to delete the category?")) {
+      this.props.dispatch({
+        type: "DELETE_CATEGORY",
+        payload: {
+          recipe_category_id: recipe_category_id,
+          recipe_id: this.props.match.params.id,
+        },
+      });
+    }
   };
 
   render() {
