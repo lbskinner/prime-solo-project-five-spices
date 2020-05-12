@@ -47,9 +47,18 @@ class RecipeDetailsPage extends Component {
   };
 
   handleChange = (event, propertyKey) => {
+    let newValue = event.target.value;
+    // check to see if user has deleted the input for hours or minutes
+    // if so, reassign it to string of 0
+    if (
+      (propertyKey === "hours" || propertyKey === "minutes") &&
+      event.target.value === ""
+    ) {
+      newValue = "0";
+    }
     this.setState({
       ...this.state,
-      [propertyKey]: event.target.value,
+      [propertyKey]: newValue,
     });
   };
 
@@ -135,20 +144,19 @@ class RecipeDetailsPage extends Component {
     const { classes } = this.props;
     const recipe = this.props.recipeDetails[0];
     // convert time format (ISO8601 String) in database to hours and minutes
-    // const totalCookMinutes = moment.duration(recipe.total_time).asMinutes();
-    // let totalTime = `${totalCookMinutes} min`;
-    // let hours = 0;
-    // let minutes = totalCookMinutes;
-    // if (totalCookMinutes >= 60) {
-    //   hours = Math.floor(totalCookMinutes / 60);
-    //   minutes = totalCookMinutes % 60;
-    //   totalTime = `${hours} hr ${minutes} min`;
-    // }
     let totalCookTime = `${moment.duration(recipe.total_time).minutes()} min`;
-    if (moment.duration(recipe.total_time).hours() > 0) {
+    if (
+      moment.duration(recipe.total_time).hours() > 0 &&
+      moment.duration(recipe.total_time).minutes() > 0
+    ) {
       totalCookTime = `${moment
         .duration(recipe.total_time)
         .hours()} hr ${moment.duration(recipe.total_time).minutes()} min`;
+    } else if (
+      moment.duration(recipe.total_time).hours() > 0 &&
+      moment.duration(recipe.total_time).minutes() === 0
+    ) {
+      totalCookTime = `${moment.duration(recipe.total_time).hours()} hr`;
     }
     return (
       <div>
