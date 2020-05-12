@@ -10,21 +10,27 @@ class AddRecipePage extends Component {
     heading: "Class Component",
   };
 
+  clickAddRecipe = (event) => {
+    console.log("Add Recipe From URL Clicked");
+  };
   render() {
     return (
       <Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={8}>
             <TextField
               variant="outlined"
               multiline
               fullWidth
+              size="small"
               label="Enter Recipe URL From Website"
               // onChange={this.handleChange}
             />
           </Grid>
           <Grid item xs={4}>
-            <Button>Add Recipe From URL</Button>
+            <Button variant="outlined" onClick={this.clickAddRecipe}>
+              Add Recipe From URL
+            </Button>
           </Grid>
         </Grid>
       </Grid>
