@@ -7,9 +7,8 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import SaveIcon from "@material-ui/icons/Save";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import { List, ListItem } from "@material-ui/core";
 
 const styles = (theme) => ({
   margin: {
@@ -31,6 +30,8 @@ class AddRecipePage extends Component {
     recipe_name: "",
     description: "",
     total_time: "",
+    hours: "",
+    minutes: "",
     serving_size: "",
     image_url: "",
     recipe_url: "",
@@ -53,6 +54,50 @@ class AddRecipePage extends Component {
         instruction_description: "",
       },
     ],
+  };
+
+  handleRecipeDetailsChange = (event, propertyKey) => {
+    this.setState(
+      {
+        ...this.state,
+        [propertyKey]: event.target.value,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
+  };
+
+  handleIngredientItemChange = (event) => {
+    this.setState(
+      {
+        ...this.state,
+        // can't do it this way, it's pushing every single letter into the array
+        ingredient: [...this.state.ingredient, event.target.value],
+      },
+      () => {
+        console.log(this.state.ingredient);
+      }
+    );
+  };
+
+  handleInstructionChange = (event) => {
+    this.setState(
+      {
+        ...this.state,
+        // can't do it this way, it's pushing every single letter as an object into the array
+        instruction: [
+          ...this.state.instruction,
+          {
+            instruction_number: "",
+            instruction_description: event.target.value,
+          },
+        ],
+      },
+      () => {
+        console.log(this.state.instruction);
+      }
+    );
   };
 
   clickAddRecipe = (event) => {
@@ -79,6 +124,9 @@ class AddRecipePage extends Component {
     });
   };
 
+  saveNewRecipe = (event) => {
+    console.log("Clicked Save Recipe Button");
+  };
   render() {
     const { classes } = this.props;
     const ingredientsArray = this.state.ingredient.map((ingredient, index) => {
@@ -89,6 +137,7 @@ class AddRecipePage extends Component {
             size="small"
             fullWidth
             label="Ingredient"
+            onChange={this.handleIngredientItemChange}
           />
         </ListItem>
       );
@@ -96,16 +145,19 @@ class AddRecipePage extends Component {
 
     const instructionsArray = this.state.instruction.map(
       (instruction, index) => {
+        let stepNumber = index + 1;
         return (
           <ListItem key={index} classes={{ root: classes.listPadding }}>
-            <Typography>Step {index + 1}. </Typography>
+            <Typography>Step {stepNumber}. </Typography>
             <TextField
               variant="outlined"
               fullWidth
               multiline
               rows={2}
               label="Instruction"
-              // onChange={this.handleChange}
+              onChange={(event) =>
+                this.handleInstructionChange(event, stepNumber)
+              }
             />
           </ListItem>
         );
@@ -121,7 +173,9 @@ class AddRecipePage extends Component {
               fullWidth
               size="small"
               label="Enter Recipe URL From Website"
-              // onChange={this.handleChange}
+              onChange={(event) =>
+                this.handleRecipeDetailsChange(event, "recipe_url")
+              }
             />
           </Grid>
           <Grid item xs={2}>
@@ -142,6 +196,9 @@ class AddRecipePage extends Component {
               size="small"
               label="Recipe Name"
               className={classes.margin}
+              onChange={(event) =>
+                this.handleRecipeDetailsChange(event, "recipe_name")
+              }
             />
           </Grid>
         </Grid>
@@ -156,7 +213,7 @@ class AddRecipePage extends Component {
             type="number"
             size="small"
             className={classes.margin}
-            // onChange={(event) => this.handleChange(event, "hours")}
+            onChange={(event) => this.handleRecipeDetailsChange(event, "hours")}
           />{" "}
           <TextField
             // defaultValue={moment
@@ -167,7 +224,9 @@ class AddRecipePage extends Component {
             type="number"
             size="small"
             className={classes.margin}
-            // onChange={(event) => this.handleChange(event, "minutes")}
+            onChange={(event) =>
+              this.handleRecipeDetailsChange(event, "minutes")
+            }
           />
           <Grid item>
             <Typography variant="subtitle1">Servings</Typography>
@@ -177,6 +236,9 @@ class AddRecipePage extends Component {
             size="small"
             className={classes.margin}
             label="Servings"
+            onChange={(event) =>
+              this.handleRecipeDetailsChange(event, "serving_size")
+            }
           />
         </Grid>
         <Grid container spacing={2} alignItems="center">
@@ -191,6 +253,9 @@ class AddRecipePage extends Component {
               size="small"
               label="Enter URL for Recipe Image"
               className={classes.margin}
+              onChange={(event) =>
+                this.handleRecipeDetailsChange(event, "image_url")
+              }
             />
           </Grid>
         </Grid>
