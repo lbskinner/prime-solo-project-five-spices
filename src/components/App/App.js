@@ -16,7 +16,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AboutPage from "../AboutPage/AboutPage";
 import UserPage from "../UserPage/UserPage";
 import InfoPage from "../InfoPage/InfoPage";
-import HomePage from "../HomePage/HomePage"; // home page after users log in
+import HomePage from "../HomePage/HomePage/HomePage"; // home page after users log in
 import LoginPage from "../LoginPage/LoginPage"; // login page
 import RegisterPage from "../RegisterPage/RegisterPage"; //registration page
 import DetailsPage from "../DetailsPage/DetailsPage/DetailsPage"; // recipe details page & edit page

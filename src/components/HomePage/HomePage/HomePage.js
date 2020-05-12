@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import mapStoreToProps from "../../redux/mapStoreToProps";
+import mapStoreToProps from "../../../redux/mapStoreToProps";
 import { Typography, Grid } from "@material-ui/core";
 import "./HomePage.css";
 import HomePageCategoryList from "../HomePageCategoryList/HomePageCategoryList";
@@ -44,7 +44,13 @@ class HomePage extends Component {
             </div>
           </Grid>
           <Grid item xs={8}>
-            <HomePageRecipeList />
+            {this.props.allRecipes.length === 0 ? (
+              <Typography variant="h4" align="center">
+                No Recipe Found!
+              </Typography>
+            ) : (
+              <HomePageRecipeList />
+            )}
           </Grid>
           <Grid item xs={2}>
             <Typography variant="h4">Favorites</Typography>
