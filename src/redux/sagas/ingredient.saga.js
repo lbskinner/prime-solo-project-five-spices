@@ -50,10 +50,31 @@ function* saveNewIngredientItem(action) {
   }
 }
 
+// delete an ingredient item from recipe details page
+function* deleteIngredientItem(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    yield axios.delete(
+      `/api/ingredient/${action.payload.ingredient_id}`,
+      config
+    );
+    yield put({
+      type: "GET_RECIPE_INGREDIENTS",
+      payload: action.payload.recipe_id,
+    });
+  } catch (error) {
+    console.log("Delete ingredient item request failed", error);
+  }
+}
+
 function* ingredientSaga() {
   yield takeEvery("GET_RECIPE_INGREDIENTS", getRecipeIngredients);
   yield takeEvery("UPDATE_INGREDIENT", updateIngredientItem);
   yield takeEvery("SAVE_NEW_INGREDIENT_ITEM", saveNewIngredientItem);
+  yield takeEvery("DELETE_INGREDIENT_ITEM", deleteIngredientItem);
 }
 
 export default ingredientSaga;

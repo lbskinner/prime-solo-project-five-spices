@@ -34,6 +34,15 @@ class IngredientDetailsPage extends Component {
 
   clickDeleteButton = (ingredient_id) => (event) => {
     console.log(ingredient_id);
+    if (window.confirm("Are you sure you want to delete without save?")) {
+      this.props.dispatch({
+        type: "DELETE_INGREDIENT_ITEM",
+        payload: {
+          ingredient_id: ingredient_id,
+          recipe_id: this.props.match.params.id,
+        },
+      });
+    }
   };
 
   clickEditButton = (ingredient_id) => (event) => {
@@ -50,13 +59,15 @@ class IngredientDetailsPage extends Component {
     });
   };
 
-  clickSaveToUpdateIngredient = (ingredient_id, index) => (event) => {
-    console.log(ingredient_id, index);
+  // save updated ingredient to database
+  clickSaveToUpdateIngredient = (index) => (event) => {
+    // create object for payload
     let ingredientObject = {
       ingredient_item: this.state.ingredient_item,
       ingredient_id: this.state.ingredient_id,
       recipe_id: this.props.match.params.id,
     };
+    // // if no changes are made to existing ingredient item, use the existing ingredient item in reducer
     if (
       this.state.ingredient_item == null ||
       this.state.ingredient_item == ""
@@ -75,18 +86,25 @@ class IngredientDetailsPage extends Component {
     });
   };
 
+  // when click the add sign next to ingredients, show a new input field
   addIngredientItemInput = (event) => {
     this.setState({
       additionalInput: true,
+      disabled: true,
     });
   };
 
+  // click delete before save new ingredient item, remove the additional input
   deleteAdditionalInput = (event) => {
-    this.setState({
-      additionalInput: false,
-    });
+    if (window.confirm("Are you sure you want to delete without save?")) {
+      this.setState({
+        additionalInput: false,
+        disabled: false,
+      });
+    }
   };
 
+  // save new ingredient item to existing recipe to database
   saveNewIngredientItem = (event) => {
     let newIngredientObject = {
       ingredient_item: this.state.ingredient_item,
@@ -98,6 +116,7 @@ class IngredientDetailsPage extends Component {
     });
     this.setState({
       additionalInput: false,
+      disabled: false,
     });
   };
   render() {
@@ -112,6 +131,7 @@ class IngredientDetailsPage extends Component {
             <ListItemIcon>
               <Checkbox disableRipple />
             </ListItemIcon>
+            {/* conditional rendering, only render the list item when the id equals to the id clicked */}
             {this.state.ingredient_id === ingredient.ingredient_id ? (
               <TextField
                 defaultValue={ingredient.ingredient_item}
@@ -122,13 +142,11 @@ class IngredientDetailsPage extends Component {
             ) : (
               <ListItemText primary={ingredient.ingredient_item} />
             )}
+            {/* conditional rendering, only render the save button foe the list item when the id equals to the id clicked */}
             {this.state.ingredient_id == ingredient.ingredient_id ? (
               <IconButton
                 classes={{ root: classes.listItem }}
-                onClick={this.clickSaveToUpdateIngredient(
-                  ingredient.ingredient_id,
-                  index
-                )}
+                onClick={this.clickSaveToUpdateIngredient(index)}
               >
                 <SaveIcon fontSize="small" />{" "}
               </IconButton>
@@ -179,7 +197,10 @@ class IngredientDetailsPage extends Component {
       <div>
         <Typography variant="h5" classes={{ root: classes.margin }}>
           Ingredients{" "}
-          <IconButton onClick={this.addIngredientItemInput}>
+          <IconButton
+            onClick={this.addIngredientItemInput}
+            disabled={this.state.disabled}
+          >
             <AddCircleOutlineIcon />
           </IconButton>
         </Typography>
