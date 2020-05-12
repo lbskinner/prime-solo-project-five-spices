@@ -9,10 +9,6 @@ import HomePageSearch from "../HomePageSearch/HomePageSearch";
 import HomePageRecipeList from "../HomePageRecipeList/HomePageRecipeList";
 
 class HomePage extends Component {
-  state = {
-    heading: "Class Component",
-  };
-
   componentDidMount() {
     this.props.dispatch({ type: "GET_CATEGORY_LIST" });
     this.props.dispatch({ type: "GET_FAVORITE_RECIPES" });

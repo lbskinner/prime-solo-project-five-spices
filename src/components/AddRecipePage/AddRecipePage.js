@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../redux/mapStoreToProps";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
-// Basic class component structure for React with default state
-// value setup. When making a new component be sure to replace
-// the component name TemplateClass with the name for the new
-// component.
 class AddRecipePage extends Component {
   state = {
     heading: "Class Component",
@@ -13,9 +12,22 @@ class AddRecipePage extends Component {
 
   render() {
     return (
-      <div>
-        <h2>{this.state.heading}</h2>
-      </div>
+      <Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            <TextField
+              variant="outlined"
+              multiline
+              fullWidth
+              label="Enter Recipe URL From Website"
+              // onChange={this.handleChange}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <Button>Add Recipe From URL</Button>
+          </Grid>
+        </Grid>
+      </Grid>
     );
   }
 }

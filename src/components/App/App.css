@@ -5,6 +5,10 @@ body {
   height: 100%;
 }
 
+.sideMargin {
+  margin: 15px 20px;
+}
+
 .body-background {
   /* background-image: url("../../images/marion-botella-uaHShoIDGeo-unsplash.jpg"); */
   background-attachment: fixed;

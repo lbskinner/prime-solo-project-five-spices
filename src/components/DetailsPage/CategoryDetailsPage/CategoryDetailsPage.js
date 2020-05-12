@@ -31,6 +31,7 @@ class CategoryDetailsPage extends Component {
   state = {
     category_id: "",
   };
+
   handleChange = (event) => {
     this.setState({
       category_id: event.target.value,

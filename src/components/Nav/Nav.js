@@ -43,10 +43,10 @@ const Nav = (props) => {
               Home
             </Button>
             {/* need to link to actual page once created, add link don't need to appear on add page */}
-            <Button variant="text" component={Link} to="/info">
+            <Button variant="text" component={Link} to="/add">
               Add Recipe
             </Button>
-            <Button variant="text" component={Link} to="/info">
+            <Button variant="text" component={Link} to="/admin">
               Account
             </Button>
             <LogOutButton />
