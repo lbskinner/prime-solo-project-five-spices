@@ -60,4 +60,20 @@ router.put("/edit", rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ *DELETE individual instruction description by instruction id
+ */
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  // id on params us instruction id
+  const instructionId = req.params.id;
+  const queryText = `DELETE FROM "instruction" WHERE "instruction_id" = $1;`;
+  pool
+    .query(queryText, [instructionId])
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log("Delete Instruction Error: ", error);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

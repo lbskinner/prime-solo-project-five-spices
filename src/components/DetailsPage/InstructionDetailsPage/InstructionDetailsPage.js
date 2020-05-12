@@ -38,6 +38,19 @@ class InstructionDetailsPage extends Component {
     additionalInput: false,
   };
 
+  clickDeleteButton = (instruction_id) => (event) => {
+    console.log(instruction_id);
+    if (window.confirm("Are you sure you want to delete the instruction?")) {
+      this.props.dispatch({
+        type: "DELETE_INSTRUCTION_DESCRIPTION",
+        payload: {
+          instruction_id: instruction_id,
+          recipe_id: this.props.match.params.id,
+        },
+      });
+    }
+  };
+
   clickEditButton = (instruction_id) => (event) => {
     this.setState({
       instruction_id: instruction_id,
@@ -60,6 +73,7 @@ class InstructionDetailsPage extends Component {
     });
   };
 
+  // when click the add button next to instructions, show a new input field
   addInstructionDescriptionInput = (event) => {
     this.setState({
       additionalInput: true,
@@ -67,6 +81,7 @@ class InstructionDetailsPage extends Component {
     });
   };
 
+  // click delete before save new instruction description, remove the additional input
   deleteAdditionalInput = (event) => {
     if (window.confirm("Are you sure you want to delete without save?")) {
       this.setState({
@@ -76,6 +91,7 @@ class InstructionDetailsPage extends Component {
     }
   };
 
+  // save new instruction description to existing recipe to database
   saveNewInstructionDescription = (stepNumber) => (event) => {
     let newInstructionObject = {
       instruction_number: stepNumber,
@@ -129,7 +145,7 @@ class InstructionDetailsPage extends Component {
               </IconButton>
             )}
             <IconButton
-            // onClick={this.clickDeleteButton(ingredient.ingredient_id)}
+              onClick={this.clickDeleteButton(instruction.instruction_id)}
             >
               <DeleteIcon fontSize="small" />
             </IconButton>

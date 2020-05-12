@@ -34,11 +34,36 @@ function* saveNewInstructionDescription(action) {
     console.log("Save instruction description request failed", error);
   }
 }
+
+// delete an instruction description from recipe details page
+function* deleteInstructionDescription(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    yield axios.delete(
+      `/api/instruction/${action.payload.instruction_id}`,
+      config
+    );
+    yield put({
+      type: "GET_RECIPE_INSTRUCTIONS",
+      payload: action.payload.recipe_id,
+    });
+  } catch (error) {
+    console.log("Delete instruction description request failed", error);
+  }
+}
+
 function* InstructionSaga() {
   yield takeEvery("GET_RECIPE_INSTRUCTIONS", getRecipeInstructions);
   yield takeEvery(
     "SAVE_NEW_INSTRUCTION_DESCRIPTION",
     saveNewInstructionDescription
+  );
+  yield takeEvery(
+    "DELETE_INSTRUCTION_DESCRIPTION",
+    deleteInstructionDescription
   );
 }
 

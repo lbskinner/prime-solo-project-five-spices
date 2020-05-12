@@ -36,8 +36,7 @@ class IngredientDetailsPage extends Component {
   };
 
   clickDeleteButton = (ingredient_id) => (event) => {
-    console.log(ingredient_id);
-    if (window.confirm("Are you sure you want to delete without save?")) {
+    if (window.confirm("Are you sure you want to delete the ingredient?")) {
       this.props.dispatch({
         type: "DELETE_INGREDIENT_ITEM",
         payload: {
