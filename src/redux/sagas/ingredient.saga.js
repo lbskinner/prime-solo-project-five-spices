@@ -29,13 +29,31 @@ function* updateIngredientItem(action) {
       payload: action.payload.recipe_id,
     });
   } catch (error) {
-    console.log("Update recipe details request failed", error);
+    console.log("Update ingredient item request failed", error);
+  }
+}
+
+// save new ingredient item to existing recipe
+function* saveNewIngredientItem(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    yield axios.post("/api/ingredient/edit", action.payload, config);
+    yield put({
+      type: "GET_RECIPE_INGREDIENTS",
+      payload: action.payload.recipe_id,
+    });
+  } catch (error) {
+    console.log("Save ingredient item request failed", error);
   }
 }
 
 function* ingredientSaga() {
   yield takeEvery("GET_RECIPE_INGREDIENTS", getRecipeIngredients);
   yield takeEvery("UPDATE_INGREDIENT", updateIngredientItem);
+  yield takeEvery("SAVE_NEW_INGREDIENT_ITEM", saveNewIngredientItem);
 }
 
 export default ingredientSaga;

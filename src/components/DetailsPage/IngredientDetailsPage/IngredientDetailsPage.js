@@ -12,6 +12,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import TextField from "@material-ui/core/TextField";
+import { withRouter } from "react-router-dom";
 
 const styles = (theme) => ({
   listItem: {
@@ -28,6 +29,7 @@ class IngredientDetailsPage extends Component {
     ingredient_item: "",
     ingredient_id: "",
     disabled: false,
+    additionalInput: false,
   };
 
   clickDeleteButton = (ingredient_id) => (event) => {
@@ -48,11 +50,12 @@ class IngredientDetailsPage extends Component {
     });
   };
 
-  clickSaveButton = (ingredient_id, recipe_id, index) => (event) => {
-    console.log(ingredient_id, recipe_id, index);
+  clickSaveToUpdateIngredient = (ingredient_id, index) => (event) => {
+    console.log(ingredient_id, index);
     let ingredientObject = {
-      ...this.state,
-      recipe_id: recipe_id,
+      ingredient_item: this.state.ingredient_item,
+      ingredient_id: this.state.ingredient_id,
+      recipe_id: this.props.match.params.id,
     };
     if (
       this.state.ingredient_item == null ||
@@ -72,7 +75,31 @@ class IngredientDetailsPage extends Component {
     });
   };
 
-  addIngredientItemInput = (event) => {};
+  addIngredientItemInput = (event) => {
+    this.setState({
+      additionalInput: true,
+    });
+  };
+
+  deleteAdditionalInput = (event) => {
+    this.setState({
+      additionalInput: false,
+    });
+  };
+
+  saveNewIngredientItem = (event) => {
+    let newIngredientObject = {
+      ingredient_item: this.state.ingredient_item,
+      recipe_id: this.props.match.params.id,
+    };
+    this.props.dispatch({
+      type: "SAVE_NEW_INGREDIENT_ITEM",
+      payload: newIngredientObject,
+    });
+    this.setState({
+      additionalInput: false,
+    });
+  };
   render() {
     const { classes } = this.props;
     const ingredientsArray = this.props.recipeIngredients.map(
@@ -98,9 +125,8 @@ class IngredientDetailsPage extends Component {
             {this.state.ingredient_id == ingredient.ingredient_id ? (
               <IconButton
                 classes={{ root: classes.listItem }}
-                onClick={this.clickSaveButton(
+                onClick={this.clickSaveToUpdateIngredient(
                   ingredient.ingredient_id,
-                  ingredient.recipe_id,
                   index
                 )}
               >
@@ -133,21 +159,17 @@ class IngredientDetailsPage extends Component {
         <TextField
           variant="outlined"
           label="Ingredient"
-          //  onChange={this.handleChange}
+          onChange={this.handleChange}
         />
         <IconButton
           classes={{ root: classes.listItem }}
-          // onClick={this.clickSaveButton(
-          //   ingredient.ingredient_id,
-          //   ingredient.recipe_id,
-          //   index
-          // )}
+          onClick={this.saveNewIngredientItem}
         >
           <SaveIcon fontSize="small" />{" "}
         </IconButton>
         <IconButton
           classes={{ root: classes.listItem }}
-          // onClick={this.clickDeleteButton(ingredient.ingredient_id)}
+          onClick={this.deleteAdditionalInput}
         >
           <DeleteIcon fontSize="small" />
         </IconButton>
@@ -161,12 +183,15 @@ class IngredientDetailsPage extends Component {
             <AddCircleOutlineIcon />
           </IconButton>
         </Typography>
-        <List disablePadding={true}>{ingredientsArray}</List>
+        <List disablePadding={true}>
+          {ingredientsArray}
+          {this.state.additionalInput && additionalInput}
+        </List>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(
-  connect(mapStoreToProps)(IngredientDetailsPage)
+export default withRouter(
+  withStyles(styles)(connect(mapStoreToProps)(IngredientDetailsPage))
 );
