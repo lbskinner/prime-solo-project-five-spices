@@ -85,6 +85,7 @@ class IngredientDetailsPage extends Component {
     this.setState({
       ingredient_id: null,
       disabled: false,
+      ingredient_item: "",
     });
   };
 
@@ -102,12 +103,20 @@ class IngredientDetailsPage extends Component {
       this.setState({
         additionalInput: false,
         disabled: false,
+        ingredient_item: "",
       });
     }
   };
 
   // save new ingredient item to existing recipe to database
   saveNewIngredientItem = (event) => {
+    if (
+      this.state.ingredient_item == null ||
+      this.state.ingredient_item == ""
+    ) {
+      alert("Please enter an ingredient!");
+      return;
+    }
     let newIngredientObject = {
       ingredient_item: this.state.ingredient_item,
       recipe_id: this.props.match.params.id,
@@ -119,6 +128,7 @@ class IngredientDetailsPage extends Component {
     this.setState({
       additionalInput: false,
       disabled: false,
+      ingredient_item: "",
     });
   };
   render() {
@@ -165,6 +175,7 @@ class IngredientDetailsPage extends Component {
             <IconButton
               classes={{ root: classes.listItem }}
               onClick={this.clickDeleteButton(ingredient.ingredient_id)}
+              disabled={this.state.disabled}
             >
               <DeleteIcon fontSize="small" />
             </IconButton>

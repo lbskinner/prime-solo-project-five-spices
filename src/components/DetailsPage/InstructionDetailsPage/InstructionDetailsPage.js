@@ -67,9 +67,29 @@ class InstructionDetailsPage extends Component {
 
   clickSaveToUpdateInstruction = (index) => (event) => {
     console.log(index);
+    // create object for payload
+    let instructionObject = {
+      instruction_id: this.state.instruction_id,
+      instruction_description: this.state.instruction_description,
+      recipe_id: this.props.match.params.id,
+    };
+    // // if no changes are made to existing instruction description, use the existing ingredient item in reducer
+    if (
+      this.state.instruction_description == null ||
+      this.state.instruction_description == ""
+    ) {
+      instructionObject.instruction_description = this.props.recipeIngredients[
+        index
+      ].instruction_description;
+    }
+    this.props.dispatch({
+      type: "UPDATE_INSTRUCTION",
+      payload: instructionObject,
+    });
     this.setState({
       instruction_id: null,
       disabled: false,
+      instruction_description: "",
     });
   };
 
@@ -87,12 +107,20 @@ class InstructionDetailsPage extends Component {
       this.setState({
         additionalInput: false,
         disabled: false,
+        instruction_description: "",
       });
     }
   };
 
   // save new instruction description to existing recipe to database
   saveNewInstructionDescription = (stepNumber) => (event) => {
+    if (
+      this.state.instruction_description == null ||
+      this.state.instruction_description == ""
+    ) {
+      alert("Please enter an instruction!");
+      return;
+    }
     let newInstructionObject = {
       instruction_number: stepNumber,
       instruction_description: this.state.instruction_description,
@@ -105,6 +133,7 @@ class InstructionDetailsPage extends Component {
     this.setState({
       additionalInput: false,
       disabled: false,
+      instruction_description: "",
     });
   };
 
@@ -146,6 +175,7 @@ class InstructionDetailsPage extends Component {
             )}
             <IconButton
               onClick={this.clickDeleteButton(instruction.instruction_id)}
+              disabled={this.state.disabled}
             >
               <DeleteIcon fontSize="small" />
             </IconButton>

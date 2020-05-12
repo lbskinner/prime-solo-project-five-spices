@@ -18,6 +18,23 @@ function* getRecipeInstructions(action) {
   }
 }
 
+// update individual instruction description for existing recipe
+function* updateInstructionDescription(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    yield axios.put("/api/instruction/edit", action.payload, config);
+    yield put({
+      type: "GET_RECIPE_INSTRUCTIONS",
+      payload: action.payload.recipe_id,
+    });
+  } catch (error) {
+    console.log("Update ingredient item request failed", error);
+  }
+}
+
 // save new instruction description to existing recipe
 function* saveNewInstructionDescription(action) {
   try {
@@ -65,6 +82,7 @@ function* InstructionSaga() {
     "DELETE_INSTRUCTION_DESCRIPTION",
     deleteInstructionDescription
   );
+  yield takeEvery("UPDATE_INSTRUCTION", updateInstructionDescription);
 }
 
 export default InstructionSaga;
