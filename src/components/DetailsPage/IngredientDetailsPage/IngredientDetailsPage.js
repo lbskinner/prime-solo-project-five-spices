@@ -22,6 +22,9 @@ const styles = (theme) => ({
   margin: {
     marginBottom: 10,
   },
+  inputBox: {
+    width: 300,
+  },
 });
 
 class IngredientDetailsPage extends Component {
@@ -138,6 +141,7 @@ class IngredientDetailsPage extends Component {
                 variant="outlined"
                 label="Ingredient"
                 onChange={this.handleChange}
+                classes={{ root: classes.inputBox }}
               />
             ) : (
               <ListItemText primary={ingredient.ingredient_item} />
@@ -178,6 +182,7 @@ class IngredientDetailsPage extends Component {
           variant="outlined"
           label="Ingredient"
           onChange={this.handleChange}
+          classes={{ root: classes.inputBox }}
         />
         <IconButton
           classes={{ root: classes.listItem }}

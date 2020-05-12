@@ -1,6 +1,7 @@
 import axios from "axios";
 import { put, takeEvery } from "redux-saga/effects";
 
+//get all ingredients for individual recipe
 function* getRecipeIngredients(action) {
   try {
     const config = {
@@ -17,6 +18,7 @@ function* getRecipeIngredients(action) {
   }
 }
 
+// update individual ingredient item for existing recipe
 function* updateIngredientItem(action) {
   try {
     const config = {
