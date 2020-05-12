@@ -13,6 +13,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import FavoriteButton from "../FavoriteButtonDetailsPage/FavoriteButtonDetailsPage";
 import CategoryDetailsPage from "../CategoryDetailsPage/CategoryDetailsPage";
+import { withRouter } from "react-router-dom";
 
 const styles = (theme) => ({
   titleInput: {
@@ -42,6 +43,7 @@ class RecipeDetailsPage extends Component {
     total_time: "",
     hours: "",
     minutes: "",
+    recipe_id: "",
   };
 
   handleChange = (event, propertyKey) => {
@@ -50,26 +52,27 @@ class RecipeDetailsPage extends Component {
       [propertyKey]: event.target.value,
     });
   };
+
   clickDeleteButton = (recipe_id) => (event) => {
-    console.log(recipe_id);
+    this.props.dispatch({ type: "DELETE_RECIPE", payload: recipe_id });
+    this.props.history.push("/home");
   };
 
   clickEditButton = (recipe_id) => (event) => {
     this.setState({
       recipeDetailsAreEditable: true,
+      recipe_id: recipe_id,
     });
   };
 
-  clickSaveButton = (recipe_id) => (event) => {
+  clickSaveButton = (event) => {
     const recipe = this.props.recipeDetails[0];
-    console.log(recipe_id);
     this.setState({
       recipeDetailsAreEditable: false,
     });
     // create new object for payload to update recipe details
     let recipeDetailsObject = {
       ...this.state,
-      recipe_id: recipe_id,
     };
     // if name is not changed, use recipe name in reducer
     if (this.state.recipe_name == null || this.state.recipe_name == "") {
@@ -141,7 +144,12 @@ class RecipeDetailsPage extends Component {
     //   minutes = totalCookMinutes % 60;
     //   totalTime = `${hours} hr ${minutes} min`;
     // }
-
+    let totalCookTime = `${moment.duration(recipe.total_time).minutes()} min`;
+    if (moment.duration(recipe.total_time).hours() > 0) {
+      totalCookTime = `${moment
+        .duration(recipe.total_time)
+        .hours()} hr ${moment.duration(recipe.total_time).minutes()} min`;
+    }
     return (
       <div>
         <Link
@@ -165,7 +173,7 @@ class RecipeDetailsPage extends Component {
             <span>{recipe.recipe_name} </span>
           )}
           {this.state.recipeDetailsAreEditable ? (
-            <IconButton onClick={this.clickSaveButton(recipe.recipe_id)}>
+            <IconButton onClick={this.clickSaveButton}>
               <SaveIcon />{" "}
             </IconButton>
           ) : (
@@ -213,16 +221,7 @@ class RecipeDetailsPage extends Component {
                   </div>
                 ) : (
                   <Typography className={classes.margin}>
-                    {moment.duration(recipe.total_time).hours() > 0 ? (
-                      <span>
-                        {moment.duration(recipe.total_time).hours()} hr{" "}
-                        {moment.duration(recipe.total_time).minutes()} min
-                      </span>
-                    ) : (
-                      <span>
-                        {moment.duration(recipe.total_time).minutes()} min
-                      </span>
-                    )}
+                    {totalCookTime}
                   </Typography>
                 )}
               </Grid>
@@ -296,4 +295,6 @@ class RecipeDetailsPage extends Component {
   }
 }
 
-export default withStyles(styles)(connect(mapStoreToProps)(RecipeDetailsPage));
+export default withRouter(
+  withStyles(styles)(connect(mapStoreToProps)(RecipeDetailsPage))
+);

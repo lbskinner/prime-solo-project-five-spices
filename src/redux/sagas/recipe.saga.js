@@ -95,6 +95,21 @@ function* updateRecipeDetails(action) {
   }
 }
 
+function* deleteRecipe(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    yield axios.delete(`/api/recipe/${action.payload}`, config);
+    // yield put({
+    //   type: "GET_ALL_RECIPES",
+    // });
+  } catch (error) {
+    console.log("Delete recipe request failed", error);
+  }
+}
+
 function* recipeSaga() {
   yield takeEvery("GET_ALL_RECIPES", getAllRecipes);
   yield takeEvery("GET_FAVORITE_RECIPES", getFavoriteRecipes);
@@ -105,6 +120,7 @@ function* recipeSaga() {
     updateDetailsPageFavoriteStatus
   );
   yield takeEvery("UPDATE_RECIPE_DETAILS", updateRecipeDetails);
+  yield takeEvery("DELETE_RECIPE", deleteRecipe);
 }
 
 export default recipeSaga;
