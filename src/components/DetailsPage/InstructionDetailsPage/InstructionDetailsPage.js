@@ -38,18 +38,19 @@ class InstructionDetailsPage extends Component {
     additionalInput: false,
   };
 
-  clickDeleteButton = (instruction_id) => (event) => {
-    console.log(instruction_id);
-    if (window.confirm("Are you sure you want to delete the instruction?")) {
-      this.props.dispatch({
-        type: "DELETE_INSTRUCTION_DESCRIPTION",
-        payload: {
-          instruction_id: instruction_id,
-          recipe_id: this.props.match.params.id,
-        },
-      });
-    }
-  };
+  // in order for step number to work correctly, the delete existing step feature is not included int he base mode, it will be a stretch feature
+  // clickDeleteButton = (instruction_id) => (event) => {
+  //   console.log(instruction_id);
+  //   if (window.confirm("Are you sure you want to delete the instruction?")) {
+  //     this.props.dispatch({
+  //       type: "DELETE_INSTRUCTION_DESCRIPTION",
+  //       payload: {
+  //         instruction_id: instruction_id,
+  //         recipe_id: this.props.match.params.id,
+  //       },
+  //     });
+  //   }
+  // };
 
   clickEditButton = (instruction_id) => (event) => {
     this.setState({
@@ -173,12 +174,14 @@ class InstructionDetailsPage extends Component {
                 <EditIcon fontSize="small" />{" "}
               </IconButton>
             )}
+            {/* in order for step number to work correctly, not allowing the user to delete steps
+            this feature may be added later as a stretch feature
             <IconButton
               onClick={this.clickDeleteButton(instruction.instruction_id)}
               disabled={this.state.disabled}
             >
               <DeleteIcon fontSize="small" />
-            </IconButton>
+            </IconButton> */}
           </ListItem>
         );
       }

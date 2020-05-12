@@ -61,19 +61,20 @@ router.put("/edit", rejectUnauthenticated, (req, res) => {
 });
 
 /**
+ * // delete step feature is not included in the base mode, it will be a stretch feature
  *DELETE individual instruction description by instruction id
  */
-router.delete("/:id", rejectUnauthenticated, (req, res) => {
-  // id on params us instruction id
-  const instructionId = req.params.id;
-  const queryText = `DELETE FROM "instruction" WHERE "instruction_id" = $1;`;
-  pool
-    .query(queryText, [instructionId])
-    .then(() => res.sendStatus(200))
-    .catch((error) => {
-      console.log("Delete Instruction Error: ", error);
-      res.sendStatus(500);
-    });
-});
+// router.delete("/:id", rejectUnauthenticated, (req, res) => {
+//   // id on params us instruction id
+//   const instructionId = req.params.id;
+//   const queryText = `DELETE FROM "instruction" WHERE "instruction_id" = $1;`;
+//   pool
+//     .query(queryText, [instructionId])
+//     .then(() => res.sendStatus(200))
+//     .catch((error) => {
+//       console.log("Delete Instruction Error: ", error);
+//       res.sendStatus(500);
+//     });
+// });
 
 module.exports = router;
