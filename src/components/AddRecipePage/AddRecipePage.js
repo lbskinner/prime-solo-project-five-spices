@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../redux/mapStoreToProps";
 import { withStyles } from "@material-ui/core/styles";
@@ -36,50 +37,23 @@ class AddRecipePage extends Component {
     image_url: "",
     recipe_url: "",
     ingredient: ["", "", "", "", "", "", ""],
-    instruction: [
-      {
-        instruction_number: "",
-        instruction_description: "",
-      },
-      {
-        instruction_number: "",
-        instruction_description: "",
-      },
-      {
-        instruction_number: "",
-        instruction_description: "",
-      },
-      {
-        instruction_number: "",
-        instruction_description: "",
-      },
-    ],
+    instruction: [{}, {}, {}, {}],
   };
 
   handleRecipeDetailsChange = (event, propertyKey) => {
-    this.setState(
-      {
-        ...this.state,
-        [propertyKey]: event.target.value,
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      ...this.state,
+      [propertyKey]: event.target.value,
+    });
   };
 
   handleIngredientItemChange = (event, index) => {
     let newIngredientArray = [...this.state.ingredient];
     newIngredientArray[index] = event.target.value;
-    this.setState(
-      {
-        ...this.state,
-        ingredient: [...newIngredientArray],
-      },
-      () => {
-        console.log(this.state.ingredient);
-      }
-    );
+    this.setState({
+      ...this.state,
+      ingredient: [...newIngredientArray],
+    });
   };
 
   handleInstructionChange = (event, index) => {
@@ -88,15 +62,10 @@ class AddRecipePage extends Component {
       instruction_number: index + 1,
       instruction_description: event.target.value,
     };
-    this.setState(
-      {
-        ...this.state,
-        instruction: [...newInstructionArray],
-      },
-      () => {
-        console.log(this.state.instruction);
-      }
-    );
+    this.setState({
+      ...this.state,
+      instruction: [...newInstructionArray],
+    });
   };
 
   clickAddRecipe = (event) => {
@@ -113,18 +82,39 @@ class AddRecipePage extends Component {
   addInstructionDescriptionInput = (event) => {
     this.setState({
       ...this.state,
-      instruction: [
-        ...this.state.instruction,
-        {
-          instruction_number: "",
-          instruction_description: "",
-        },
-      ],
+      instruction: [...this.state.instruction, {}],
     });
   };
 
   saveNewRecipe = (event) => {
-    console.log("Clicked Save Recipe Button");
+    // filter out the empty strings in ingredient array
+    const newIngArray = this.state.ingredient.filter(
+      (ingredient) => ingredient
+    );
+    // filter out the empty strings in instruction array
+    const newInsArray = this.state.instruction.filter(
+      (instruction) => instruction.instruction_description
+    );
+    let totalCookTime = "";
+    if (this.state.hours || this.state.minutes) {
+      const totalMinutes = this.state.hours * 60 + this.state.minutes;
+      totalCookTime = moment.duration(totalMinutes, "m").toISOString();
+    }
+    let newRecipeData = {
+      ...this.state,
+      total_time: totalCookTime,
+      ingredient: newIngArray,
+      instruction: newInsArray,
+    };
+    console.log(newRecipeData);
+
+    // if (
+    //   !this.state.recipe_name ||
+    //   !this.state.ingredient[0] ||
+    //   !this.state.instruction[0].instruction_description
+    // ) {
+    //   alert("Please add a recipe name, ingredient and instruction!")
+    // }
   };
   render() {
     const { classes } = this.props;
@@ -251,6 +241,24 @@ class AddRecipePage extends Component {
               className={classes.margin}
               onChange={(event) =>
                 this.handleRecipeDetailsChange(event, "image_url")
+              }
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item>
+            <Typography variant="subtitle1">Description</Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <TextField
+              // defaultValue={recipe.description}
+              variant="outlined"
+              multiline
+              rows={4}
+              fullWidth
+              label="Description"
+              onChange={(event) =>
+                this.handleRecipeDetailsChange(event, "description")
               }
             />
           </Grid>
