@@ -25,6 +25,8 @@ class DetailsPage extends Component {
     this.props.dispatch({ type: "GET_CATEGORY_LIST" });
     // get category info for recipe
     this.props.dispatch({ type: "GET_RECIPE_CATEGORY", payload: recipe_id });
+    // clear that saved recipe id
+    this.props.dispatch({ type: "CLEAR_SAVED RECIPE_ID" });
   }
   render() {
     return (
