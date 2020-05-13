@@ -69,11 +69,11 @@ function* saveNewRecipe(action) {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     };
-    yield axios.post("/api/recipe", action.payload, config);
-    // yield put({
-    //   type: "GET_RECIPE_CATEGORY",
-    //   payload: action.payload.recipe_id,
-    // });
+    const response = yield axios.post("/api/recipe", action.payload, config);
+    yield put({
+      type: "SET_SAVED_RECIPE_ID",
+      payload: response.data,
+    });
   } catch (error) {
     console.log("Add new recipe request failed", error);
   }

@@ -40,6 +40,8 @@ class AddRecipePage extends Component {
     instruction: [{}, {}, {}, {}],
   };
 
+  componentDidMount() {}
+
   handleRecipeDetailsChange = (event, propertyKey) => {
     this.setState({
       ...this.state,
@@ -118,7 +120,9 @@ class AddRecipePage extends Component {
       alert("Please add a recipe name, ingredient and instruction!");
     }
     this.props.dispatch({ type: "SAVE_NEW_RECIPE", payload: newRecipeData });
-    // need to figure out how to get the newly saved recipe id back to push it to the recipe details page
+    this.props.history.push(
+      `/details/${this.props.savedRecipeId[0].recipe_id}`
+    );
   };
   render() {
     const { classes } = this.props;

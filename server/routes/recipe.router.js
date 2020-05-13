@@ -122,8 +122,8 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
     // use await to save to instruction table
     const savedInstructionData = await pool.query(queryTextInstruction);
     console.log(savedInstructionData);
-    // res.send(savedRecipeDate.rows[0].recipe_id);
-    res.sendStatus(201);
+    res.send(savedRecipeDate.rows);
+    // res.sendStatus(201);
   } catch (error) {
     console.log("Post Recipe Error: ", error);
     res.sendStatus(500);
