@@ -72,6 +72,13 @@ class AddRecipePage extends Component {
 
   clickAddRecipe = (event) => {
     console.log("Add Recipe From URL Clicked");
+    if (!this.state.recipe_url) {
+      alert("Please add an URL!");
+    }
+    this.props.dispatch({
+      type: "POST_RECIPE_URL",
+      payload: this.state.recipe_url,
+    });
   };
 
   addIngredientItemInput = (event) => {
@@ -137,7 +144,9 @@ class AddRecipePage extends Component {
       type: "SAVE_NEW_RECIPE",
       payload: newRecipeData,
     });
-    this.props.history.push("/home");
+    if (this.props.savedRecipeId.length > 0) {
+      this.props.history.push("/home");
+    }
     // still need to work on waiting for the inform to save before anything else
     // while (this.props.savedRecipeId.length === 0) {
     //   continue;
