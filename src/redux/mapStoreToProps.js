@@ -16,7 +16,7 @@ const mapStoreToProps = (reduxState) => {
     recipeInstructions: reduxState.recipeInstructionsReducer,
     recipeCategory: reduxState.recipeCategoryReducer,
     savedRecipeId: reduxState.savedRecipeIdReducer,
-    recipeDataFromRapidApi: reduxState.recipeDataFromRapidApiReducer,
+    // recipeDataFromRapidApi: reduxState.recipeDataFromRapidApiReducer, did not end up using it
   };
 };
 

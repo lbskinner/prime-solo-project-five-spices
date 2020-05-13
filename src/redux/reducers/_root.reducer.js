@@ -30,7 +30,7 @@ const rootReducer = combineReducers({
   recipeInstructionsReducer,
   recipeCategoryReducer,
   savedRecipeIdReducer,
-  recipeDataFromRapidApiReducer,
+  // recipeDataFromRapidApiReducer, did not end up using it
 });
 
 export default rootReducer;

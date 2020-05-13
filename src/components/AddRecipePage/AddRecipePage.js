@@ -89,11 +89,14 @@ class AddRecipePage extends Component {
         .then((response) => {
           const data = response.data[0];
           console.log(data);
-          const instructionArray = data.instructions[0].steps.map(
+          const ingredientsArray = data.ingredients.map((ingredient) =>
+            ingredient.replace(/'/g, "''")
+          );
+          const instructionsArray = data.instructions[0].steps.map(
             (instruction, index) => {
               return {
                 instruction_number: index + 1,
-                instruction_description: instruction,
+                instruction_description: instruction.replace(/'/g, "''"),
               };
             }
           );
@@ -104,8 +107,8 @@ class AddRecipePage extends Component {
               total_time: data["total-time"],
               serving_size: data.yield,
               image_url: data.images[0],
-              ingredient: data.ingredients,
-              instruction: instructionArray,
+              ingredient: ingredientsArray,
+              instruction: instructionsArray,
             },
             () => {
               console.log(this.state);
@@ -315,7 +318,7 @@ class AddRecipePage extends Component {
             <Typography variant="subtitle1">Servings</Typography>
           </Grid>
           <TextField
-            defaultValue={this.state.serving_size}
+            value={this.state.serving_size}
             inputProps={{ maxLength: 80 }}
             variant="outlined"
             size="small"

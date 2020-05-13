@@ -79,30 +79,31 @@ function* saveNewRecipe(action) {
   }
 }
 
-function* postApiCallToRapidApi(action) {
-  try {
-    const config = {
-      headers: {
-        "content-type": "text/plain",
-        "x-rapidapi-host": "mycookbook-io1.p.rapidapi.com",
-        "x-rapidapi-key": "545712eeecmsh555676176f5dcd4p131071jsn90a7368f1e31",
-        accept: "text/plain",
-      },
-    };
-    const response = yield axios.post(
-      "https://mycookbook-io1.p.rapidapi.com/recipes/rapidapi",
-      action.payload,
-      config
-    );
-    console.log(response);
-    yield put({
-      type: "SET_RECIPE_DATA_FROM_RAPIDAPI",
-      payload: response.data[0],
-    });
-  } catch (error) {
-    console.log("Post call to RapidAPI request failed", error);
-  }
-}
+// did not end up using it, made the axios call from the front end
+// function* postApiCallToRapidApi(action) {
+//   try {
+//     const config = {
+//       headers: {
+//         "content-type": "text/plain",
+//         "x-rapidapi-host": "mycookbook-io1.p.rapidapi.com",
+//         "x-rapidapi-key": "545712eeecmsh555676176f5dcd4p131071jsn90a7368f1e31",
+//         accept: "text/plain",
+//       },
+//     };
+//     const response = yield axios.post(
+//       "https://mycookbook-io1.p.rapidapi.com/recipes/rapidapi",
+//       action.payload,
+//       config
+//     );
+//     console.log(response);
+//     yield put({
+//       type: "SET_RECIPE_DATA_FROM_RAPIDAPI",
+//       payload: response.data[0],
+//     });
+//   } catch (error) {
+//     console.log("Post call to RapidAPI request failed", error);
+//   }
+// }
 
 function* recipeSaga() {
   yield takeEvery("GET_ALL_RECIPES", getAllRecipes);
@@ -110,7 +111,7 @@ function* recipeSaga() {
   yield takeEvery("UPDATE_RECIPE_DETAILS", updateRecipeDetails);
   yield takeEvery("DELETE_RECIPE", deleteRecipe);
   yield takeEvery("SAVE_NEW_RECIPE", saveNewRecipe);
-  yield takeEvery("POST_RECIPE_URL", postApiCallToRapidApi);
+  // yield takeEvery("POST_RECIPE_URL", postApiCallToRapidApi);
 }
 
 export default recipeSaga;
