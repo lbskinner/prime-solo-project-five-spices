@@ -88,6 +88,18 @@ class AddRecipePage extends Component {
     });
   };
 
+  sendSaveRequest = async (newRecipeData) => {
+    const result = await this.props.dispatch({
+      type: "SAVE_NEW_RECIPE",
+      payload: newRecipeData,
+    });
+    console.log(result);
+
+    this.props.history.push(
+      `/details/${this.props.savedRecipeId[0].recipe_id}`
+    );
+  };
+
   saveNewRecipe = (event) => {
     // filter out the empty strings in ingredient array
     const newIngArray = this.state.ingredient.filter(
@@ -119,10 +131,7 @@ class AddRecipePage extends Component {
     ) {
       alert("Please add a recipe name, ingredient and instruction!");
     }
-    this.props.dispatch({ type: "SAVE_NEW_RECIPE", payload: newRecipeData });
-    this.props.history.push(
-      `/details/${this.props.savedRecipeId[0].recipe_id}`
-    );
+    this.sendSaveRequest(newRecipeData);
   };
   render() {
     const { classes } = this.props;
