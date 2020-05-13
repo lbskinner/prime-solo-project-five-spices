@@ -79,6 +79,7 @@ class AddRecipePage extends Component {
       type: "POST_RECIPE_URL",
       payload: this.state.recipe_url,
     });
+    // need to set state after data from web site is set in reducer
   };
 
   addIngredientItemInput = (event) => {
@@ -111,12 +112,18 @@ class AddRecipePage extends Component {
 
   saveNewRecipe = (event) => {
     // filter out the empty strings in ingredient array
-    const newIngArray = this.state.ingredient.filter(
-      (ingredient) => ingredient
+    let newIngArray = this.state.ingredient.filter((ingredient) => ingredient);
+    // replace any single quote with two single quotes to not cause bug with SQL
+    newIngArray = newIngArray.map((ingredient) =>
+      ingredient.replace(/'/g, "' '")
     );
     // filter out the empty strings in instruction array
-    const newInsArray = this.state.instruction.filter(
+    let newInsArray = this.state.instruction.filter(
       (instruction) => instruction.instruction_description
+    );
+    // replace any single quote with two single quotes to not cause bug with SQL
+    newInsArray = newInsArray.map((instruction) =>
+      instruction.instruction_description.replace(/'/g, "' '")
     );
     // convert time into iso 8601 string ti be saved in database
     let totalCookTime = "";
@@ -126,7 +133,11 @@ class AddRecipePage extends Component {
     }
     // create new recipe object data to be sent to database
     let newRecipeData = {
-      ...this.state,
+      recipe_name: this.state.recipe_name.replace(/'/g, "' '"),
+      description: this.state.description.replace(/'/g, "' '"),
+      serving_size: this.state.serving_size,
+      image_url: this.state.image_url,
+      recipe_url: this.state.recipe_url,
       total_time: totalCookTime,
       ingredient: newIngArray,
       instruction: newInsArray,
@@ -163,6 +174,7 @@ class AddRecipePage extends Component {
         <ListItem key={index} classes={{ root: classes.listPadding }}>
           <TextField
             defaultValue={ingredient}
+            inputProps={{ maxLength: 255 }}
             variant="outlined"
             size="small"
             fullWidth
@@ -181,6 +193,7 @@ class AddRecipePage extends Component {
             <TextField
               defaultValue={instruction.instruction_description}
               variant="outlined"
+              inputProps={{ maxLength: 1000 }}
               fullWidth
               multiline
               rows={2}
@@ -197,6 +210,7 @@ class AddRecipePage extends Component {
           <Grid item xs={10}>
             <TextField
               variant="outlined"
+              inputProps={{ maxLength: 2083 }}
               multiline
               fullWidth
               size="small"
@@ -219,6 +233,7 @@ class AddRecipePage extends Component {
           <Grid item xs={10}>
             <TextField
               defaultValue={this.state.recipe_name}
+              inputProps={{ maxLength: 255 }}
               variant="outlined"
               multiline
               fullWidth
@@ -268,6 +283,7 @@ class AddRecipePage extends Component {
           </Grid>
           <TextField
             defaultValue={this.state.serving_size}
+            inputProps={{ maxLength: 80 }}
             variant="outlined"
             size="small"
             className={classes.margin}
@@ -285,6 +301,7 @@ class AddRecipePage extends Component {
             <TextField
               defaultValue={this.state.image_url}
               variant="outlined"
+              inputProps={{ maxLength: 2083 }}
               multiline
               fullWidth
               size="small"
@@ -303,6 +320,7 @@ class AddRecipePage extends Component {
           <Grid item xs={10}>
             <TextField
               defaultValue={this.state.description}
+              inputProps={{ maxLength: 1000 }}
               variant="outlined"
               multiline
               rows={4}

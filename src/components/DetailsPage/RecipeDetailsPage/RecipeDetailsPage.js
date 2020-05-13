@@ -174,6 +174,7 @@ class RecipeDetailsPage extends Component {
           {this.state.recipeDetailsAreEditable ? (
             <TextField
               defaultValue={recipe.recipe_name}
+              inputProps={{ maxLength: 255 }}
               variant="outlined"
               label="Recipe Name"
               className={classes.titleInput}
@@ -244,6 +245,7 @@ class RecipeDetailsPage extends Component {
                 {this.state.recipeDetailsAreEditable ? (
                   <TextField
                     defaultValue={recipe.serving_size}
+                    inputProps={{ maxLength: 80 }}
                     variant="outlined"
                     size="small"
                     className={classes.servingInput}
@@ -267,6 +269,7 @@ class RecipeDetailsPage extends Component {
               <TextField
                 defaultValue={recipe.description}
                 variant="outlined"
+                inputProps={{ maxLength: 1000 }}
                 multiline
                 rows={4}
                 fullWidth
@@ -284,6 +287,7 @@ class RecipeDetailsPage extends Component {
             {this.state.recipeDetailsAreEditable ? (
               <TextField
                 defaultValue={recipe.image_url}
+                inputProps={{ maxLength: 2083 }}
                 variant="outlined"
                 label="Image URL"
                 multiline

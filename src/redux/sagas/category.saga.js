@@ -1,5 +1,5 @@
 import axios from "axios";
-import { put, takeEvery } from "redux-saga/effects";
+import { put, takeEvery, takeLatest } from "redux-saga/effects";
 
 // get all category for category list for home page and details page select box
 function* getCategoryList(action) {
@@ -85,7 +85,7 @@ function* deleteCategoryFromRecipe(action) {
 
 function* categorySaga() {
   yield takeEvery("GET_CATEGORY_LIST", getCategoryList);
-  yield takeEvery("GET_RECIPES_BY_CATEGORY", getRecipesByCategory);
+  yield takeLatest("GET_RECIPES_BY_CATEGORY", getRecipesByCategory);
   yield takeEvery("GET_RECIPE_CATEGORY", getRecipeCategory);
   yield takeEvery("ADD_CATEGORY", addCategoryToRecipe);
   yield takeEvery("DELETE_CATEGORY", deleteCategoryFromRecipe);
