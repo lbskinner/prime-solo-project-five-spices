@@ -68,12 +68,13 @@ class AddRecipePage extends Component {
     );
   };
 
-  handleIngredientItemChange = (event) => {
+  handleIngredientItemChange = (event, index) => {
+    let newIngredientArray = [...this.state.ingredient];
+    newIngredientArray[index] = event.target.value;
     this.setState(
       {
         ...this.state,
-        // can't do it this way, it's pushing every single letter into the array
-        ingredient: [...this.state.ingredient, event.target.value],
+        ingredient: [...newIngredientArray],
       },
       () => {
         console.log(this.state.ingredient);
@@ -81,18 +82,16 @@ class AddRecipePage extends Component {
     );
   };
 
-  handleInstructionChange = (event) => {
+  handleInstructionChange = (event, index) => {
+    let newInstructionArray = [...this.state.instruction];
+    newInstructionArray[index] = {
+      instruction_number: index + 1,
+      instruction_description: event.target.value,
+    };
     this.setState(
       {
         ...this.state,
-        // can't do it this way, it's pushing every single letter as an object into the array
-        instruction: [
-          ...this.state.instruction,
-          {
-            instruction_number: "",
-            instruction_description: event.target.value,
-          },
-        ],
+        instruction: [...newInstructionArray],
       },
       () => {
         console.log(this.state.instruction);
@@ -137,7 +136,7 @@ class AddRecipePage extends Component {
             size="small"
             fullWidth
             label="Ingredient"
-            onChange={this.handleIngredientItemChange}
+            onChange={(event) => this.handleIngredientItemChange(event, index)}
           />
         </ListItem>
       );
@@ -145,19 +144,16 @@ class AddRecipePage extends Component {
 
     const instructionsArray = this.state.instruction.map(
       (instruction, index) => {
-        let stepNumber = index + 1;
         return (
           <ListItem key={index} classes={{ root: classes.listPadding }}>
-            <Typography>Step {stepNumber}. </Typography>
+            <Typography>Step {index + 1}. </Typography>
             <TextField
               variant="outlined"
               fullWidth
               multiline
               rows={2}
               label="Instruction"
-              onChange={(event) =>
-                this.handleInstructionChange(event, stepNumber)
-              }
+              onChange={(event) => this.handleInstructionChange(event, index)}
             />
           </ListItem>
         );
