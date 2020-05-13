@@ -95,11 +95,13 @@ class AddRecipePage extends Component {
     const newInsArray = this.state.instruction.filter(
       (instruction) => instruction.instruction_description
     );
+    // convert time into iso 8601 string ti be saved in database
     let totalCookTime = "";
     if (this.state.hours || this.state.minutes) {
       const totalMinutes = this.state.hours * 60 + this.state.minutes;
       totalCookTime = moment.duration(totalMinutes, "m").toISOString();
     }
+    // create new recipe object data to be sent to database
     let newRecipeData = {
       ...this.state,
       total_time: totalCookTime,
@@ -107,14 +109,15 @@ class AddRecipePage extends Component {
       instruction: newInsArray,
     };
     console.log(newRecipeData);
-
-    // if (
-    //   !this.state.recipe_name ||
-    //   !this.state.ingredient[0] ||
-    //   !this.state.instruction[0].instruction_description
-    // ) {
-    //   alert("Please add a recipe name, ingredient and instruction!")
-    // }
+    // required input fields for recipe name, ingredient and instruction
+    if (
+      !newRecipeData.recipe_name ||
+      newRecipeData.ingredient.length === 0 ||
+      newRecipeData.instruction.length === 0
+    ) {
+      alert("Please add a recipe name, ingredient and instruction!");
+    }
+    this.props.dispatch({ type: "SAVE_NEW_RECIPE", payload: newRecipeData });
   };
   render() {
     const { classes } = this.props;

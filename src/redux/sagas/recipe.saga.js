@@ -15,20 +15,6 @@ function* getAllRecipes(action) {
   }
 }
 
-// get all favorite recipes for home page
-function* getFavoriteRecipes(action) {
-  try {
-    const config = {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    };
-    const response = yield axios.get("/api/recipe/favorite", config);
-    yield put({ type: "SET_ALL_FAVORITE_RECIPES", payload: response.data });
-  } catch (error) {
-    console.log("Get favorite recipes request failed", error);
-  }
-}
-
 // get recipe details for details page
 function* getRecipeDetails(action) {
   try {
@@ -43,38 +29,6 @@ function* getRecipeDetails(action) {
     yield put({ type: "SET_RECIPE_DETAILS", payload: response.data });
   } catch (error) {
     console.log("Get recipes details by ID request failed", error);
-  }
-}
-
-// update favorite status for home page
-function* updateFavoriteStatus(action) {
-  try {
-    const config = {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    };
-    yield axios.put("/api/recipe/favorite", action.payload, config);
-    yield put({ type: "GET_ALL_RECIPES" });
-    yield put({ type: "GET_FAVORITE_RECIPES" });
-  } catch (error) {
-    console.log("Update favorite request failed", error);
-  }
-}
-
-// update home status for details page, separated into two calls to avoid unnecessary calls to server
-function* updateDetailsPageFavoriteStatus(action) {
-  try {
-    const config = {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    };
-    yield axios.put("/api/recipe/favorite", action.payload, config);
-    yield put({
-      type: "GET_RECIPE_DETAILS",
-      payload: action.payload.recipe_id,
-    });
-  } catch (error) {
-    console.log("Update favorite request failed", error);
   }
 }
 
@@ -95,6 +49,7 @@ function* updateRecipeDetails(action) {
   }
 }
 
+//delete whole recipe from database
 function* deleteRecipe(action) {
   try {
     const config = {
@@ -102,25 +57,34 @@ function* deleteRecipe(action) {
       withCredentials: true,
     };
     yield axios.delete(`/api/recipe/${action.payload}`, config);
-    // yield put({
-    //   type: "GET_ALL_RECIPES",
-    // });
   } catch (error) {
     console.log("Delete recipe request failed", error);
   }
 }
 
+// save new recipe to database
+function* saveNewRecipe(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    yield axios.post("/api/recipe", action.payload, config);
+    // yield put({
+    //   type: "GET_RECIPE_CATEGORY",
+    //   payload: action.payload.recipe_id,
+    // });
+  } catch (error) {
+    console.log("Add new recipe request failed", error);
+  }
+}
+
 function* recipeSaga() {
   yield takeEvery("GET_ALL_RECIPES", getAllRecipes);
-  yield takeEvery("GET_FAVORITE_RECIPES", getFavoriteRecipes);
   yield takeEvery("GET_RECIPE_DETAILS", getRecipeDetails);
-  yield takeEvery("UPDATE_FAVORITE", updateFavoriteStatus);
-  yield takeEvery(
-    "UPDATE_DETAILS_PAGE_FAVORITE",
-    updateDetailsPageFavoriteStatus
-  );
   yield takeEvery("UPDATE_RECIPE_DETAILS", updateRecipeDetails);
   yield takeEvery("DELETE_RECIPE", deleteRecipe);
+  yield takeEvery("SAVE_NEW_RECIPE", saveNewRecipe);
 }
 
 export default recipeSaga;
