@@ -1,4 +1,4 @@
-const savedRecipeIdReducer = (state = [{ recipe_id: "" }], action) => {
+const savedRecipeIdReducer = (state = [], action) => {
   switch (action.type) {
     case "SET_SAVED_RECIPE_ID":
       return action.payload;

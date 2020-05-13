@@ -88,17 +88,19 @@ class AddRecipePage extends Component {
     });
   };
 
-  sendSaveRequest = async (newRecipeData) => {
-    const result = await this.props.dispatch({
-      type: "SAVE_NEW_RECIPE",
-      payload: newRecipeData,
-    });
-    console.log(result);
-
-    this.props.history.push(
-      `/details/${this.props.savedRecipeId[0].recipe_id}`
-    );
-  };
+  // sendSaveRequest = async (newRecipeData) => {
+  //   const result = await this.props.dispatch({
+  //     type: "SAVE_NEW_RECIPE",
+  //     payload: newRecipeData,
+  //   });
+  //   while (this.props.savedRecipeId.length === 0) {
+  //     continue;
+  //   }
+  //   console.log(this.props.savedRecipeId[0].recipe_id);
+  //   // this.props.history.push(
+  //   //   `/details/${this.props.savedRecipeId[0].recipe_id}`
+  //   // );
+  // };
 
   saveNewRecipe = (event) => {
     // filter out the empty strings in ingredient array
@@ -131,7 +133,19 @@ class AddRecipePage extends Component {
     ) {
       alert("Please add a recipe name, ingredient and instruction!");
     }
-    this.sendSaveRequest(newRecipeData);
+    this.props.dispatch({
+      type: "SAVE_NEW_RECIPE",
+      payload: newRecipeData,
+    });
+    this.props.history.push("/home");
+    // still need to work on waiting for the inform to save before anything else
+    // while (this.props.savedRecipeId.length === 0) {
+    //   continue;
+    // }
+    // console.log(this.props.savedRecipeId[0].recipe_id);
+    // this.props.history.push(
+    //   `/details/${this.props.savedRecipeId[0].recipe_id}`
+    // );
   };
   render() {
     const { classes } = this.props;
