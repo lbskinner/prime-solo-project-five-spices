@@ -162,6 +162,7 @@ class AddRecipePage extends Component {
       return (
         <ListItem key={index} classes={{ root: classes.listPadding }}>
           <TextField
+            defaultValue={ingredient}
             variant="outlined"
             size="small"
             fullWidth
@@ -178,6 +179,7 @@ class AddRecipePage extends Component {
           <ListItem key={index} classes={{ root: classes.listPadding }}>
             <Typography>Step {index + 1}. </Typography>
             <TextField
+              defaultValue={instruction.instruction_description}
               variant="outlined"
               fullWidth
               multiline
@@ -216,6 +218,7 @@ class AddRecipePage extends Component {
           </Grid>
           <Grid item xs={10}>
             <TextField
+              defaultValue={this.state.recipe_name}
               variant="outlined"
               multiline
               fullWidth
@@ -233,7 +236,11 @@ class AddRecipePage extends Component {
             <Typography variant="subtitle1">Total Cook Time</Typography>
           </Grid>
           <TextField
-            // defaultValue={moment.duration(recipe.total_time).hours()}
+            defaultValue={
+              this.state.total_time == ""
+                ? ""
+                : moment.duration(this.state.total_time).hours()
+            }
             variant="outlined"
             label="Hours"
             type="number"
@@ -242,9 +249,11 @@ class AddRecipePage extends Component {
             onChange={(event) => this.handleRecipeDetailsChange(event, "hours")}
           />{" "}
           <TextField
-            // defaultValue={moment
-            //   .duration(recipe.total_time)
-            //   .minutes()}
+            defaultValue={
+              this.state.total_time == ""
+                ? ""
+                : moment.duration(this.state.total_time).minutes()
+            }
             variant="outlined"
             label="Minutes"
             type="number"
@@ -258,6 +267,7 @@ class AddRecipePage extends Component {
             <Typography variant="subtitle1">Servings</Typography>
           </Grid>
           <TextField
+            defaultValue={this.state.serving_size}
             variant="outlined"
             size="small"
             className={classes.margin}
@@ -273,6 +283,7 @@ class AddRecipePage extends Component {
           </Grid>
           <Grid item xs={10}>
             <TextField
+              defaultValue={this.state.image_url}
               variant="outlined"
               multiline
               fullWidth
@@ -291,7 +302,7 @@ class AddRecipePage extends Component {
           </Grid>
           <Grid item xs={10}>
             <TextField
-              // defaultValue={recipe.description}
+              defaultValue={this.state.description}
               variant="outlined"
               multiline
               rows={4}
