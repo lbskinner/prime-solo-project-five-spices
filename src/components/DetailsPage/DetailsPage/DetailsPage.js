@@ -9,7 +9,6 @@ import RecipeDetailsPage from "../RecipeDetailsPage/RecipeDetailsPage";
 class DetailsPage extends Component {
   state = {
     recipe_id: this.props.match.params.id,
-    isLoading: false,
   };
   componentDidMount() {
     const recipe_id = this.props.match.params.id;
@@ -28,30 +27,15 @@ class DetailsPage extends Component {
     this.props.dispatch({ type: "GET_RECIPE_CATEGORY", payload: recipe_id });
     // clear that saved recipe id
     this.props.dispatch({ type: "CLEAR_SAVED_RECIPE_ID" });
-    // this.removeLoader();
   }
-  componentWillUnmount() {}
-
-  removeLoader = () => {
-    if (
-      this.props.allRecipes.length > 0 &&
-      this.props.recipeIngredients.length > 0 &&
-      this.props.recipeInstructions.length > 0 &&
-      this.props.categoryList.length > 0 &&
-      this.props.recipeCategory.length > 0
-    ) {
-      this.setState({
-        isLoading: false,
-      });
-    }
-  };
 
   render() {
     return (
       <div>
-        {this.state.isLoading === true ? (
-          <div className="loader"></div>
-        ) : (
+        {this.props.recipeDetails.length > 0 &&
+        this.props.recipeIngredients.length > 0 &&
+        this.props.recipeInstructions.length > 0 &&
+        this.props.categoryList.length > 0 ? (
           <div>
             <RecipeDetailsPage />
             <Grid container spacing={3}>
@@ -63,6 +47,8 @@ class DetailsPage extends Component {
               </Grid>
             </Grid>
           </div>
+        ) : (
+          <div className="loader"></div>
         )}
       </div>
     );

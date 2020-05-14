@@ -14,6 +14,7 @@ import TextField from "@material-ui/core/TextField";
 import FavoriteButton from "../FavoriteButtonDetailsPage/FavoriteButtonDetailsPage";
 import CategoryDetailsPage from "../CategoryDetailsPage/CategoryDetailsPage";
 import { withRouter } from "react-router-dom";
+import noImage from "../../../images/noImage.jpg";
 
 const styles = (theme) => ({
   titleInput: {
@@ -162,14 +163,16 @@ class RecipeDetailsPage extends Component {
     }
     return (
       <div>
-        <Link
-          component="a"
-          href={recipe.recipe_url}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Original Recipe Link
-        </Link>
+        {recipe.recipe_url && (
+          <Link
+            component="a"
+            href={recipe.recipe_url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Original Recipe Link
+          </Link>
+        )}
         <Typography variant="h3">
           {this.state.recipeDetailsAreEditable ? (
             <TextField
@@ -297,7 +300,7 @@ class RecipeDetailsPage extends Component {
               />
             ) : (
               <img
-                src={recipe.image_url}
+                src={recipe.image_url ? recipe.image_url : noImage}
                 alt={recipe.recipe_name}
                 style={{ width: 300, height: 250 }}
               />

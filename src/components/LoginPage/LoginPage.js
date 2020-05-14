@@ -33,11 +33,6 @@ class LoginPage extends Component {
   };
 
   render() {
-    // console.log(window.location);
-    // let bgClass = "";
-    // if (window.location.hash.indexOf("login") !== -1) {
-    //   bgClass = "body-background";
-    // }
     return (
       <div>
         <img src={image} alt="bg" className="bg" />
