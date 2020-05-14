@@ -10,9 +10,9 @@ import HomePageRecipeList from "../HomePageRecipeList/HomePageRecipeList";
 
 class HomePage extends Component {
   componentDidMount() {
+    this.props.dispatch({ type: "GET_ALL_RECIPES" });
     this.props.dispatch({ type: "GET_CATEGORY_LIST" });
     this.props.dispatch({ type: "GET_FAVORITE_RECIPES" });
-    this.props.dispatch({ type: "GET_ALL_RECIPES" });
   }
 
   onLogin = (event) => {
@@ -27,34 +27,38 @@ class HomePage extends Component {
         </Typography>
         <HomePageSearch />
         <br />
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="flex-start"
-        >
-          <Grid item xs={2}>
-            <Typography variant="h4">Categories</Typography>
-            <div>
-              <HomePageCategoryList />
-            </div>
+        {this.props.allRecipes.length > 0 ? (
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="flex-start"
+          >
+            <Grid item xs={2}>
+              <Typography variant="h4">Categories</Typography>
+              <div>
+                <HomePageCategoryList />
+              </div>
+            </Grid>
+            <Grid item xs={8}>
+              {this.props.allRecipes.length === 0 ? (
+                <Typography variant="h4" align="center">
+                  No Recipe Found!
+                </Typography>
+              ) : (
+                <HomePageRecipeList />
+              )}
+            </Grid>
+            <Grid item xs={2}>
+              <Typography variant="h4">Favorites</Typography>
+              <div>
+                <HomePageFavoriteList />
+              </div>
+            </Grid>
           </Grid>
-          <Grid item xs={8}>
-            {this.props.allRecipes.length === 0 ? (
-              <Typography variant="h4" align="center">
-                No Recipe Found!
-              </Typography>
-            ) : (
-              <HomePageRecipeList />
-            )}
-          </Grid>
-          <Grid item xs={2}>
-            <Typography variant="h4">Favorites</Typography>
-            <div>
-              <HomePageFavoriteList />
-            </div>
-          </Grid>
-        </Grid>
+        ) : (
+          <div className="loader"></div>
+        )}
       </div>
     );
   }
