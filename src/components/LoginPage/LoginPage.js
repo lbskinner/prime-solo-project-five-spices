@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../redux/mapStoreToProps";
 import image from "../../images/bgImage.jpg";
-import Grid from "@material-ui/core/Grid";
+import { Typography, TextField, Button, Grid } from "@material-ui/core";
 
 class LoginPage extends Component {
   state = {

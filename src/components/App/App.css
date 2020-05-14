@@ -9,6 +9,9 @@ body {
   margin: 15px 20px;
 }
 
+.textColor {
+  color: #f2f2f2;
+}
 /* .body-background {
   background-image: url("../../images/bgImage.jpg");
   background-attachment: fixed;
@@ -77,10 +80,10 @@ input {
   display: block;
 }
 
-.center-text {
+/* .center-text {
   margin: 0;
   text-align: center;
-}
+} */
 
 .loader {
   position: absolute;
@@ -123,4 +126,8 @@ img.bg {
   top: 0;
   left: 0;
   z-index: -1;
+}
+
+.pageHeight {
+  min-height: 90%;
 }

@@ -34,21 +34,17 @@ const Nav = (props) => {
         {props.store.user.id ? (
           <>
             {/* need to link to actual page once created, home link don't need to appear on Home page */}
-            <Button
-              className="nav-link"
-              variant="text"
-              component={Link}
-              to="/Home"
-            >
+            <Button variant="text" component={Link} to="/Home">
               Home
             </Button>
             {/* need to link to actual page once created, add link don't need to appear on add page */}
             <Button variant="text" component={Link} to="/add">
               Add Recipe
             </Button>
-            <Button variant="text" component={Link} to="/admin">
+            {/* stretch feature will allow user to view and edit account information */}
+            {/* <Button variant="text" component={Link} to="/admin">
               Account
-            </Button>
+            </Button> */}
             <LogOutButton />
           </>
         ) : (

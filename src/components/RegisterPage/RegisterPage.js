@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../redux/mapStoreToProps";
+import image from "../../images/bgImage.jpg";
+import Grid from "@material-ui/core/Grid";
 
 class RegisterPage extends Component {
   state = {
@@ -35,6 +37,7 @@ class RegisterPage extends Component {
   render() {
     return (
       <div>
+        <img src={image} alt="bg" className="bg" />
         <div>
           <button
             type="button"
@@ -46,57 +49,59 @@ class RegisterPage extends Component {
             Login
           </button>
         </div>
-        <div>
-          {this.props.errors.registrationMessage && (
-            <h2 className="alert" role="alert">
-              {this.props.errors.registrationMessage}
-            </h2>
-          )}
-        </div>
-        <form className="formPanel" onSubmit={this.registerUser}>
-          <h1>Create Account</h1>
+        <Grid container direction="row" justify="center" alignItems="center">
           <div>
-            <label htmlFor="username">
-              Username:
+            {this.props.errors.registrationMessage && (
+              <h2 className="alert" role="alert">
+                {this.props.errors.registrationMessage}
+              </h2>
+            )}
+          </div>
+          <form className="formPanel" onSubmit={this.registerUser}>
+            <h1>Create Account</h1>
+            <div>
+              <label htmlFor="username">
+                Username:
+                <input
+                  type="text"
+                  name="username"
+                  value={this.state.username}
+                  onChange={this.handleInputChangeFor("username")}
+                />
+              </label>
+            </div>
+            <div>
+              <label htmlFor="email">
+                Email:
+                <input
+                  type="text"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.handleInputChangeFor("email")}
+                />
+              </label>
+            </div>
+            <div>
+              <label htmlFor="password">
+                Password:
+                <input
+                  type="password"
+                  name="password"
+                  value={this.state.password}
+                  onChange={this.handleInputChangeFor("password")}
+                />
+              </label>
+            </div>
+            <div>
               <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleInputChangeFor("username")}
+                className="register"
+                type="submit"
+                name="submit"
+                value="Register"
               />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="email">
-              Email:
-              <input
-                type="text"
-                name="email"
-                value={this.state.email}
-                onChange={this.handleInputChangeFor("email")}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="password">
-              Password:
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleInputChangeFor("password")}
-              />
-            </label>
-          </div>
-          <div>
-            <input
-              className="register"
-              type="submit"
-              name="submit"
-              value="Register"
-            />
-          </div>
-        </form>
+            </div>
+          </form>
+        </Grid>
       </div>
     );
   }

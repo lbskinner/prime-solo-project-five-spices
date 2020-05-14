@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../redux/mapStoreToProps";
+import { Typography, Grid } from "@material-ui/core";
+import image from "../../images/bgImage.jpg";
 
-// Basic class component structure for React with default state
-// value setup. When making a new component be sure to replace
-// the component name TemplateClass with the name for the new
-// component.
 class LogOutPage extends Component {
   state = {
     heading: "Class Component",
@@ -13,7 +11,8 @@ class LogOutPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="pageHeight">
+        <img src={image} alt="bg" className="bg" />
         <div>
           <button
             type="button"
@@ -26,11 +25,11 @@ class LogOutPage extends Component {
             Login
           </button>
         </div>
-        <div>
-          <h2 className="center-text">
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Typography className="textColor" variant="h3" align="center">
             Thank you for using Five<sup>⑤</sup> Spices!
-          </h2>
-        </div>
+          </Typography>
+        </Grid>
       </div>
     );
   }
