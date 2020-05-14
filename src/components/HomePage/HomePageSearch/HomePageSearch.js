@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../../redux/mapStoreToProps";
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import { Paper, IconButton, InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme) => ({
   root: {
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    width: 400,
+    width: 790,
+    margin: "auto",
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -19,18 +20,42 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     padding: 10,
   },
-}));
+});
 
 class HomePageSearch extends Component {
   state = {
-    heading: "Class Component",
+    searchKeywords: "",
+  };
+
+  handleChange = (event) => {
+    this.setState({
+      searchKeywords: event.target.value,
+    });
+  };
+
+  clickSearch = (event) => {
+    this.props.dispatch({
+      type: "SEARCH_RECIPES",
+      payload: this.state.searchKeywords,
+    });
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <Paper>
-        <InputBase variant="outlined" placeholder="Search Keywords" />
-        <IconButton type="submit" aria-label="search">
+      <Paper className={classes.root}>
+        <InputBase
+          className={classes.input}
+          variant="outlined"
+          placeholder="Search Keywords"
+          onChange={this.handleChange}
+        />
+        <IconButton
+          className={classes.iconButton}
+          type="submit"
+          aria-label="search"
+          onClick={this.clickSearch}
+        >
           <SearchIcon />
         </IconButton>
       </Paper>
@@ -38,4 +63,4 @@ class HomePageSearch extends Component {
   }
 }
 
-export default connect(mapStoreToProps)(HomePageSearch);
+export default withStyles(styles)(connect(mapStoreToProps)(HomePageSearch));
