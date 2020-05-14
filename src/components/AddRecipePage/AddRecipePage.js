@@ -52,7 +52,7 @@ class AddRecipePage extends Component {
 
   handleIngredientItemChange = (event, index) => {
     let newIngredientArray = [...this.state.ingredient];
-    newIngredientArray[index] = event.target.value.replace(/'/g, "''");
+    newIngredientArray[index] = event.target.value;
     this.setState({
       ...this.state,
       ingredient: [...newIngredientArray],
@@ -63,7 +63,7 @@ class AddRecipePage extends Component {
     let newInstructionArray = [...this.state.instruction];
     newInstructionArray[index] = {
       instruction_number: index + 1,
-      instruction_description: event.target.value.replace(/'/g, "''"),
+      instruction_description: event.target.value,
     };
     this.setState({
       ...this.state,
@@ -89,14 +89,20 @@ class AddRecipePage extends Component {
         .then((response) => {
           const data = response.data[0];
           console.log(data);
-          const ingredientsArray = data.ingredients.map((ingredient) =>
-            ingredient.replace(/'/g, "''")
-          );
+          // const ingredientsArray = data.ingredients.map((ingredient) =>
+          //   ingredient.replace(/'/g, "''")
+          // );
+          let hours = "";
+          let minutes = "";
+          if (data["total-time"]) {
+            hours = moment.duration(data["total-time"]).hours();
+            minutes = moment.duration(data["total-time"]).minutes();
+          }
           const instructionsArray = data.instructions[0].steps.map(
             (instruction, index) => {
               return {
                 instruction_number: index + 1,
-                instruction_description: instruction.replace(/'/g, "''"),
+                instruction_description: instruction,
               };
             }
           );
@@ -105,9 +111,11 @@ class AddRecipePage extends Component {
               recipe_name: data.name,
               description: data.description,
               total_time: data["total-time"],
+              hours: hours,
+              minutes: minutes,
               serving_size: data.yield,
               image_url: data.images[0],
-              ingredient: ingredientsArray,
+              ingredient: data.ingredients,
               instruction: instructionsArray,
             },
             () => {
@@ -121,10 +129,6 @@ class AddRecipePage extends Component {
     } else {
       alert("Please add an URL!");
     }
-    // this.props.dispatch({
-    //   type: "POST_RECIPE_URL",
-    //   payload: this.state.recipe_url,
-    // });
   };
 
   addIngredientItemInput = (event) => {
@@ -143,21 +147,25 @@ class AddRecipePage extends Component {
 
   saveNewRecipe = (event) => {
     // filter out the empty strings in ingredient array
-    const newIngArray = this.state.ingredient.filter(
-      (ingredient) => ingredient
-    );
+    let newIngArray = this.state.ingredient.filter((ingredient) => ingredient);
     // replace any single quote with two single quotes to not cause bug with SQL
-    // newIngArray = newIngArray.map((ingredient) =>
-    //   ingredient.replace(/'/g, "''")
-    // );
+    newIngArray = newIngArray.map((ingredient) =>
+      ingredient.replace(/'/g, "''")
+    );
     // filter out the empty strings in instruction array
-    const newInsArray = this.state.instruction.filter(
+    let newInsArray = this.state.instruction.filter(
       (instruction) => instruction.instruction_description
     );
     // replace any single quote with two single quotes to not cause bug with SQL
-    // newInsArray = newInsArray.map((instruction) =>
-    //   instruction.instruction_description.replace(/'/g, "''")
-    // );
+    newInsArray = newInsArray.map((instruction) => {
+      return {
+        instruction_number: instruction.instruction_number,
+        instruction_description: instruction.instruction_description.replace(
+          /'/g,
+          "''"
+        ),
+      };
+    });
     // convert time into iso 8601 string ti be saved in database
     let totalCookTime = this.state.total_time;
     if (this.state.hours || this.state.minutes) {
@@ -176,7 +184,7 @@ class AddRecipePage extends Component {
       instruction: newInsArray,
     };
     console.log(newRecipeData);
-    // required input fields for recipe name, ingredient and instruction
+    // requires input fields for recipe name, ingredient and instruction
     if (
       !newRecipeData.recipe_name ||
       newRecipeData.ingredient.length === 0 ||
@@ -188,13 +196,6 @@ class AddRecipePage extends Component {
       type: "SAVE_NEW_RECIPE",
       payload: newRecipeData,
     });
-
-    // still need to work on waiting for the inform to save before anything else
-    // console.log(this.props.savedRecipeId[0].recipe_id);
-    // this.props.history.push(
-    //   `/details/${this.props.savedRecipeId[0].recipe_id}`
-    // this.props.history.push("/home");
-    // );
   };
   render() {
     const { classes } = this.props;
@@ -202,7 +203,7 @@ class AddRecipePage extends Component {
       return (
         <ListItem key={index} classes={{ root: classes.listPadding }}>
           <TextField
-            defaultValue={ingredient}
+            value={ingredient}
             inputProps={{ maxLength: 255 }}
             variant="outlined"
             size="small"
@@ -220,7 +221,7 @@ class AddRecipePage extends Component {
           <ListItem key={index} classes={{ root: classes.listPadding }}>
             <Typography>Step {index + 1}. </Typography>
             <TextField
-              defaultValue={instruction.instruction_description}
+              value={instruction.instruction_description}
               variant="outlined"
               inputProps={{ maxLength: 1000 }}
               fullWidth
@@ -268,7 +269,7 @@ class AddRecipePage extends Component {
           </Grid>
           <Grid item xs={10}>
             <TextField
-              defaultValue={this.state.recipe_name}
+              value={this.state.recipe_name}
               inputProps={{ maxLength: 255 }}
               variant="outlined"
               multiline
@@ -287,11 +288,7 @@ class AddRecipePage extends Component {
             <Typography variant="subtitle1">Total Cook Time</Typography>
           </Grid>
           <TextField
-            defaultValue={
-              moment.duration(this.state.total_time).hours() === 0
-                ? ""
-                : moment.duration(this.state.total_time).hours()
-            }
+            value={this.state.hours}
             variant="outlined"
             label="Hours"
             type="number"
@@ -300,11 +297,7 @@ class AddRecipePage extends Component {
             onChange={(event) => this.handleRecipeDetailsChange(event, "hours")}
           />{" "}
           <TextField
-            defaultValue={
-              moment.duration(this.state.total_time).minutes() === 0
-                ? ""
-                : moment.duration(this.state.total_time).minutes()
-            }
+            value={this.state.minutes}
             variant="outlined"
             label="Minutes"
             type="number"
@@ -335,7 +328,7 @@ class AddRecipePage extends Component {
           </Grid>
           <Grid item xs={10}>
             <TextField
-              defaultValue={this.state.image_url}
+              value={this.state.image_url}
               variant="outlined"
               inputProps={{ maxLength: 2083 }}
               multiline
@@ -355,7 +348,7 @@ class AddRecipePage extends Component {
           </Grid>
           <Grid item xs={10}>
             <TextField
-              defaultValue={this.state.description}
+              value={this.state.description}
               inputProps={{ maxLength: 1000 }}
               variant="outlined"
               multiline
