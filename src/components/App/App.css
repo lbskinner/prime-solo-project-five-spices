@@ -9,13 +9,13 @@ body {
   margin: 15px 20px;
 }
 
-.body-background {
-  /* background-image: url("../../images/marion-botella-uaHShoIDGeo-unsplash.jpg"); */
+/* .body-background {
+  background-image: url("../../images/bgImage.jpg");
   background-attachment: fixed;
   background-size: cover;
   padding-bottom: 2.5rem;
   height: 100%;
-}
+} */
 
 .page-container {
   /* display: flex;
@@ -106,4 +106,21 @@ input {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Full page responsive background image */
+img.bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }

@@ -31,13 +31,11 @@ class App extends Component {
   }
 
   render() {
-    console.log(window.location);
-
     return (
       <Router>
         <div className="page-container">
           <Nav />
-          <div className="body-background">
+          <div>
             <div className="loader loader--hide"></div>
             <div className="sideMargin">
               <Switch>
@@ -67,7 +65,7 @@ class App extends Component {
                 <ProtectedRoute
                   exact
                   path="/registration"
-                  authRedirect="/admin"
+                  authRedirect="/home"
                   component={RegisterPage}
                 />
                 <ProtectedRoute exact path="/home" component={HomePage} />
