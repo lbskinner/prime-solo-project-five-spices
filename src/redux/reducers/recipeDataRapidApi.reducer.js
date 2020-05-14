@@ -8,3 +8,5 @@ const recipeDataFromRapidApiReducer = (state = [], action) => {
 };
 
 export default recipeDataFromRapidApiReducer;
+
+// did not end up using this reducer

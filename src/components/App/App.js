@@ -61,7 +61,7 @@ class App extends Component {
                 <ProtectedRoute
                   exact
                   path="/login"
-                  authRedirect="/admin"
+                  authRedirect="/home"
                   component={LoginPage}
                 />
                 <ProtectedRoute

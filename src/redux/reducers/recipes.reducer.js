@@ -4,6 +4,8 @@ const allRecipesReducer = (state = [], action) => {
       return action.payload;
     case "SET_ALL_RECIPES_BY_CATEGORY":
       return action.payload;
+    case "CLEAR_REDUCERS":
+      return [];
     default:
       return state;
   }
