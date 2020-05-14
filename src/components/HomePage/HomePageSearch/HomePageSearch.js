@@ -34,6 +34,9 @@ class HomePageSearch extends Component {
   };
 
   clickSearch = (event) => {
+    const searchString = this.state.searchKeywords.replace(/ /g, "+");
+    console.log(searchString);
+
     this.props.dispatch({
       type: "SEARCH_RECIPES",
       payload: this.state.searchKeywords,

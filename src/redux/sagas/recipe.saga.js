@@ -1,5 +1,5 @@
 import axios from "axios";
-import { put, takeEvery } from "redux-saga/effects";
+import { put, takeEvery, takeLatest } from "redux-saga/effects";
 
 // get all recipes for home page
 function* getAllRecipes(action) {
@@ -79,6 +79,23 @@ function* saveNewRecipe(action) {
   }
 }
 
+// search recipes
+function* searchRecipes(action) {
+  try {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    const response = yield axios.get(
+      `api/recipe/search?q=${action.payload}`,
+      config
+    );
+    yield put({ type: "SET_ALL_RECIPES", payload: response.data });
+  } catch (error) {
+    console.log("Search request failed", error);
+  }
+}
+
 // did not end up using it, made the axios call from the front end
 // function* postApiCallToRapidApi(action) {
 //   try {
@@ -106,11 +123,12 @@ function* saveNewRecipe(action) {
 // }
 
 function* recipeSaga() {
-  yield takeEvery("GET_ALL_RECIPES", getAllRecipes);
-  yield takeEvery("GET_RECIPE_DETAILS", getRecipeDetails);
+  yield takeLatest("GET_ALL_RECIPES", getAllRecipes);
+  yield takeLatest("GET_RECIPE_DETAILS", getRecipeDetails);
   yield takeEvery("UPDATE_RECIPE_DETAILS", updateRecipeDetails);
   yield takeEvery("DELETE_RECIPE", deleteRecipe);
   yield takeEvery("SAVE_NEW_RECIPE", saveNewRecipe);
+  yield takeLatest("SEARCH_RECIPES", searchRecipes);
   // yield takeEvery("POST_RECIPE_URL", postApiCallToRapidApi);
 }
 

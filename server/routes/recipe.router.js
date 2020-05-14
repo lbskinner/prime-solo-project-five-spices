@@ -45,11 +45,13 @@ router.get("/search", rejectUnauthenticated, (req, res) => {
   const searchWords = req.query.q;
   console.log(searchWords);
 
-  const queryText = `SELECT "recipe".recipe_id, "recipe".recipe_name, "recipe".description, array_agg("ingredient".ingredient_item) FROM "recipe"
-    JOIN "ingredient" ON "recipe".recipe_id = "ingredient".recipe_id WHERE "recipe".recipe_name LIKE $1 OR
-    "recipe".description LIKE $1 OR "ingredient".ingredient_item LIKE $1 GROUP BY "recipe".recipe_id;`;
+  const queryText = `SELECT "recipe".recipe_id, "recipe".recipe_name, "recipe".description, 
+  array_agg("ingredient".ingredient_item) FROM "recipe" JOIN "ingredient" 
+  ON "recipe".recipe_id = "ingredient".recipe_id WHERE "recipe".user_id = $1 
+  AND ("recipe".recipe_name iLIKE $2 OR "recipe".description iLIKE $2 
+  OR "ingredient".ingredient_item iLIKE $2) GROUP BY "recipe".recipe_id;`;
   pool
-    .query(queryText, [`%${searchWords}%`])
+    .query(queryText, [req.user.id, `%${searchWords}%`])
     .then((responseFromDb) => {
       res.send(responseFromDb.rows);
     })
