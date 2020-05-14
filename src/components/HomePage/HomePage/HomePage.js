@@ -7,6 +7,7 @@ import HomePageCategoryList from "../HomePageCategoryList/HomePageCategoryList";
 import HomePageFavoriteList from "../HomePageFavoriteList/HomePageFavoriteList";
 import HomePageSearch from "../HomePageSearch/HomePageSearch";
 import HomePageRecipeList from "../HomePageRecipeList/HomePageRecipeList";
+import Button from "@material-ui/core/Button";
 
 class HomePage extends Component {
   componentDidMount() {
@@ -22,43 +23,48 @@ class HomePage extends Component {
   render() {
     return (
       <div className="container">
+        <Button
+          onClick={() => {
+            this.props.dispatch({ type: "GET_ALL_RECIPES" });
+          }}
+        >
+          All Recipes
+        </Button>
         <Typography variant="h3" align="center">
           Welcome {this.props.user.username}!
         </Typography>
         <HomePageSearch />
         <br />
-        {this.props.allRecipes.length > 0 ? (
-          <Grid
-            container
-            direction="row"
-            justify="space-between"
-            alignItems="flex-start"
-          >
-            <Grid item xs={2}>
-              <Typography variant="h4">Categories</Typography>
-              <div>
-                <HomePageCategoryList />
-              </div>
-            </Grid>
-            <Grid item xs={8}>
-              {this.props.allRecipes.length === 0 ? (
-                <Typography variant="h4" align="center">
-                  No Recipe Found!
-                </Typography>
-              ) : (
-                <HomePageRecipeList />
-              )}
-            </Grid>
-            <Grid item xs={2}>
-              <Typography variant="h4">Favorites</Typography>
-              <div>
-                <HomePageFavoriteList />
-              </div>
-            </Grid>
+        <Grid
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="flex-start"
+        >
+          <Grid item xs={2}>
+            <Typography variant="h4">Categories</Typography>
+            <div>
+              <HomePageCategoryList />
+            </div>
           </Grid>
-        ) : (
-          <div className="loader"></div>
-        )}
+          <Grid item xs={8}>
+            {/* {this.props.allRecipes.length === 0 ? ( */}
+            {this.props.allRecipes.length > 0 ? (
+              <HomePageRecipeList />
+            ) : (
+              // <div className="loader"></div>
+              <Typography variant="h4" align="center">
+                No Recipe Found!
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="h4">Favorites</Typography>
+            <div>
+              <HomePageFavoriteList />
+            </div>
+          </Grid>
+        </Grid>
       </div>
     );
   }
