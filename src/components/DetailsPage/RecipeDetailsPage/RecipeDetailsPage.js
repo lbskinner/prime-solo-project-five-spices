@@ -15,6 +15,7 @@ import FavoriteButton from "../FavoriteButtonDetailsPage/FavoriteButtonDetailsPa
 import CategoryDetailsPage from "../CategoryDetailsPage/CategoryDetailsPage";
 import { withRouter } from "react-router-dom";
 import noImage from "../../../images/noImage.jpg";
+import swal from "sweetalert";
 
 const styles = (theme) => ({
   titleInput: {
@@ -64,10 +65,22 @@ class RecipeDetailsPage extends Component {
   };
 
   clickDeleteButton = (recipe_id) => (event) => {
-    if (window.confirm("Are you sure you want to delete the recipe?")) {
+    swal({
+      title: "Are you sure you want to delete the recipe?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(() => {
+      swal("Your recipe has been deleted!", {
+        icon: "success",
+      });
       this.props.dispatch({ type: "DELETE_RECIPE", payload: recipe_id });
       this.props.history.push("/home");
-    }
+    });
+    // if (window.confirm("Are you sure you want to delete the recipe?")) {
+    //   this.props.dispatch({ type: "DELETE_RECIPE", payload: recipe_id });
+    //   this.props.history.push("/home");
+    // }
   };
 
   clickEditButton = (recipe_id) => (event) => {

@@ -12,6 +12,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
+import swal from "sweetalert";
 
 const styles = (theme) => ({
   listItem: {
@@ -56,15 +57,20 @@ class CategoryDetailsPage extends Component {
   };
 
   clickDeleteButton = (recipe_category_id) => (event) => {
-    if (window.confirm("Are you sure you want to delete the category?")) {
-      this.props.dispatch({
-        type: "DELETE_CATEGORY",
-        payload: {
-          recipe_category_id: recipe_category_id,
-          recipe_id: this.props.match.params.id,
-        },
-      });
-    }
+    swal("Are you sure you want to delete the category?", {
+      buttons: ["No", "Yes"],
+    }).then((value) => {
+      if (value) {
+        this.props.dispatch({
+          type: "DELETE_CATEGORY",
+          payload: {
+            recipe_category_id: recipe_category_id,
+            recipe_id: this.props.match.params.id,
+          },
+        });
+        swal("The category has been deleted");
+      }
+    });
   };
 
   render() {
