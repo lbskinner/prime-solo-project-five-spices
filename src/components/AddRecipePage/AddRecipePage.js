@@ -29,6 +29,7 @@ const styles = (theme) => ({
 
 class AddRecipePage extends Component {
   state = {
+    isLoading: false,
     recipe_name: "",
     description: "",
     total_time: "",
@@ -40,8 +41,6 @@ class AddRecipePage extends Component {
     ingredient: ["", "", "", "", "", "", ""],
     instruction: [{}, {}, {}, {}],
   };
-
-  componentDidMount() {}
 
   handleRecipeDetailsChange = (event, propertyKey) => {
     this.setState({
@@ -73,6 +72,9 @@ class AddRecipePage extends Component {
 
   clickAddRecipe = (event) => {
     console.log("Add Recipe From URL Clicked");
+    this.setState({
+      isLoading: true,
+    });
     if (this.state.recipe_url) {
       axios({
         method: "POST",
@@ -117,6 +119,7 @@ class AddRecipePage extends Component {
               image_url: data.images[0],
               ingredient: data.ingredients,
               instruction: instructionsArray,
+              isLoading: false,
             },
             () => {
               console.log(this.state);
@@ -146,6 +149,9 @@ class AddRecipePage extends Component {
   };
 
   saveNewRecipe = (event) => {
+    this.setState({
+      isLoading: true,
+    });
     // filter out the empty strings in ingredient array
     let newIngArray = this.state.ingredient.filter((ingredient) => ingredient);
     // replace any single quote with two single quotes to not cause bug with SQL
@@ -242,164 +248,174 @@ class AddRecipePage extends Component {
     }
 
     return (
-      <Grid>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={10}>
-            <TextField
-              variant="outlined"
-              inputProps={{ maxLength: 2083 }}
-              multiline
-              fullWidth
-              size="small"
-              label="Enter Recipe URL From Website"
-              onChange={(event) =>
-                this.handleRecipeDetailsChange(event, "recipe_url")
-              }
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <Button variant="outlined" onClick={this.clickAddRecipe}>
-              Add Recipe From URL
-            </Button>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item>
-            <Typography variant="subtitle1">Recipe Name</Typography>
-          </Grid>
-          <Grid item xs={10}>
-            <TextField
-              value={this.state.recipe_name}
-              inputProps={{ maxLength: 255 }}
-              variant="outlined"
-              multiline
-              fullWidth
-              size="small"
-              label="Recipe Name"
-              className={classes.margin}
-              onChange={(event) =>
-                this.handleRecipeDetailsChange(event, "recipe_name")
-              }
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item>
-            <Typography variant="subtitle1">Total Cook Time</Typography>
-          </Grid>
-          <TextField
-            value={this.state.hours}
-            variant="outlined"
-            label="Hours"
-            type="number"
-            size="small"
-            className={classes.margin}
-            onChange={(event) => this.handleRecipeDetailsChange(event, "hours")}
-          />{" "}
-          <TextField
-            value={this.state.minutes}
-            variant="outlined"
-            label="Minutes"
-            type="number"
-            size="small"
-            className={classes.margin}
-            onChange={(event) =>
-              this.handleRecipeDetailsChange(event, "minutes")
-            }
-          />
-          <Grid item>
-            <Typography variant="subtitle1">Servings</Typography>
-          </Grid>
-          <TextField
-            value={this.state.serving_size}
-            inputProps={{ maxLength: 80 }}
-            variant="outlined"
-            size="small"
-            className={classes.margin}
-            label="Servings"
-            onChange={(event) =>
-              this.handleRecipeDetailsChange(event, "serving_size")
-            }
-          />
-        </Grid>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item>
-            <Typography variant="subtitle1">Image URL</Typography>
-          </Grid>
-          <Grid item xs={10}>
-            <TextField
-              value={this.state.image_url}
-              variant="outlined"
-              inputProps={{ maxLength: 2083 }}
-              multiline
-              fullWidth
-              size="small"
-              label="Enter URL for Recipe Image"
-              className={classes.margin}
-              onChange={(event) =>
-                this.handleRecipeDetailsChange(event, "image_url")
-              }
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item>
-            <Typography variant="subtitle1">Description</Typography>
-          </Grid>
-          <Grid item xs={10}>
-            <TextField
-              value={this.state.description}
-              inputProps={{ maxLength: 1000 }}
-              variant="outlined"
-              multiline
-              rows={4}
-              fullWidth
-              label="Description"
-              onChange={(event) =>
-                this.handleRecipeDetailsChange(event, "description")
-              }
-            />
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={5}>
-            <Typography variant="subtitle1">
-              Ingredients{" "}
-              <IconButton
-                classes={{ root: classes.buttonPadding }}
-                onClick={this.addIngredientItemInput}
-                // disabled={this.state.disabled}
+      <div>
+        {this.state.isLoading ? (
+          <div className="loader"></div>
+        ) : (
+          <Grid>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={10}>
+                <TextField
+                  variant="outlined"
+                  inputProps={{ maxLength: 2083 }}
+                  multiline
+                  fullWidth
+                  size="small"
+                  label="Enter Recipe URL From Website"
+                  onChange={(event) =>
+                    this.handleRecipeDetailsChange(event, "recipe_url")
+                  }
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Button variant="outlined" onClick={this.clickAddRecipe}>
+                  Add Recipe From URL
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Typography variant="subtitle1">Recipe Name</Typography>
+              </Grid>
+              <Grid item xs={10}>
+                <TextField
+                  value={this.state.recipe_name}
+                  inputProps={{ maxLength: 255 }}
+                  variant="outlined"
+                  multiline
+                  fullWidth
+                  size="small"
+                  label="Recipe Name"
+                  className={classes.margin}
+                  onChange={(event) =>
+                    this.handleRecipeDetailsChange(event, "recipe_name")
+                  }
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Typography variant="subtitle1">Total Cook Time</Typography>
+              </Grid>
+              <TextField
+                value={this.state.hours}
+                variant="outlined"
+                label="Hours"
+                type="number"
+                size="small"
+                className={classes.margin}
+                onChange={(event) =>
+                  this.handleRecipeDetailsChange(event, "hours")
+                }
+              />{" "}
+              <TextField
+                value={this.state.minutes}
+                variant="outlined"
+                label="Minutes"
+                type="number"
+                size="small"
+                className={classes.margin}
+                onChange={(event) =>
+                  this.handleRecipeDetailsChange(event, "minutes")
+                }
+              />
+              <Grid item>
+                <Typography variant="subtitle1">Servings</Typography>
+              </Grid>
+              <TextField
+                value={this.state.serving_size}
+                inputProps={{ maxLength: 80 }}
+                variant="outlined"
+                size="small"
+                className={classes.margin}
+                label="Servings"
+                onChange={(event) =>
+                  this.handleRecipeDetailsChange(event, "serving_size")
+                }
+              />
+            </Grid>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Typography variant="subtitle1">Image URL</Typography>
+              </Grid>
+              <Grid item xs={10}>
+                <TextField
+                  value={this.state.image_url}
+                  variant="outlined"
+                  inputProps={{ maxLength: 2083 }}
+                  multiline
+                  fullWidth
+                  size="small"
+                  label="Enter URL for Recipe Image"
+                  className={classes.margin}
+                  onChange={(event) =>
+                    this.handleRecipeDetailsChange(event, "image_url")
+                  }
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Typography variant="subtitle1">Description</Typography>
+              </Grid>
+              <Grid item xs={10}>
+                <TextField
+                  value={this.state.description}
+                  inputProps={{ maxLength: 1000 }}
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  fullWidth
+                  label="Description"
+                  onChange={(event) =>
+                    this.handleRecipeDetailsChange(event, "description")
+                  }
+                />
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={5}>
+                <Typography variant="subtitle1">
+                  Ingredients{" "}
+                  <IconButton
+                    classes={{ root: classes.buttonPadding }}
+                    onClick={this.addIngredientItemInput}
+                    // disabled={this.state.disabled}
+                  >
+                    <AddCircleOutlineIcon />
+                  </IconButton>
+                </Typography>
+                <List>{ingredientsArray}</List>
+              </Grid>
+              <Grid item xs={7}>
+                <Typography variant="subtitle1">
+                  Instructions
+                  <IconButton
+                    classes={{ root: classes.buttonPadding }}
+                    onClick={this.addInstructionDescriptionInput}
+                    // disabled={this.state.disabled}
+                  >
+                    <AddCircleOutlineIcon />
+                  </IconButton>
+                </Typography>
+                <List>{instructionsArray}</List>
+              </Grid>
+            </Grid>
+            <div styles={{ display: "block" }}>
+              <Grid
+                container
+                direction="row"
+                justify="flex-end"
+                alignItems="flex-start"
               >
-                <AddCircleOutlineIcon />
-              </IconButton>
-            </Typography>
-            <List>{ingredientsArray}</List>
+                <Button variant="outlined" onClick={this.saveNewRecipe}>
+                  Save Recipe
+                </Button>
+              </Grid>
+            </div>
           </Grid>
-          <Grid item xs={7}>
-            <Typography variant="subtitle1">
-              Instructions
-              <IconButton
-                classes={{ root: classes.buttonPadding }}
-                onClick={this.addInstructionDescriptionInput}
-                // disabled={this.state.disabled}
-              >
-                <AddCircleOutlineIcon />
-              </IconButton>
-            </Typography>
-            <List>{instructionsArray}</List>
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          direction="row"
-          justify="flex-end"
-          alignItems="flex-start"
-        >
-          <Button variant="outlined" onClick={this.saveNewRecipe}>
-            Save Recipe
-          </Button>
-        </Grid>
-      </Grid>
+        )}
+      </div>
     );
   }
 }

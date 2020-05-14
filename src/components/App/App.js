@@ -35,8 +35,7 @@ class App extends Component {
       <Router>
         <div className="page-container">
           <Nav />
-          <div>
-            <div className="loader loader--hide"></div>
+          <div className="content-wrap">
             <div className="sideMargin">
               <Switch>
                 {/* Visiting localhost:3000 will redirect to localhost:3000/home */}

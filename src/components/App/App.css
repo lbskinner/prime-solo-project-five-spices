@@ -12,20 +12,14 @@ body {
 .textColor {
   color: #f2f2f2;
 }
-/* .body-background {
-  background-image: url("../../images/bgImage.jpg");
-  background-attachment: fixed;
-  background-size: cover;
-  padding-bottom: 2.5rem;
-  height: 100%;
-} */
 
 .page-container {
-  /* display: flex;
-  flex-direction: column;
-  justify-content: space-between; */
   position: relative;
   min-height: 100vh;
+}
+
+.content-wrap {
+  padding-bottom: 2.5rem;
 }
 
 .alert {
@@ -98,8 +92,8 @@ input {
   transition: opacity 0.3s;
 }
 
-.loader--hide {
-  opacity: 0;
+.loader--transparent {
+  opacity: 50%;
 }
 
 @keyframes load8 {
@@ -128,6 +122,6 @@ img.bg {
   z-index: -1;
 }
 
-.pageHeight {
+/* .pageHeight {
   min-height: 90%;
-}
+} */
