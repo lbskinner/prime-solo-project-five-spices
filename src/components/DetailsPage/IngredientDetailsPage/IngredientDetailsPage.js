@@ -13,6 +13,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router-dom";
+import swal from "sweetalert";
 
 const styles = (theme) => ({
   listItem: {
@@ -36,15 +37,20 @@ class IngredientDetailsPage extends Component {
   };
 
   clickDeleteButton = (ingredient_id) => (event) => {
-    if (window.confirm("Are you sure you want to delete the ingredient?")) {
-      this.props.dispatch({
-        type: "DELETE_INGREDIENT_ITEM",
-        payload: {
-          ingredient_id: ingredient_id,
-          recipe_id: this.props.match.params.id,
-        },
-      });
-    }
+    swal("Are you sure you want to delete the ingredient?", {
+      buttons: ["No", "Yes"],
+    }).then((value) => {
+      if (value) {
+        this.props.dispatch({
+          type: "DELETE_INGREDIENT_ITEM",
+          payload: {
+            ingredient_id: ingredient_id,
+            recipe_id: this.props.match.params.id,
+          },
+        });
+        swal("The ingredient has been deleted");
+      }
+    });
   };
 
   clickEditButton = (ingredient_id) => (event) => {
@@ -99,13 +105,17 @@ class IngredientDetailsPage extends Component {
 
   // click delete before save new ingredient item, remove the additional input
   deleteAdditionalInput = (event) => {
-    if (window.confirm("Are you sure you want to delete without save?")) {
-      this.setState({
-        additionalInput: false,
-        disabled: false,
-        ingredient_item: "",
-      });
-    }
+    swal("Are you sure you want to delete without save?", {
+      buttons: ["No", "Yes"],
+    }).then((value) => {
+      if (value) {
+        this.setState({
+          additionalInput: false,
+          disabled: false,
+          ingredient_item: "",
+        });
+      }
+    });
   };
 
   // save new ingredient item to existing recipe to database

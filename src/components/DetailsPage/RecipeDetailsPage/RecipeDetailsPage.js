@@ -70,17 +70,15 @@ class RecipeDetailsPage extends Component {
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    }).then(() => {
-      swal("Your recipe has been deleted!", {
-        icon: "success",
-      });
-      this.props.dispatch({ type: "DELETE_RECIPE", payload: recipe_id });
-      this.props.history.push("/home");
+    }).then((willDelete) => {
+      if (willDelete) {
+        swal("Your recipe has been deleted!", {
+          icon: "success",
+        });
+        this.props.dispatch({ type: "DELETE_RECIPE", payload: recipe_id });
+        this.props.history.push("/home");
+      }
     });
-    // if (window.confirm("Are you sure you want to delete the recipe?")) {
-    //   this.props.dispatch({ type: "DELETE_RECIPE", payload: recipe_id });
-    //   this.props.history.push("/home");
-    // }
   };
 
   clickEditButton = (recipe_id) => (event) => {
