@@ -17,24 +17,30 @@ const styles = (theme) => ({
   card: {
     width: 250,
     height: 250,
+    cursor: "pointer",
   },
   display: {
     display: "flex",
   },
   media: {
-    height: 154,
+    height: 180,
     width: 250,
   },
   color: {
     color: "red",
   },
-  hover: {
-    cursor: "pointer",
+  titleSize: {
+    height: 70,
+    width: 170,
+    overflow: "hidden",
+    // whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
   },
 });
 
 class HomePageRecipeList extends Component {
   clickFavorite = (recipe_id, favorite) => (event) => {
+    event.stopPropagation();
     console.log(recipe_id, favorite);
     const favoriteStatus = !favorite;
     this.props.dispatch({
@@ -58,12 +64,14 @@ class HomePageRecipeList extends Component {
       recipesArray = this.props.allRecipes.map((recipe) => {
         return (
           <Grid item key={recipe.recipe_id}>
-            <Card className={classes.card}>
+            <Card
+              className={classes.card}
+              onClick={this.clickRecipe(recipe.recipe_id)}
+            >
               <div className={classes.display}>
                 <CardHeader
                   title={recipe.recipe_name}
-                  onClick={this.clickRecipe(recipe.recipe_id)}
-                  className={classes.hover}
+                  className={classes.titleSize}
                 />
                 <IconButton
                   aria-label="add to favorites"
