@@ -53,44 +53,54 @@ class HomePageRecipeList extends Component {
 
   render() {
     const { classes } = this.props;
-    const recipesArray = this.props.allRecipes.map((recipe) => {
-      return (
-        <Grid item key={recipe.recipe_id}>
-          <Card className={classes.card}>
-            <div className={classes.display}>
-              <CardHeader
-                title={recipe.recipe_name}
-                onClick={this.clickRecipe(recipe.recipe_id)}
-                className={classes.hover}
-              />
-              <IconButton
-                aria-label="add to favorites"
-                onClick={this.clickFavorite(recipe.recipe_id, recipe.favorite)}
-              >
-                {recipe.favorite === true ? (
-                  <FavoriteIcon className={classes.color} />
-                ) : (
-                  <FavoriteBorderIcon />
-                )}
-              </IconButton>
-            </div>
-            {recipe.image_url ? (
-              <CardMedia
-                className={classes.media}
-                component="img"
-                src={recipe.image_url}
-              ></CardMedia>
-            ) : (
-              <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {recipe.description}
-                </Typography>
-              </CardContent>
-            )}
-          </Card>
-        </Grid>
-      );
-    });
+    let recipesArray = "";
+    if (this.props.allRecipes.length) {
+      recipesArray = this.props.allRecipes.map((recipe) => {
+        return (
+          <Grid item key={recipe.recipe_id}>
+            <Card className={classes.card}>
+              <div className={classes.display}>
+                <CardHeader
+                  title={recipe.recipe_name}
+                  onClick={this.clickRecipe(recipe.recipe_id)}
+                  className={classes.hover}
+                />
+                <IconButton
+                  aria-label="add to favorites"
+                  onClick={this.clickFavorite(
+                    recipe.recipe_id,
+                    recipe.favorite
+                  )}
+                >
+                  {recipe.favorite === true ? (
+                    <FavoriteIcon className={classes.color} />
+                  ) : (
+                    <FavoriteBorderIcon />
+                  )}
+                </IconButton>
+              </div>
+              {recipe.image_url ? (
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  src={recipe.image_url}
+                ></CardMedia>
+              ) : (
+                <CardContent>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {recipe.description}
+                  </Typography>
+                </CardContent>
+              )}
+            </Card>
+          </Grid>
+        );
+      });
+    }
     return (
       <Grid
         container

@@ -20,16 +20,15 @@ class HomePage extends Component {
     this.props.history.push("/login");
   };
 
+  handleAllRecipesClick = (event) => {
+    this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
+    this.props.dispatch({ type: "GET_ALL_RECIPES" });
+  };
+
   render() {
     return (
       <div className="container">
-        <Button
-          onClick={() => {
-            this.props.dispatch({ type: "GET_ALL_RECIPES" });
-          }}
-        >
-          All Recipes
-        </Button>
+        <Button onClick={this.handleAllRecipesClick}>All Recipes</Button>
         <Typography variant="h3" align="center">
           Welcome {this.props.user.username}!
         </Typography>
@@ -48,11 +47,11 @@ class HomePage extends Component {
             </div>
           </Grid>
           <Grid item xs={8}>
-            {/* {this.props.allRecipes.length === 0 ? ( */}
-            {this.props.allRecipes.length > 0 ? (
+            {this.props.allRecipes === null ? (
+              <div className="loader"></div>
+            ) : this.props.allRecipes.length > 0 ? (
               <HomePageRecipeList />
             ) : (
-              // <div className="loader"></div>
               <Typography variant="h4" align="center">
                 No Recipe Found!
               </Typography>

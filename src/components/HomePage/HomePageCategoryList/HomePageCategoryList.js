@@ -9,6 +9,7 @@ class HomePageCategoryList extends Component {
   };
 
   handleClick = (category_id) => (event) => {
+    this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
     this.props.dispatch({
       type: "GET_RECIPES_BY_CATEGORY",
       payload: category_id,
