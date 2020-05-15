@@ -25,12 +25,14 @@ const Nav = (props) => {
 
   const resetRecipeDetailsRecipeReducer = (event) => {
     // props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
+    // reset all reducers
     props.dispatch({ type: "CLEAR_REDUCERS" });
   };
 
   const clearAllRecipesReducer = (event) => {
     // props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
     // props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
+    // reset all reducers
     props.dispatch({ type: "CLEAR_REDUCERS" });
   };
 
@@ -46,6 +48,7 @@ const Nav = (props) => {
           <>
             {/* need to link to actual page once created, home link don't need to appear on Home page */}
             <Button
+              style={{ color: "#f2f2f2" }}
               variant="text"
               component={Link}
               to="/Home"
@@ -55,6 +58,7 @@ const Nav = (props) => {
             </Button>
             {/* need to link to actual page once created, add link don't need to appear on add page */}
             <Button
+              style={{ color: "#f2f2f2" }}
               variant="text"
               component={Link}
               to="/add"
@@ -71,6 +75,7 @@ const Nav = (props) => {
         ) : (
           <div>
             <Button
+              style={{ color: "#f2f2f2" }}
               aria-controls="simple-menu"
               aria-haspopup="true"
               onClick={handleClick}
@@ -101,7 +106,7 @@ const Nav = (props) => {
             </Menu>
           </div>
         )}
-        <Button component={Link} to="/about">
+        <Button style={{ color: "#f2f2f2" }} component={Link} to="/about">
           About
         </Button>
       </Grid>

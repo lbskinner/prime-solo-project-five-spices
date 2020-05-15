@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 
 const LogOutButton = (props) => (
   <Button
+    style={{ color: "#f2f2f2" }}
     // This button shows up in multiple locations and is styled differently
     // because it's styled differently depending on where it is used, the className
     // is passed to it from it's parents through React props
