@@ -12,6 +12,7 @@ class DetailsPage extends Component {
   };
   componentDidMount() {
     const recipe_id = this.props.match.params.id;
+    // this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
     // get recipes info
     this.props.dispatch({ type: "GET_RECIPE_DETAILS", payload: recipe_id });
     // get ingredients

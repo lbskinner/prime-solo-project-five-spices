@@ -68,7 +68,6 @@ class CategoryDetailsPage extends Component {
             recipe_id: this.props.match.params.id,
           },
         });
-        swal("The category has been deleted");
       }
     });
   };

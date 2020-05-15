@@ -49,14 +49,13 @@ class RegisterPage extends Component {
             Login
           </button>
         </div>
+        {this.props.errors.registrationMessage && (
+          <h2 className="alert" role="alert">
+            {this.props.errors.registrationMessage}
+          </h2>
+        )}
         <Grid container direction="row" justify="center" alignItems="center">
-          <div>
-            {this.props.errors.registrationMessage && (
-              <h2 className="alert" role="alert">
-                {this.props.errors.registrationMessage}
-              </h2>
-            )}
-          </div>
+          <div></div>
           <form className="formPanel" onSubmit={this.registerUser}>
             <h1>Create Account</h1>
             <div>

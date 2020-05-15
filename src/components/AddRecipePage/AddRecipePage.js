@@ -126,7 +126,7 @@ class AddRecipePage extends Component {
             isLoading: false,
           });
           swal(
-            "Add recipe from URL did not work, pleas check the URL and try again!"
+            "Add recipe from URL did not work, please check the URL and try again!"
           );
           console.log("Post call to RapidAPI request failed: ", error);
         });

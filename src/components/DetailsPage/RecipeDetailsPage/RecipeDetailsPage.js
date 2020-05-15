@@ -72,11 +72,9 @@ class RecipeDetailsPage extends Component {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        swal("Your recipe has been deleted!", {
-          icon: "success",
-        });
+        this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
         this.props.dispatch({ type: "DELETE_RECIPE", payload: recipe_id });
-        this.props.history.push("/home");
+        // this.props.history.push("/home");
       }
     });
   };
@@ -171,6 +169,9 @@ class RecipeDetailsPage extends Component {
       moment.duration(recipe.total_time).minutes() === 0
     ) {
       totalCookTime = `${moment.duration(recipe.total_time).hours()} hr`;
+    }
+    if (this.props.allRecipes !== null) {
+      this.props.history.push("/home");
     }
     return (
       <div>

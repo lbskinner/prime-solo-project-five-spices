@@ -45,12 +45,12 @@ class LoginPage extends Component {
         >
           Create Account
         </button>
+        {this.props.store.errors.loginMessage && (
+          <h2 className="alert" role="alert">
+            {this.props.store.errors.loginMessage}
+          </h2>
+        )}
         <Grid container direction="row" justify="center" alignItems="center">
-          {this.props.store.errors.loginMessage && (
-            <h2 className="alert" role="alert">
-              {this.props.store.errors.loginMessage}
-            </h2>
-          )}
           <form className="formPanel" onSubmit={this.login}>
             <h1>Login</h1>
             <div>

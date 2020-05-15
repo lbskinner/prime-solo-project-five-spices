@@ -48,7 +48,6 @@ class IngredientDetailsPage extends Component {
             recipe_id: this.props.match.params.id,
           },
         });
-        swal("The ingredient has been deleted");
       }
     });
   };

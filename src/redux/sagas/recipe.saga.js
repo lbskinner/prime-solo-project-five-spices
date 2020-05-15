@@ -57,6 +57,7 @@ function* deleteRecipe(action) {
       withCredentials: true,
     };
     yield axios.delete(`/api/recipe/${action.payload}`, config);
+    yield put({ type: "GET_ALL_RECIPES" });
   } catch (error) {
     console.log("Delete recipe request failed", error);
   }

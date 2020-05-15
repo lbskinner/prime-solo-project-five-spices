@@ -23,6 +23,10 @@ const Nav = (props) => {
     }
   };
 
+  const clearAllRecipesReducer = (evemt) => {
+    props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
+  };
+
   return (
     <div className="nav">
       <Link to="/Home">
@@ -38,7 +42,12 @@ const Nav = (props) => {
               Home
             </Button>
             {/* need to link to actual page once created, add link don't need to appear on add page */}
-            <Button variant="text" component={Link} to="/add">
+            <Button
+              variant="text"
+              component={Link}
+              to="/add"
+              onClick={clearAllRecipesReducer}
+            >
               Add Recipe
             </Button>
             {/* stretch feature will allow user to view and edit account information */}
