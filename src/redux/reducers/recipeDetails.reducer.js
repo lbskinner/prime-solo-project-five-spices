@@ -22,6 +22,8 @@ const recipeDetailsReducer = (
       return null;
     case "RESET_TO_INITIAL_STATE":
       return initialRecipeDetailsReducerState;
+    case "CLEAR_REDUCERS":
+      return initialRecipeDetailsReducerState;
     default:
       return state;
   }

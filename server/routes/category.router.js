@@ -11,9 +11,9 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
   // id on params is category id
   const categoryId = req.params.id;
   const queryText = `SELECT * FROM "recipe" JOIN "recipe_category" ON "recipe".recipe_id = "recipe_category".recipe_id
-    WHERE "recipe_category".category_id = $1 ORDER BY "recipe_name" ASC;`;
+    WHERE "recipe_category".category_id = $1 AND "recipe".user_id = $2 ORDER BY "recipe_name" ASC;`;
   pool
-    .query(queryText, [categoryId])
+    .query(queryText, [categoryId, req.user.id])
     .then((responseFromDb) => {
       res.send(responseFromDb.rows);
     })

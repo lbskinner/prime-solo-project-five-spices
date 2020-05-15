@@ -24,12 +24,14 @@ const Nav = (props) => {
   };
 
   const resetRecipeDetailsRecipeReducer = (event) => {
-    props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
+    // props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
+    props.dispatch({ type: "CLEAR_REDUCERS" });
   };
 
-  const clearAllRecipesReducer = (evemt) => {
-    props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
-    props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
+  const clearAllRecipesReducer = (event) => {
+    // props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
+    // props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
+    props.dispatch({ type: "CLEAR_REDUCERS" });
   };
 
   return (

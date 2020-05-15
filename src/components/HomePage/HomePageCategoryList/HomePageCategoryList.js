@@ -4,10 +4,6 @@ import mapStoreToProps from "../../../redux/mapStoreToProps";
 import { List, ListItem, ListItemText } from "@material-ui/core";
 
 class HomePageCategoryList extends Component {
-  state = {
-    heading: "Class Component",
-  };
-
   handleClick = (category_id) => (event) => {
     this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
     this.props.dispatch({
@@ -19,7 +15,7 @@ class HomePageCategoryList extends Component {
     const categoryArray = this.props.categoryList.map((category) => {
       return (
         <span key={category.category_id} style={{ cursor: "pointer" }}>
-          <ListItem onClick={this.handleClick(category.category_id)}>
+          <ListItem onClick={this.handleClick(category.category_id)} divider>
             <ListItemText primary={category.category_name} />
           </ListItem>
         </span>

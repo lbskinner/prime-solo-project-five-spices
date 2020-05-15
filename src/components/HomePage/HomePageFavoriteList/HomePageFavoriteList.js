@@ -17,7 +17,7 @@ class HomePageFavoriteList extends Component {
     const favoriteArray = this.props.favoriteRecipes.map((recipe) => {
       return (
         <span key={recipe.recipe_id} style={{ cursor: "pointer" }}>
-          <ListItem onClick={this.handleClick(recipe.recipe_id)}>
+          <ListItem onClick={this.handleClick(recipe.recipe_id)} divider>
             <ListItemText primary={recipe.recipe_name} />
           </ListItem>
         </span>

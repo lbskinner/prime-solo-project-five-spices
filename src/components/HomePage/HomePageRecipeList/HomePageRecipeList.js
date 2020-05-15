@@ -12,6 +12,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Grid from "@material-ui/core/Grid";
 import { withRouter } from "react-router-dom";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const styles = (theme) => ({
   card: {
@@ -23,18 +24,28 @@ const styles = (theme) => ({
     display: "flex",
   },
   media: {
-    height: 180,
+    height: 190,
     width: 250,
   },
   color: {
     color: "red",
   },
   titleSize: {
-    height: 70,
-    width: 170,
-    overflow: "hidden",
-    // whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
+    height: 60,
+    // width: 170,
+    // overflow: "hidden",
+    // textOverflow: "ellipsis",
+    padding: 10,
+  },
+  height: {
+    height: 60,
+    padding: 10,
+  },
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
   },
 });
 
@@ -69,23 +80,38 @@ class HomePageRecipeList extends Component {
               onClick={this.clickRecipe(recipe.recipe_id)}
             >
               <div className={classes.display}>
-                <CardHeader
+                <Tooltip
                   title={recipe.recipe_name}
-                  className={classes.titleSize}
-                />
-                <IconButton
-                  aria-label="add to favorites"
-                  onClick={this.clickFavorite(
-                    recipe.recipe_id,
-                    recipe.favorite
-                  )}
+                  placement="top"
+                  classes={{ tooltip: classes.tooltip }}
                 >
-                  {recipe.favorite === true ? (
-                    <FavoriteIcon className={classes.color} />
-                  ) : (
-                    <FavoriteBorderIcon />
-                  )}
-                </IconButton>
+                  <Typography
+                    variant="h5"
+                    classes={{ root: classes.titleSize }}
+                  >
+                    {recipe.recipe_name}
+                  </Typography>
+                </Tooltip>
+                <Tooltip
+                  title="favorite"
+                  placement="top"
+                  classes={{ tooltip: classes.tooltip }}
+                >
+                  <IconButton
+                    aria-label="add to favorites"
+                    onClick={this.clickFavorite(
+                      recipe.recipe_id,
+                      recipe.favorite
+                    )}
+                    className={classes.height}
+                  >
+                    {recipe.favorite === true ? (
+                      <FavoriteIcon className={classes.color} />
+                    ) : (
+                      <FavoriteBorderIcon />
+                    )}
+                  </IconButton>
+                </Tooltip>
               </div>
               {recipe.image_url ? (
                 <CardMedia
