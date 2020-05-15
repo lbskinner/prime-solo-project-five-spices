@@ -11,6 +11,12 @@ class HomePageCategoryList extends Component {
       payload: category_id,
     });
   };
+
+  handleAllRecipesClick = (event) => {
+    this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
+    this.props.dispatch({ type: "GET_ALL_RECIPES" });
+  };
+
   render() {
     const categoryArray = this.props.categoryList.map((category) => {
       return (
@@ -21,7 +27,16 @@ class HomePageCategoryList extends Component {
         </span>
       );
     });
-    return <List>{categoryArray}</List>;
+    return (
+      <List>
+        <span key="All Recipes" style={{ cursor: "pointer" }}>
+          <ListItem onClick={this.handleAllRecipesClick} divider>
+            <ListItemText primary="All Recipes" />
+          </ListItem>
+        </span>
+        {categoryArray}
+      </List>
+    );
   }
 }
 
