@@ -57,39 +57,42 @@ class RegisterPage extends Component {
         <Grid container direction="row" justify="center" alignItems="center">
           <div></div>
           <form className="formPanel" onSubmit={this.registerUser}>
-            <h1>Create Account</h1>
+            <h1 className="textColor">Create Account</h1>
             <div>
-              <label htmlFor="username">
-                Username:
-                <input
-                  type="text"
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.handleInputChangeFor("username")}
-                />
-              </label>
+              <label htmlFor="username" className="textColor textSize">
+                Username:{" "}
+              </label>{" "}
+              <br />
+              <input
+                type="text"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleInputChangeFor("username")}
+              />
             </div>
             <div>
-              <label htmlFor="email">
+              <label htmlFor="email" className="textColor textSize">
                 Email:
-                <input
-                  type="text"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this.handleInputChangeFor("email")}
-                />
-              </label>
+              </label>{" "}
+              <br />
+              <input
+                type="text"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleInputChangeFor("email")}
+              />
             </div>
             <div>
-              <label htmlFor="password">
+              <label htmlFor="password" className="textColor textSize">
                 Password:
-                <input
-                  type="password"
-                  name="password"
-                  value={this.state.password}
-                  onChange={this.handleInputChangeFor("password")}
-                />
-              </label>
+              </label>{" "}
+              <br />
+              <input
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleInputChangeFor("password")}
+              />
             </div>
             <div>
               <input

@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React from "react";
+// not used fir now
 // This is one of our simplest components
 // It doesn't have local state, so it can be a function component.
 // It doesn't dispatch any redux actions or display any part of redux state
@@ -7,9 +7,7 @@ import React from 'react';
 
 const InfoPage = () => (
   <div>
-    <p>
-      Info Page
-    </p>
+    <p>Info Page</p>
   </div>
 );
 

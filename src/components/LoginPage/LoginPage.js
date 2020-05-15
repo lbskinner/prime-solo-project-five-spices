@@ -50,30 +50,33 @@ class LoginPage extends Component {
             {this.props.store.errors.loginMessage}
           </h2>
         )}
+
         <Grid container direction="row" justify="center" alignItems="center">
           <form className="formPanel" onSubmit={this.login}>
             <h1 className="textColor">Login</h1>
             <div>
               <label htmlFor="username" className="textColor textSize">
                 Username:
-                <input
-                  type="text"
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.handleInputChangeFor("username")}
-                />
-              </label>
+              </label>{" "}
+              <br />
+              <input
+                type="text"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleInputChangeFor("username")}
+              />
             </div>
             <div>
               <label htmlFor="password" className="textColor textSize">
-                Password:
-                <input
-                  type="password"
-                  name="password"
-                  value={this.state.password}
-                  onChange={this.handleInputChangeFor("password")}
-                />
-              </label>
+                Password:{" "}
+              </label>{" "}
+              <br />
+              <input
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleInputChangeFor("password")}
+              />
             </div>
             <div>
               <input

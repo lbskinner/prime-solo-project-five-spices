@@ -10,15 +10,22 @@ body {
 }
 
 .textColor {
-  margin-left: 5px;
   color: #f2f2f2;
 }
 
 .textSize,
 input {
-  margin: 5px;
+  margin: 5px 5px 10px 0;
   font-size: 1.2rem;
 }
+
+input {
+  padding: 5px 10px;
+  width: 277px;
+}
+/* .textSize {
+  font-weight: bold;
+} */
 .page-container {
   position: relative;
   min-height: 100vh;
@@ -30,8 +37,14 @@ input {
 }
 
 .alert {
-  background-color: #ff4545;
+  background-color: #ef7b53;
   margin: 0;
+  color: #f8f8f8;
+  text-align: center;
+  /* height: 30px; */
+  width: 100%;
+  padding: 15px 0;
+  overflow: hidden;
 }
 
 .formPanel {
@@ -43,12 +56,6 @@ input {
   border-radius: 2px;
 }
 
-input {
-  /* margin: 5px; */
-  margin-bottom: 10px;
-  /* font-size: 1.2rem; */
-}
-
 .log-in,
 .log-out,
 .register {
@@ -56,9 +63,10 @@ input {
   border-radius: 4px;
   color: #f8f8f8;
   min-height: 50px;
-  min-width: 100px;
+  max-width: 100px;
   outline: 0;
   cursor: pointer;
+  float: right;
 }
 
 .log-in:hover,
