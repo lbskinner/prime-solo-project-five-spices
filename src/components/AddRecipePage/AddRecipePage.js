@@ -4,13 +4,11 @@ import axios from "axios";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../redux/mapStoreToProps";
 import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
+import { TextField, Typography, Grid } from "@material-ui/core";
+import { Button, IconButton } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { List, ListItem } from "@material-ui/core";
+import swal from "sweetalert";
 
 const styles = (theme) => ({
   margin: {
@@ -72,10 +70,10 @@ class AddRecipePage extends Component {
 
   clickAddRecipe = (event) => {
     console.log("Add Recipe From URL Clicked");
-    this.setState({
-      isLoading: true,
-    });
     if (this.state.recipe_url) {
+      this.setState({
+        isLoading: true,
+      });
       axios({
         method: "POST",
         url: "https://mycookbook-io1.p.rapidapi.com/recipes/rapidapi",
@@ -91,9 +89,6 @@ class AddRecipePage extends Component {
         .then((response) => {
           const data = response.data[0];
           console.log(data);
-          // const ingredientsArray = data.ingredients.map((ingredient) =>
-          //   ingredient.replace(/'/g, "''")
-          // );
           let hours = "";
           let minutes = "";
           if (data["total-time"]) {
@@ -127,10 +122,16 @@ class AddRecipePage extends Component {
           );
         })
         .catch((error) => {
+          this.setState({
+            isLoading: false,
+          });
+          swal(
+            "Add recipe from URL did not work, pleas check the URL and try again!"
+          );
           console.log("Post call to RapidAPI request failed: ", error);
         });
     } else {
-      alert("Please add an URL!");
+      swal("Please add an URL!");
     }
   };
 
@@ -149,59 +150,60 @@ class AddRecipePage extends Component {
   };
 
   saveNewRecipe = (event) => {
-    this.setState({
-      isLoading: true,
-    });
     // filter out the empty strings in ingredient array
     let newIngArray = this.state.ingredient.filter((ingredient) => ingredient);
-    // replace any single quote with two single quotes to not cause bug with SQL
-    newIngArray = newIngArray.map((ingredient) =>
-      ingredient.replace(/'/g, "''")
-    );
     // filter out the empty strings in instruction array
     let newInsArray = this.state.instruction.filter(
       (instruction) => instruction.instruction_description
     );
-    // replace any single quote with two single quotes to not cause bug with SQL
-    newInsArray = newInsArray.map((instruction) => {
-      return {
-        instruction_number: instruction.instruction_number,
-        instruction_description: instruction.instruction_description.replace(
-          /'/g,
-          "''"
-        ),
-      };
-    });
-    // convert time into iso 8601 string ti be saved in database
-    let totalCookTime = this.state.total_time;
-    if (this.state.hours || this.state.minutes) {
-      const totalMinutes = this.state.hours * 60 + this.state.minutes;
-      totalCookTime = moment.duration(totalMinutes, "m").toISOString();
-    }
-    // create new recipe object data to be sent to database
-    const newRecipeData = {
-      recipe_name: this.state.recipe_name.replace(/'/g, "''"),
-      description: this.state.description.replace(/'/g, "''"),
-      serving_size: this.state.serving_size,
-      image_url: this.state.image_url,
-      recipe_url: this.state.recipe_url,
-      total_time: totalCookTime,
-      ingredient: newIngArray,
-      instruction: newInsArray,
-    };
-    console.log(newRecipeData);
     // requires input fields for recipe name, ingredient and instruction
     if (
-      !newRecipeData.recipe_name ||
-      newRecipeData.ingredient.length === 0 ||
-      newRecipeData.instruction.length === 0
+      this.state.recipe_name &&
+      newIngArray.length > 0 &&
+      newInsArray.length > 0
     ) {
-      alert("Please add a recipe name, ingredient and instruction!");
+      this.setState({
+        isLoading: true,
+      });
+      // replace any single quote with two single quotes to not cause bug with SQL
+      newIngArray = newIngArray.map((ingredient) =>
+        ingredient.replace(/'/g, "''")
+      );
+      // replace any single quote with two single quotes to not cause bug with SQL
+      newInsArray = newInsArray.map((instruction) => {
+        return {
+          instruction_number: instruction.instruction_number,
+          instruction_description: instruction.instruction_description.replace(
+            /'/g,
+            "''"
+          ),
+        };
+      });
+      // convert time into iso 8601 string ti be saved in database
+      let totalCookTime = this.state.total_time;
+      if (this.state.hours || this.state.minutes) {
+        const totalMinutes = this.state.hours * 60 + this.state.minutes;
+        totalCookTime = moment.duration(totalMinutes, "m").toISOString();
+      }
+      // create new recipe object data to be sent to database
+      const newRecipeData = {
+        recipe_name: this.state.recipe_name.replace(/'/g, "''"),
+        description: this.state.description.replace(/'/g, "''"),
+        serving_size: this.state.serving_size,
+        image_url: this.state.image_url,
+        recipe_url: this.state.recipe_url,
+        total_time: totalCookTime,
+        ingredient: newIngArray,
+        instruction: newInsArray,
+      };
+      console.log(newRecipeData);
+      this.props.dispatch({
+        type: "SAVE_NEW_RECIPE",
+        payload: newRecipeData,
+      });
+    } else {
+      swal("Please add a recipe name, ingredient and instruction!");
     }
-    this.props.dispatch({
-      type: "SAVE_NEW_RECIPE",
-      payload: newRecipeData,
-    });
   };
   render() {
     const { classes } = this.props;

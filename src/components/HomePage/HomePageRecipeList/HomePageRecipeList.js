@@ -47,7 +47,7 @@ class HomePageRecipeList extends Component {
   };
 
   clickRecipe = (recipe_id) => (event) => {
-    console.log(recipe_id);
+    this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
     this.props.history.push(`/details/${recipe_id}`);
   };
 

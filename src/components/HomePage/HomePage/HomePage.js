@@ -16,9 +16,9 @@ class HomePage extends Component {
     this.props.dispatch({ type: "GET_FAVORITE_RECIPES" });
   }
 
-  onLogin = (event) => {
-    this.props.history.push("/login");
-  };
+  // onLogin = (event) => {
+  //   this.props.history.push("/login");
+  // };
 
   handleAllRecipesClick = (event) => {
     this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
