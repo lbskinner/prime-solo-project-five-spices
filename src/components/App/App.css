@@ -10,14 +10,21 @@ body {
 }
 
 .textColor {
+  margin-left: 5px;
   color: #f2f2f2;
 }
 
+.textSize,
+input {
+  margin: 5px;
+  font-size: 1.2rem;
+}
 .page-container {
   position: relative;
   min-height: 100vh;
 }
 
+/* for footer to stay at the bottom */
 .content-wrap {
   padding-bottom: 2.5rem;
 }
@@ -37,8 +44,9 @@ body {
 }
 
 input {
-  margin: 5px;
+  /* margin: 5px; */
   margin-bottom: 10px;
+  /* font-size: 1.2rem; */
 }
 
 .log-in,

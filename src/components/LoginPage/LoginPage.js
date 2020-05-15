@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapStoreToProps from "../../redux/mapStoreToProps";
 import image from "../../images/bgImage.jpg";
-import { Typography, TextField, Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 class LoginPage extends Component {
   state = {
@@ -52,9 +52,9 @@ class LoginPage extends Component {
         )}
         <Grid container direction="row" justify="center" alignItems="center">
           <form className="formPanel" onSubmit={this.login}>
-            <h1>Login</h1>
+            <h1 className="textColor">Login</h1>
             <div>
-              <label htmlFor="username">
+              <label htmlFor="username" className="textColor textSize">
                 Username:
                 <input
                   type="text"
@@ -65,7 +65,7 @@ class LoginPage extends Component {
               </label>
             </div>
             <div>
-              <label htmlFor="password">
+              <label htmlFor="password" className="textColor textSize">
                 Password:
                 <input
                   type="password"
