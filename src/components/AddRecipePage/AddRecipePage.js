@@ -112,6 +112,7 @@ class AddRecipePage extends Component {
               minutes: minutes,
               serving_size: data.yield,
               image_url: data.images[0],
+              // recipe_url: data.url,
               ingredient: data.ingredients,
               instruction: instructionsArray,
               isLoading: false,
@@ -258,6 +259,7 @@ class AddRecipePage extends Component {
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={10}>
                 <TextField
+                  value={this.state.recipe_url}
                   variant="outlined"
                   inputProps={{ maxLength: 2083 }}
                   multiline
