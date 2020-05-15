@@ -75,6 +75,9 @@ class RecipeDetailsPage extends Component {
         this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
         this.props.dispatch({ type: "DELETE_RECIPE", payload: recipe_id });
         // this.props.history.push("/home");
+        swal("Your recipe has been deleted!", {
+          icon: "success",
+        });
       }
     });
   };

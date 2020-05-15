@@ -41,7 +41,7 @@ class CategoryDetailsPage extends Component {
 
   handleAddCategory = (event) => {
     if (!this.state.category_id) {
-      alert("Please select a category to add!");
+      swal("Please select a category to add!");
     } else {
       this.props.dispatch({
         type: "ADD_CATEGORY",
