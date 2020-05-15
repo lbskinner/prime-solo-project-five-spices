@@ -45,8 +45,7 @@ router.get("/search", rejectUnauthenticated, (req, res) => {
   const searchWords = req.query.q;
   console.log(searchWords);
 
-  const queryText = `SELECT "recipe".recipe_id, "recipe".recipe_name, "recipe".description, 
-  array_agg("ingredient".ingredient_item) FROM "recipe" JOIN "ingredient" 
+  const queryText = `SELECT "recipe".*, array_agg("ingredient".ingredient_item) FROM "recipe" JOIN "ingredient" 
   ON "recipe".recipe_id = "ingredient".recipe_id WHERE "recipe".user_id = $1 
   AND ("recipe".recipe_name iLIKE $2 OR "recipe".description iLIKE $2 
   OR "ingredient".ingredient_item iLIKE $2) GROUP BY "recipe".recipe_id;`;
@@ -71,7 +70,9 @@ router.get("/details/:id", rejectUnauthenticated, (req, res) => {
   pool
     .query(queryText, [recipeId, req.user.id])
     .then((responseFromDb) => {
-      res.send(responseFromDb.rows);
+      if (responseFromDb.rows.length > 0) {
+        res.send(responseFromDb.rows);
+      } else res.sendStatus(404);
     })
     .catch((error) => {
       console.log("Get Recipe Details Error: ", error);

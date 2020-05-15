@@ -4,6 +4,7 @@ import mapStoreToProps from "../../../redux/mapStoreToProps";
 import { withStyles } from "@material-ui/core/styles";
 import { Paper, IconButton, InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import swal from "sweetalert";
 
 const styles = (theme) => ({
   root: {
@@ -34,11 +35,24 @@ class HomePageSearch extends Component {
   };
 
   clickSearch = (event) => {
-    this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
-    this.props.dispatch({
-      type: "SEARCH_RECIPES",
-      payload: this.state.searchKeywords,
-    });
+    if (this.state.searchKeywords) {
+      this.props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
+      this.props.dispatch({
+        type: "SEARCH_RECIPES",
+        payload: this.state.searchKeywords,
+      });
+      this.setState({
+        searchKeywords: "",
+      });
+    } else {
+      swal("Please enter search words!");
+    }
+  };
+
+  handleKeyPress = (event) => {
+    if (event.keyCode === 13) {
+      this.clickSearch();
+    }
   };
 
   render() {
@@ -47,9 +61,11 @@ class HomePageSearch extends Component {
       <Paper className={classes.root}>
         <InputBase
           className={classes.input}
+          value={this.state.searchKeywords}
           variant="outlined"
           placeholder="Search Keywords"
           onChange={this.handleChange}
+          onKeyDown={this.handleKeyPress}
         />
         <IconButton
           className={classes.iconButton}
