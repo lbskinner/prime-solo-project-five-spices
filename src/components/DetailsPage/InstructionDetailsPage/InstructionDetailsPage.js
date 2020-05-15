@@ -11,6 +11,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router-dom";
+import swal from "sweetalert";
 
 const styles = (theme) => ({
   step: {
@@ -104,7 +105,19 @@ class InstructionDetailsPage extends Component {
 
   // click delete before save new instruction description, remove the additional input
   deleteAdditionalInput = (event) => {
-    if (window.confirm("Are you sure you want to delete without save?")) {
+    if (this.state.instruction_description) {
+      swal("Are you sure you want to delete without save?", {
+        buttons: ["No", "Yes"],
+      }).then((value) => {
+        if (value) {
+          this.setState({
+            additionalInput: false,
+            disabled: false,
+            instruction_description: "",
+          });
+        }
+      });
+    } else {
       this.setState({
         additionalInput: false,
         disabled: false,

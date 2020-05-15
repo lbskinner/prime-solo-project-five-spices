@@ -104,17 +104,25 @@ class IngredientDetailsPage extends Component {
 
   // click delete before save new ingredient item, remove the additional input
   deleteAdditionalInput = (event) => {
-    swal("Are you sure you want to delete without save?", {
-      buttons: ["No", "Yes"],
-    }).then((value) => {
-      if (value) {
-        this.setState({
-          additionalInput: false,
-          disabled: false,
-          ingredient_item: "",
-        });
-      }
-    });
+    if (this.state.ingredient_item) {
+      swal("Are you sure you want to delete without save?", {
+        buttons: ["No", "Yes"],
+      }).then((value) => {
+        if (value) {
+          this.setState({
+            additionalInput: false,
+            disabled: false,
+            ingredient_item: "",
+          });
+        }
+      });
+    } else {
+      this.setState({
+        additionalInput: false,
+        disabled: false,
+        ingredient_item: "",
+      });
+    }
   };
 
   // save new ingredient item to existing recipe to database
