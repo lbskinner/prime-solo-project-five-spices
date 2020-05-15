@@ -68,7 +68,11 @@ class App extends Component {
                   component={RegisterPage}
                 />
                 <ProtectedRoute exact path="/home" component={HomePage} />
-                <ProtectedRoute path="/details/:id" component={DetailsPage} />
+                <ProtectedRoute
+                  exact
+                  path="/details/:id"
+                  component={DetailsPage}
+                />
                 <ProtectedRoute exact path="/add" component={AddRecipePage} />
                 {/* If none of the other routes matched, we will show a 404. */}
                 <Route render={() => <h1>404</h1>} />
