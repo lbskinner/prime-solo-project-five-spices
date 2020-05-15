@@ -24,6 +24,7 @@ import AddRecipePage from "../AddRecipePage/AddRecipePage"; // add recipe page
 import LogOutPage from "../LogOutPage/LogOutPage"; // log out page
 
 import "./App.css";
+import PageNotFound from "../PageNotFound/PageNotFound";
 
 class App extends Component {
   componentDidMount() {
@@ -75,7 +76,8 @@ class App extends Component {
                 />
                 <ProtectedRoute exact path="/add" component={AddRecipePage} />
                 {/* If none of the other routes matched, we will show a 404. */}
-                <Route render={() => <h1>404</h1>} />
+                {/* <Route render={() => <h1>404</h1>} /> */}
+                <Route path="*" component={PageNotFound} />
               </Switch>
             </div>
           </div>

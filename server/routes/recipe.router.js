@@ -9,8 +9,6 @@ const {
  */
 router.get("/", rejectUnauthenticated, (req, res) => {
   const queryText = `SELECT * FROM "recipe" WHERE "user_id" = $1 ORDER BY "recipe_name" ASC;`;
-  console.log(req.user);
-
   pool
     .query(queryText, [req.user.id])
     .then((responseFromDb) => {
@@ -70,9 +68,7 @@ router.get("/details/:id", rejectUnauthenticated, (req, res) => {
   pool
     .query(queryText, [recipeId, req.user.id])
     .then((responseFromDb) => {
-      if (responseFromDb.rows.length > 0) {
-        res.send(responseFromDb.rows);
-      } else res.sendStatus(404);
+      res.send(responseFromDb.rows);
     })
     .catch((error) => {
       console.log("Get Recipe Details Error: ", error);

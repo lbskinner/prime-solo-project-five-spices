@@ -18,6 +18,10 @@ const recipeDetailsReducer = (
   switch (action.type) {
     case "SET_RECIPE_DETAILS":
       return action.payload;
+    case "RECIPE_DETAILS_NOT_FOUND":
+      return null;
+    case "RESET_TO_INITIAL_STATE":
+      return initialRecipeDetailsReducerState;
     default:
       return state;
   }

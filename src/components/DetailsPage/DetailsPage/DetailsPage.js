@@ -31,9 +31,13 @@ class DetailsPage extends Component {
   }
 
   render() {
+    if (this.props.recipeDetails === null) {
+      this.props.history.push("/404");
+    }
     return (
       <div>
-        {this.props.recipeDetails.length > 0 &&
+        {this.props.recipeDetails !== null &&
+        this.props.recipeDetails.length > 0 &&
         this.props.recipeIngredients.length > 0 &&
         this.props.recipeInstructions.length > 0 &&
         this.props.categoryList.length > 0 ? (

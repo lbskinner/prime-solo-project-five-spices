@@ -23,8 +23,13 @@ const Nav = (props) => {
     }
   };
 
+  const resetRecipeDetailsRecipeReducer = (event) => {
+    props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
+  };
+
   const clearAllRecipesReducer = (evemt) => {
     props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
+    props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
   };
 
   return (
@@ -38,7 +43,12 @@ const Nav = (props) => {
         {props.store.user.id ? (
           <>
             {/* need to link to actual page once created, home link don't need to appear on Home page */}
-            <Button variant="text" component={Link} to="/Home">
+            <Button
+              variant="text"
+              component={Link}
+              to="/Home"
+              onClick={resetRecipeDetailsRecipeReducer}
+            >
               Home
             </Button>
             {/* need to link to actual page once created, add link don't need to appear on add page */}

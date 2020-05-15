@@ -26,7 +26,11 @@ function* getRecipeDetails(action) {
       `/api/recipe/details/${action.payload}`,
       config
     );
-    yield put({ type: "SET_RECIPE_DETAILS", payload: response.data });
+    if (response.data.length === 0) {
+      yield put({ type: "RECIPE_DETAILS_NOT_FOUND" });
+    } else {
+      yield put({ type: "SET_RECIPE_DETAILS", payload: response.data });
+    }
   } catch (error) {
     console.log("Get recipes details by ID request failed", error);
   }
