@@ -23,11 +23,11 @@ const Nav = (props) => {
     }
   };
 
-  const resetRecipeDetailsRecipeReducer = (event) => {
-    // props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
-    // reset all reducers
-    props.dispatch({ type: "CLEAR_REDUCERS" });
-  };
+  // const resetRecipeDetailsRecipeReducer = (event) => {
+  // props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
+  // reset all reducers
+  //   props.dispatch({ type: "CLEAR_REDUCERS" });
+  // };
 
   const clearAllRecipesReducer = (event) => {
     // props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
@@ -39,8 +39,13 @@ const Nav = (props) => {
   return (
     <div className="nav">
       <Link to="/Home">
-        <Typography className="nav-title" variant="h3" align="left">
-          Five<sup>⑤</sup> Spices{" "}
+        <Typography
+          className="nav-title"
+          variant="h3"
+          align="left"
+          onClick={clearAllRecipesReducer}
+        >
+          Five<sup>⑤</sup> Spices
         </Typography>
       </Link>
       <Grid container direction="row" justify="flex-end" alignItems="center">
@@ -52,7 +57,7 @@ const Nav = (props) => {
               variant="text"
               component={Link}
               to="/Home"
-              onClick={resetRecipeDetailsRecipeReducer}
+              onClick={clearAllRecipesReducer}
             >
               Home
             </Button>
