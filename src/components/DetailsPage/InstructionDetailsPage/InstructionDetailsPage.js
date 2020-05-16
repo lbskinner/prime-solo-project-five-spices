@@ -170,6 +170,12 @@ class InstructionDetailsPage extends Component {
                 rows={3}
                 label="Instruction"
                 onChange={this.handleChange}
+                autoFocus
+                onFocus={(event) => {
+                  const val = event.target.value;
+                  event.target.value = "";
+                  event.target.value = val;
+                }}
               />
             ) : (
               <ListItemText primary={instruction.instruction_description} />
@@ -212,6 +218,7 @@ class InstructionDetailsPage extends Component {
           rows={3}
           label="Instruction"
           onChange={this.handleChange}
+          autoFocus
         />
         <IconButton onClick={this.saveNewInstructionDescription(stepNumber)}>
           <SaveIcon fontSize="small" />{" "}

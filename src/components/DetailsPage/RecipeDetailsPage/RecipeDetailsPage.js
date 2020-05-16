@@ -197,6 +197,7 @@ class RecipeDetailsPage extends Component {
               label="Recipe Name"
               className={classes.titleInput}
               onChange={(event) => this.handleChange(event, "recipe_name")}
+              autoFocus
             />
           ) : (
             <span>{recipe.recipe_name} </span>

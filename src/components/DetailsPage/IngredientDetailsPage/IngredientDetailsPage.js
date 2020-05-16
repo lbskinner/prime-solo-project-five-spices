@@ -168,6 +168,7 @@ class IngredientDetailsPage extends Component {
                 label="Ingredient"
                 onChange={this.handleChange}
                 classes={{ root: classes.inputBox }}
+                autoFocus
               />
             ) : (
               <ListItemText primary={ingredient.ingredient_item} />
@@ -210,6 +211,7 @@ class IngredientDetailsPage extends Component {
           label="Ingredient"
           onChange={this.handleChange}
           classes={{ root: classes.inputBox }}
+          autoFocus
         />
         <IconButton
           classes={{ root: classes.listItem }}
