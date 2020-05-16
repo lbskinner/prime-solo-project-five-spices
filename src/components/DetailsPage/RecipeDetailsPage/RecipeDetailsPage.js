@@ -317,7 +317,7 @@ class RecipeDetailsPage extends Component {
               <img
                 src={recipe.image_url ? recipe.image_url : noImage}
                 alt={recipe.recipe_name}
-                style={{ width: 300, height: 250 }}
+                style={{ width: 300, height: "auto" }}
               />
             )}
           </Grid>
