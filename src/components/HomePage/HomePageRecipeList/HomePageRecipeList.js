@@ -12,6 +12,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Grid from "@material-ui/core/Grid";
 import { withRouter } from "react-router-dom";
 import Tooltip from "@material-ui/core/Tooltip";
+import noImage from "../../../images/noImage.jpg";
 
 const styles = (theme) => ({
   card: {
@@ -119,15 +120,20 @@ class HomePageRecipeList extends Component {
                   src={recipe.image_url}
                 ></CardMedia>
               ) : (
-                <CardContent>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {recipe.description}
-                  </Typography>
-                </CardContent>
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  src={noImage}
+                ></CardMedia>
+                // <CardContent>
+                //   <Typography
+                //     variant="body2"
+                //     color="textSecondary"
+                //     component="p"
+                //   >
+                //     {recipe.description}
+                //   </Typography>
+                // </CardContent>
               )}
             </Card>
           </Grid>
@@ -139,7 +145,7 @@ class HomePageRecipeList extends Component {
         container
         direction="row"
         justify="center"
-        alignItems="center"
+        alignItems="flex-start"
         spacing={3}
       >
         {recipesArray}
