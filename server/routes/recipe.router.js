@@ -8,7 +8,7 @@ const {
  * GET all recipes for home page list
  */
 router.get("/", rejectUnauthenticated, (req, res) => {
-  const queryText = `SELECT * FROM "recipe" WHERE "user_id" = $1 ORDER BY "recipe_name" ASC;`;
+  const queryText = `SELECT * FROM "recipe" WHERE "user_id" = $1 ORDER BY "recipe_name" ASC LIMIT 12;`;
   pool
     .query(queryText, [req.user.id])
     .then((responseFromDb) => {

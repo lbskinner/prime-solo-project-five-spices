@@ -7,7 +7,6 @@ import HomePageCategoryList from "../HomePageCategoryList/HomePageCategoryList";
 import HomePageFavoriteList from "../HomePageFavoriteList/HomePageFavoriteList";
 import HomePageSearch from "../HomePageSearch/HomePageSearch";
 import HomePageRecipeList from "../HomePageRecipeList/HomePageRecipeList";
-import Button from "@material-ui/core/Button";
 
 class HomePage extends Component {
   componentDidMount() {
