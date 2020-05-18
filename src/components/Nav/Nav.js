@@ -23,11 +23,12 @@ const Nav = (props) => {
     }
   };
 
-  // const resetRecipeDetailsRecipeReducer = (event) => {
-  // props.dispatch({ type: "RESET_TO_INITIAL_STATE" });
-  // reset all reducers
-  //   props.dispatch({ type: "CLEAR_REDUCERS" });
-  // };
+  const clickHome = (event) => {
+    props.dispatch({ type: "CLEAR_REDUCERS" });
+    props.dispatch({ type: "GET_ALL_RECIPES" });
+    props.dispatch({ type: "GET_CATEGORY_LIST" });
+    props.dispatch({ type: "GET_FAVORITE_RECIPES" });
+  };
 
   const clearAllRecipesReducer = (event) => {
     // props.dispatch({ type: "RESET_ALL_RECIPES_REDUCER" });
@@ -43,7 +44,7 @@ const Nav = (props) => {
           className="nav-title"
           variant="h3"
           align="left"
-          onClick={clearAllRecipesReducer}
+          onClick={clickHome}
         >
           Five<sup>⑤</sup> Spices
         </Typography>
@@ -57,7 +58,7 @@ const Nav = (props) => {
               variant="text"
               component={Link}
               to="/Home"
-              onClick={clearAllRecipesReducer}
+              onClick={clickHome}
             >
               Home
             </Button>
