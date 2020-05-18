@@ -38,16 +38,16 @@ const Nav = (props) => {
 
   return (
     <div className="nav">
-      <Link to="/Home">
-        <Typography
-          className="nav-title"
-          variant="h3"
-          align="left"
-          onClick={clearAllRecipesReducer}
-        >
-          Five<sup>⑤</sup> Spices
-        </Typography>
-      </Link>
+      {/* <Link to="/Home"> */}
+      <Typography
+        className="nav-title"
+        variant="h3"
+        align="left"
+        // onClick={clearAllRecipesReducer}
+      >
+        Five<sup>⑤</sup> Spices
+      </Typography>
+      {/* </Link> */}
       <Grid container direction="row" justify="flex-end" alignItems="center">
         {props.store.user.id ? (
           <>
