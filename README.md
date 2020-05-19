@@ -1,115 +1,65 @@
-# Prime Project
-This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
+# Five<sup>⑤</sup> Spices
 
-We **STRONGLY** recommend following these instructions carefully. It's a lot, and will take some time to set up, but your life will be much easier this way in the long run.
+## Description
 
-## Download (Don't Clone) This Repository
+_Duration: 2 Week Sprint_
 
-* Don't Fork or Clone. Instead, click the `Clone or Download` button and select `Download Zip`.
-* Unzip the project and start with the code in that folder.
-* Create a new GitHub project and push this code to the new repository.
+Five<sup>⑤</sup> Spices is a recipe tracking application. Five<sup>⑤</sup> Spices allows users to create their own online recipe book. Users can add new recipes, view and search the saved recipes, update any recipes saved in their account to cater it more to their taste, and delete recipes they no longer desire.
+
+To see the fully functional site, please visit: [DEPLOYED VERSION OF APP](https://five-spices-solo-project.herokuapp.com/#/login)
+
+## Screen Shot
+
+Login Page
+![Login](screenshots/Login.png)
+Home Page
+![Home](screenshots/Home.png)
+Recipe Details Page
+![Details](screenshots/Details.png)
 
 ## Prerequisites
 
-Before you get started, make sure you have the following software installed on your computer:
-
 - [Node.js](https://nodejs.org/en/)
-- [PostrgeSQL](https://www.postgresql.org/)
-- [Nodemon](https://nodemon.io/)
+- [Postgresql](https://www.postgresql.org/download/)
+- [Postico](https://eggerapps.at/postico/)
 
-## Create database and table
+## Installation
 
-Create a new database called `prime_app` and create a `user` table:
+- Create a database named `five_spices`,
+- The queries in the `database.sql` file are set up to create all the necessary tables and populate some initial data to allow the application to run correctly. The project is built on [Postgres](https://www.postgresql.org/download/), so you will need to make sure to have that installed. We recommend using Postico to run those queries as that was used to create the queries,
+- Open up your editor of choice and run an `npm install`
+- Run `npm install`
+- Create a `.env` file at the root of the project and paste the following lines into the file:
+  ```
+  SERVER_SESSION_SECRET=superDuperSecret
+  REACT_APP_MYCOOKBOOK_API_KEY=apiKey
+  ```
+  While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
+  Next, create an account with [RapidAPI](https://rapidapi.com/) and subscribe to MyCookbook.io API. Replace `apiKey` with your RapidAPi key.
+- Start postgres if not running already by using `brew services start postgresql`
+- Run `npm run server` in your terminal
+- Run `npm run client` in your terminal
+- The `npm run client` command will open up a new browser tab for you
 
-```SQL
-CREATE TABLE "user" (
-    "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR (80) UNIQUE NOT NULL,
-    "password" VARCHAR (1000) NOT NULL
-);
-```
+## Usage
 
-If you would like to name your database something else, you will need to change `prime_app` to the name of your new database name in `server/modules/pool.js`
+- An user must create a account to use the application
+- When an registered user logged in, the user is directed to the Home page. The Home page list 12 recipes with the recipe name, favorite status (an heart icon) and a picture of the recipe. The user can favorite or unfavorite the recipe on the Home page by click on the heart icon. The Home page also shows all of the categories and the user can sort recipes by category clicking on the category name. The home page also lists the name of the user's favorite recipes. The user can also search recipes on the Home page by entering keywords or key phrase to the search field. The user can click on a recipe to see details of the recipe.
+- On recipe details page, the user can favorite or unfavorite the recipe, add or delete category information from the recipe, edit any recipe details information, ingredients and instructions. The user can also add ingredient and instructions. The user can also delete the ingredients or even delete the recipe.
+- An user can add recipes to the application from the Add Recipe page. The user can add recipes by manually entering them into the application or copy an recipe URL from another site and click the Add Recipe From URL button. After the user click on the Add Recipe From URL button, the recipe information will be automatically loaded into the respective fields. The user can make any changes to the information filled in the input fields, add additional ingredient or instructions, and click on the Save Recipe button to save the recipe.
 
-## Development Setup Instructions
+## Built With
 
-* Run `npm install`
-* Create a `.env` file at the root of the project and paste this line into the file:
-    ```
-    SERVER_SESSION_SECRET=superDuperSecret
-    ```
-    While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
-* Start postgres if not running already by using `brew services start postgresql`
-* Run `npm run server`
-* Run `npm run client`
-* Navigate to `localhost:3000`
+JavaScript, CSS, Node.js, Express, Postman, Postico, Postgresql, Axios, Moment.js, React, React-Router, Redux, Redux-Saga, Material-UI, SweetAlert
 
-## Debugging
+## License
 
-To debug, you will need to run the client-side separately from the server. Start the client by running the command `npm run client`. Start the debugging server by selecting the Debug button.
+[MIT](./LICENSE.txt)
 
-![VSCode Toolbar](documentation/images/vscode-toolbar.png)
+## Acknowledgement
 
-Then make sure `Launch Program` is selected from the dropdown, then click the green play arrow.
+Thanks to [Prime Digital Academy](www.primeacademy.io) who equipped and helped me to make this application a reality.
 
-![VSCode Debug Bar](documentation/images/vscode-debug-bar.png)
+## Support
 
-
-## Testing Routes with Postman
-
-To use Postman with this repo, you will need to set up requests in Postman to register a user and login a user at a minimum. 
-
-Keep in mind that once you using the login route, Postman will manage your session cookie for you just like a browser, ensuring it is sent with each subsequent request. If you delete the `localhost` cookie in Postman, it will effectively log you out.
-
-1. Start the server - `npm run server`
-2. [Import the sample routes JSON file](./PostmanPrimeSoloRoutes.json) by clicking `Import` in Passport. Select the file.
-3. Click `Collections` and `Send` the following three calls in order:
-    1. `POST /api/user/register` registers a new user, see body to change username/password
-    2. `POST /api/user/login` will login a user, see body to change username/password
-    3. `GET /api/user` will get user information, by default it's not very much
-
-After running the login route above, you can try any other route you've created that requires a logged in user!
-
-
-## Production Build
-
-Before pushing to Heroku, run `npm run build` in terminal. This will create a build folder that contains the code Heroku will be pointed at. You can test this build by typing `npm start`. Keep in mind that `npm start` will let you preview the production build but will **not** auto update.
-
-* Start postgres if not running already by using `brew services start postgresql`
-* Run `npm start`
-* Navigate to `localhost:5000`
-
-## Lay of the Land
-
-* `src/` contains the React application
-* `public/` contains static assets for the client-side
-* `build/` after you build the project, contains the transpiled code from `src/` and `public/` that will be viewed on the production site
-* `server/` contains the Express App
-
-This code is also heavily commented. We recommend reading through the comments, getting a lay of the land, and becoming comfortable with how the code works before you start making too many changes. If you're wondering where to start, consider reading through component file comments in the following order:
-
-* src/components
-  * App/App
-  * Footer/Footer
-  * Nav/Nav
-  * AboutPage/AboutPage
-  * InfoPage/InfoPage
-  * UserPage/UserPage
-  * LoginPage/LoginPage
-  * RegisterPage/RegisterPage
-  * LogOutButton/LogOutButton
-  * ProtectedRoute/ProtectedRoute
-
-## Deployment
-
-1. Create a new Heroku project
-1. Link the Heroku project to the project GitHub Repo
-1. Create an Heroku Postgres database
-1. Connect to the Heroku Postgres database from Postico
-1. Create the necessary tables
-1. Add an environment variable for `SERVER_SESSION_SECRET` with a nice random string for security
-1. In the deploy section, select manual deploy
-
-## Update Documentation
-
-Customize this ReadMe and the code comments in this project to read less like a starter repo and more like a project. Here is an example: https://gist.github.com/PurpleBooth/109311bb0361f32d87a2
+If you have suggestions or issues, please email me at [beileiwang@gmail.com](beileiwang@gmail.com)

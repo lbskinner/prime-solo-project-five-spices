@@ -80,8 +80,7 @@ class AddRecipePage extends Component {
         headers: {
           "content-type": "text/plain",
           "x-rapidapi-host": "mycookbook-io1.p.rapidapi.com",
-          "x-rapidapi-key":
-            "545712eeecmsh555676176f5dcd4p131071jsn90a7368f1e31",
+          "x-rapidapi-key": process.env.REACT_APP_MYCOOKBOOK_API_KEY,
           accept: "text/plain",
         },
         data: this.state.recipe_url,
