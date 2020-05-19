@@ -10,7 +10,12 @@ To see the fully functional site, please visit: [DEPLOYED VERSION OF APP](https:
 
 ## Screen Shot
 
-Include one or two screen shots of your project here (optional). Remove if unused.
+Login Page
+![Login](screenshots/Login.png)
+Home Page
+![Home](screenshots/Home.png)
+Recipe Details Page
+![Details](screenshots/Details.png)
 
 ## Prerequisites
 
@@ -45,13 +50,11 @@ Include one or two screen shots of your project here (optional). Remove if unuse
 
 ## Built With
 
-JavaScript, CSS, Node.js, Express, body-parser, pg, Postman, Postico, Postgresql, Axios, Moment.js, React, React-Router, Redux, Redux-Saga, Material-UI, SweetAlert
+JavaScript, CSS, Node.js, Express, Postman, Postico, Postgresql, Axios, Moment.js, React, React-Router, Redux, Redux-Saga, Material-UI, SweetAlert
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
-
-_Note, include this only if you have a license file. GitHub will generate one for you if you want!_
+[MIT](./LICENSE.txt)
 
 ## Acknowledgement
 
